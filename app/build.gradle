@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    //修改生成的apk名字
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            if (variant.buildType.name.equals('release')) {
+                def releaseApkName = 'VM-' + defaultConfig.versionName + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+            if (variant.buildType.name.equals('beta')) {
+                def betaName = oldFile.name.replace(".apk", "-v" + "-build.apk")
+                output.outputFile = new File(oldFile.parent, betaName)
+            }
+            if (variant.buildType.name.equals('debug')) {
+            }
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.ybg.rp.vm"
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+        //个推推送配置
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "4JCYuVTzz37viY08wQyu81",
+                GETUI_APP_KEY   : "dYYkFFqDmc9cAStDjaopc",
+                GETUI_APP_SECRET: "FdN8HjlrvH8oyCfIfODfp8",
+                PACKAGE_NAME    : applicationId
+        ]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.getui:sdk:2.7.0.0'
+    compile 'com.getui:ext:2.0.3'
+    compile 'org.xutils:xutils:3.3.36'
+    compile 'com.zhy:percent-support-extends:1.1.1'
+    compile files('libs/new_dwinserail.jar')
+    compile files('libs/zxing.jar')
+    compile project(':vmbase')
+}

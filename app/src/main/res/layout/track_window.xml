@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/edit_trackNum"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/border_round_white"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="请输入商品编号购买"
+        android:inputType="number"
+        android:maxLength="3"
+        android:paddingLeft="10dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textColorHint="@android:color/holo_red_dark"
+        app:layout_heightPercent="13%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_textSizePercent="5%"
+        app:layout_widthPercent="90%" />
+
+    <TextView
+        android:id="@+id/tv_input"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="24dp"
+        app:layout_heightPercent="7%"
+        app:layout_marginLeftPercent="5%"
+        app:layout_widthPercent="90%" />
+
+    <!--数字输入-->
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_heightPercent="20%"
+        app:layout_marginLeftPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:id="@+id/num_01"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/num_02"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="2"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/num_03"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="3"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_heightPercent="20%"
+        app:layout_marginLeftPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:id="@+id/num_04"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="4"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/num_05"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/num_06"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="6"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_heightPercent="20%"
+        app:layout_marginLeftPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:id="@+id/num_07"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="7"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/num_08"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="8"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/num_09"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="9"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_heightPercent="20%"
+        app:layout_marginLeftPercent="8%"
+        app:layout_widthPercent="100%">
+
+        <TextView
+            android:id="@+id/bt_a"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="A"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="20%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/num_0"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_marginRightPercent="10%"
+            app:layout_textSizePercent="28%"
+            app:layout_widthPercent="85%h" />
+
+        <TextView
+            android:id="@+id/bt_delete"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_bt_num"
+            android:gravity="center"
+            android:text="回退"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_heightPercent="85%h"
+            app:layout_textSizePercent="20%"
+            app:layout_widthPercent="85%h" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</LinearLayout>

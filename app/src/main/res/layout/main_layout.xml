@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <com.ybg.rp.vm.views.BannerFrame
+        android:id="@+id/adFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.ybg.rp.vm.views.BannerFrame>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="40dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="购买多件"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:onClick="openGoodsWin"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="购买单件"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:onClick="openTrackWin"/>
+</FrameLayout>
