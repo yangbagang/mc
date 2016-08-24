@@ -9,12 +9,29 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.igexin.sdk.PushManager;
 import com.ybg.rp.vm.R;
+import com.ybg.rp.vm.bean.Charge;
+import com.ybg.rp.vm.bean.TransactionData;
+import com.ybg.rp.vm.db.VMDBManager;
+import com.ybg.rp.vm.thread.OrderCheckThread;
+import com.ybg.rp.vm.utils.AppConstant;
+import com.ybg.rp.vm.utils.DialogUtil;
+import com.ybg.rp.vm.utils.QRUtil;
 import com.ybg.rp.vmbase.bean.OrderInfo;
+import com.ybg.rp.vmbase.preference.VMPreferences;
+import com.ybg.rp.vmbase.utils.DateUtil;
+import com.ybg.rp.vmbase.utils.GsonUtil;
+import com.ybg.rp.vmbase.utils.LogUtil;
+import com.ybg.rp.vmbase.utils.VMCache;
+import com.ybg.rp.vmbase.utils.VMConstant;
 
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 /**
  * Created by yangbagang on 16/8/22.
@@ -41,19 +58,15 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
     private RadioButton rb_zhifubao;        //支付宝支付
     private TextView tv_hint;   //交易提示
 
-    private LinePayThread linePayThread;
+    private OrderCheckThread orderCheckThread;
     private Handler mHandler;
 
 
-    private NetWorkUtil netWorkUtil;
-
-
     /*缓存二维码*/
-    private ACache cache;
+    private VMCache cache;
 
     /*二维码显示*/
     private Bitmap bitmap;
-    //private Map<String, WeakReference<Bitmap>> imageCache = new HashMap<String, WeakReference<Bitmap>>();
 
     public PayWaySelectListener(Activity mActivity, OrderInfo orderInfo, ImageView iv_code, RelativeLayout ll_bg,
                                   Handler handler, RadioButton rb_weixin, RadioButton rb_zhifubao, TextView tv_hint) {
@@ -65,15 +78,12 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
         this.rb_weixin = rb_weixin;
         this.rb_zhifubao = rb_zhifubao;
         this.tv_hint = tv_hint;
-        this.cache = ACache.get(mActivity, Config.CACHE_FILENAME);
-        this.netWorkUtil = NetWorkUtil.getInstance();
+        this.cache = VMCache.get(mActivity, VMConstant.CACHE_FILENAME);
 
         /** 添加销售数据 - 初始化*/
-
-        TranOnlineData data = new TranOnlineData();
+        TransactionData data = new TransactionData();
         data.setOrderNo(orderInfo.getOrderNo());
-        EntityDBUtil.getInstance().addObject(data);
-
+        VMDBManager.getInstance().addObject(data);
     }
 
     @Override
@@ -100,16 +110,16 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
      * 选择支付方式
      */
     private void selectPayLine() {
-        ll_code_bg.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
+        ll_code_bg.setBackgroundColor(mActivity.getResources().getColor(android.R.color.white));
         iv_code.setVisibility(View.VISIBLE);
         bitmap = cache.getAsBitmap(orderInfo.getOrderNo() + payType);
         if (bitmap != null) {
             ll_code_bg.setVisibility(View.VISIBLE);
 
             iv_code.setImageBitmap(bitmap);
-            if (null == linePayThread) {
-                linePayThread = new LinePayThread(mActivity, orderInfo);
-                linePayThread.start();
+            if (null == orderCheckThread) {
+                orderCheckThread = new OrderCheckThread(mActivity, orderInfo);
+                orderCheckThread.start();
             }
         } else {
             ll_code_bg.setVisibility(View.INVISIBLE);
@@ -125,66 +135,57 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
      */
     private synchronized void payAlAndWx(final OrderInfo good, final String payType) {
         if (!PushManager.getInstance().isPushTurnedOn(mActivity)) {
-            TbLog.e("重新启动-个推链接");
+            LogUtil.e("重新启动-个推链接");
             PushManager.getInstance().initialize(mActivity);
         }
 
         /** 将显示二维码的地方 - 设置未NULL*/
         iv_code.setImageBitmap(null);
 
-        Request<String> request = netWorkUtil.post("orderInfo/createPingPlusCharge");
+        String url = AppConstant.HOST + "orderInfo/createPingPlusCharge";
         // 添加请求参数
-        String machineId = AppPreferences.getInstance().getVMId();
+        String machineId = VMPreferences.getInstance().getVMId();
         String orderNo = good.getOrderNo();
-        request.add("machineId", machineId);//机器ID
-        request.add("orderNo", orderNo);
-//        request.add("goodId", good.getGoodId());
-//        request.add("goodPrice", String.valueOf(good.getPrice()));
-        request.add("payType", payType);//1:支付宝 , 2:微信
-        TbLog.i("----machineId = " + machineId + "-- orderNo = " + orderNo + "-  payType = " + payType);
-        YFDialogUtil.showLoadding(mActivity);
-        netWorkUtil.add(mActivity, WHAT.VM_ERROR_TRACK, request, new YFHttpListener<String>() {
+        RequestParams params = new RequestParams(url);
+        params.addBodyParameter("machineId", machineId);
+        params.addBodyParameter("orderNo", orderNo);
+        params.addBodyParameter("payType", payType);//1:支付宝 , 2:微信
+        LogUtil.i("----machineId = " + machineId + "-- orderNo = " + orderNo + "-  payType = " + payType);
+        DialogUtil.showLoadding(mActivity);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
-            public void onSuccess(int what, Response<String> response) {
-                YFDialogUtil.removeDialog(mActivity);
+            public void onSuccess(String result) {
+                DialogUtil.removeDialog(mActivity);
                 try {
-                    String result = response.get();
                     JSONObject json = new JSONObject(result);
-                    TbLog.i("-----------strCharge------" + json.toString());
+                    LogUtil.i("-----------strCharge------" + json.toString());
 
-                    Charge charge = GsonUtils.createGson(DateUtil.dateFormatYMDHMS).fromJson(json.getString("charge"), Charge.class);
+                    Charge charge = GsonUtil.createGson(DateUtil.dateFormatYMDHMS).fromJson(json.getString("charge"), Charge.class);
                     String qr = "";
                     if (payType.equals(AL)) {
-                        TbLog.i("-------------支付宝----支付");
+                        LogUtil.i("-------------支付宝----支付");
                         /** 支付宝 二维码*/
                         qr = charge.getCredential().get("alipay_qr").toString();
                     } else if (payType.equals(WX)) {
-                        TbLog.i("-------------微信----支付");
+                        LogUtil.i("-------------微信----支付");
                         /** 微信 二维码*/
                         qr = charge.getCredential().get("wx_pub_qr").toString();
                     }
                     /**  生成二维码 */
-                    bitmap = Utils.Create2DCode(qr);
+                    bitmap = QRUtil.create2DCode(qr);
                     iv_code.setImageBitmap(bitmap);
 
-//                    WeakReference<Bitmap> softBitmap = new WeakReference<Bitmap>(bitmap);
-//                    imageCache.put("path", softBitmap);
-//                    Bitmap bitmapTwo = softBitmap.get();
-//                    if (bitmapTwo != null) {
-//                        iv_code.setImageBitmap(bitmapTwo);
-//                    } else {
-//                        ToastUtil.showToast(mActivity.getApplicationContext(), "生成二维码故障,请重新购买!");
-//                    }
-
                     ll_code_bg.setVisibility(View.VISIBLE);
-                    ll_code_bg.setBackgroundColor(mActivity.getResources().getColor(R.color.white));
-                    cache.put(good.getOrderNo() + payType, ShoppingSelectListener.this.bitmap, 120);//缓存保存120秒  ACache.TIME_SECOND
+                    ll_code_bg.setBackgroundColor(mActivity.getResources().getColor(android.R.color
+                            .white));
+                    cache.put(good.getOrderNo() + payType, PayWaySelectListener.this.bitmap, 120);//缓存保存120秒  ACache
+                    // .TIME_SECOND
 
                     orderInfo.setPayWay(payType);
 
-                    if (null == linePayThread) {
-                        linePayThread = new LinePayThread(mActivity, orderInfo);
-                        linePayThread.start();
+                    if (null == orderCheckThread) {
+                        orderCheckThread = new OrderCheckThread(mActivity, orderInfo);
+                        orderCheckThread.start();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -192,10 +193,20 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
             }
 
             @Override
-            public void onFailed(int what, String msg) {
-                YFDialogUtil.removeDialog(mActivity);
-                TbLog.e(msg);
-                ToastUtil.showToast(mActivity, "网络连接故障,请重试");
+            public void onError(Throwable ex, boolean isOnCallback) {
+                DialogUtil.removeDialog(mActivity);
+                LogUtil.e(ex.getLocalizedMessage());
+                Toast.makeText(mActivity, "网络连接故障,请重试", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
             }
         });
 
@@ -207,7 +218,7 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
     public void recycleCache() {
         cache.remove(orderInfo.getOrderNo() + AL);
         cache.remove(orderInfo.getOrderNo() + WX);
-        Utils.recycleImageView(iv_code);
+        QRUtil.recycleImageView(iv_code);
         if (bitmap != null) {
             bitmap.recycle();
         }
@@ -223,12 +234,12 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
             iv_code.setImageBitmap(null);
             bitmap.recycle();
             bitmap = null;
-            TbLog.i("-关闭图片缓存-");
+            LogUtil.i("-关闭图片缓存-");
         }
-        if (null != linePayThread) {
-            linePayThread.interrupt();
-            linePayThread = null;
-            TbLog.i("-关闭线上支付-");
+        if (null != orderCheckThread) {
+            orderCheckThread.interrupt();
+            orderCheckThread = null;
+            LogUtil.i("-关闭线上支付-");
         }
 
         // 提醒系统回收图片

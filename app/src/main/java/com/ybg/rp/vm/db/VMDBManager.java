@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.ybg.rp.vm.bean.LogInfo;
 import com.ybg.rp.vm.bean.TrackBean;
+import com.ybg.rp.vm.bean.TranDataUpdate;
 import com.ybg.rp.vm.bean.TransactionData;
 import com.ybg.rp.vmbase.bean.VMOperator;
 import com.ybg.rp.vmbase.utils.DateUtil;
@@ -234,4 +235,26 @@ public class VMDBManager {
         return tranOnlineDatas;
     }
 
+    /**
+     * 服务器上传
+     *
+     * @param orderNo
+     * @param isUpd
+     */
+    public void saveForTranUpdate(String orderNo, boolean isUpd) {
+        try {
+            TranDataUpdate tran = (TranDataUpdate) findFirst(TranDataUpdate.class, "ORDER_NO", "=", orderNo);
+            if (null == tran) {
+                tran = new TranDataUpdate();
+                tran.setOrderNo(orderNo);
+            }
+            if (isUpd)
+                tran.setServiceUpd(TranDataUpdate.UPD_SUCCESS);
+            else
+                tran.setServiceUpd(TranDataUpdate.UPD_FULT);
+            getDb().saveOrUpdate(tran);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

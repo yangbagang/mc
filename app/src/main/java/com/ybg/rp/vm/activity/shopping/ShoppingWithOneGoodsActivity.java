@@ -17,8 +17,10 @@ import com.bumptech.glide.Glide;
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.bean.TransactionData;
 import com.ybg.rp.vm.listener.PayWaySelectListener;
+import com.ybg.rp.vm.utils.VMRequest;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 import com.ybg.rp.vmbase.bean.OrderInfo;
+import com.ybg.rp.vmbase.utils.DateUtil;
 import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMConstant;
 
@@ -207,11 +209,11 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
         mHandler.removeCallbacks(runnable);
         mHandler.removeCallbacksAndMessages(null);
         mHandler = null;
-        if (null != radioListener) {
-            radioListener.recycleCache();
-            radioListener.closeLine();
-            radioListener.cloasCache();
-            radioListener = null;
+        if (null != payWaySelectListener) {
+            payWaySelectListener.recycleCache();
+            payWaySelectListener.closeLine();
+            payWaySelectListener.cloasCache();
+            payWaySelectListener = null;
         }
 
         //Utils.onClearMemory(this);
@@ -258,7 +260,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
         /**启动服务上传交易结果 - 不需要取消订单操作*/
         TransactionData data = new TransactionData();
         Date date = new Date();
-        data.setTransactionDate(date);
+        data.setTransactionDate(DateUtil.getStringByFormat(date, "yyyy-MM-dd HH:mm:ss"));
         data.setOrderNo(orderInfo.getOrderNo());
         data.setPayType(orderInfo.getPayWay() + "");
         String trackNo = "";
