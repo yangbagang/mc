@@ -1,13 +1,33 @@
 package com.ybg.rp.vm.serial;
 
-import com.cnpay.tigerbalm.sp.BaseSp;
+import java.io.Serializable;
 
-/**
- * 返回的数据
- *
- * Created by zenghonghua on 2016/6/20 0020.
- */
-public class BeanTrackSet extends BaseSp {
+public class BeanTrackSet implements Serializable {
 
-    private static final long serialVersionUID = -7120461040541628318L;
+    private static final long serialVersionUID = 2271000095234637023L;
+
+    /**
+     * 错误信息
+     */
+    public String errorInfo = "";
+
+    /**
+     * 1:正常,0:错误,2:不确定交易
+     */
+    public int trackStatus = 1;
+
+    /**
+     * 返回的数据
+     */
+    public String msg = "";
+
+    @Override
+    public String toString() {
+        return "BeanTrackSet{" +
+                "errorInfo='" + errorInfo + '\'' +
+                ", trackStatus=" + trackStatus +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
+
 }

@@ -2,29 +2,18 @@ package com.ybg.rp.vm.serial;
 
 import android.content.Context;
 
-import com.cnpay.tigerbalm.utils.StrUtil;
-import com.cnpay.tigerbalm.utils.TbLog;
-import com.ybg.rp.vm.entity.db.SerialBrand;
+import com.ybg.rp.vm.bean.DeviceBrand;
+import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.serial.factory.OperaBase;
 import com.ybg.rp.vm.serial.factory.OperaFactory;
-import com.ybg.rp.vm.util.helper.EntityDBUtil;
+import com.ybg.rp.vmbase.utils.LogUtil;
 
 import org.apache.log4j.Logger;
 
-/**
- * 包   名:     com.ybg.rp.vm.serialmanage
- * 类   名:     SerialManager
- * 版权所有:     版权所有(C)2010-2016
- * 公   司:
- * 版   本:          V1.0
- * 时   间:     2016/7/1 0001 15:42
- * 作   者:     yuyucheng
- */
 public class SerialManager {
-    private final Logger log = Logger.getLogger(SerialManager.class);
     private static SerialManager manager;
     private Context mContext;
-    private EntityDBUtil dbUtil;
+    private VMDBManager vmdbManager;
     /**
      * 当前使用的串口品牌
      */
@@ -42,7 +31,7 @@ public class SerialManager {
     }
 
     public SerialManager(Context context) {
-        this.dbUtil = EntityDBUtil.getInstance();
+        this.vmdbManager = VMDBManager.getInstance();
         this.mContext=context;
         loadData();
     }
@@ -56,26 +45,28 @@ public class SerialManager {
         try {
             /**1：格子柜,0：不是格子柜*/
             /**获取主机选择的品牌*/
-            SerialBrand main_b = dbUtil.getDb().selector(SerialBrand.class).where("GRID_MARK", "=", "0").findFirst();
+            DeviceBrand main_b = vmdbManager.getDb().selector(DeviceBrand.class).where("device_type", "=",
+                    "0").findFirst();
             if (main_b == null) {
-                main_b = new SerialBrand();
-                main_b.setGridMark(0);
-                main_b.setBrand(SerialBrand.yifeng);
-                dbUtil.saveOrUpdate(main_b);
+                main_b = new DeviceBrand();
+                main_b.setDeviceType(0);
+                main_b.setBrand(DeviceBrand.yifeng);
+                vmdbManager.saveOrUpdate(main_b);
 
-                this.brand_main = SerialBrand.yifeng;
+                this.brand_main = DeviceBrand.yifeng;
             }
             this.brand_main = main_b.getBrand();
 
             /**获取格子柜的选择品牌*/
-            SerialBrand cabinet_b = dbUtil.getDb().selector(SerialBrand.class).where("GRID_MARK", "=", "1").findFirst();
+            DeviceBrand cabinet_b = vmdbManager.getDb().selector(DeviceBrand.class).where("device_type", "=",
+                    "1").findFirst();
             if (cabinet_b == null) {
-                cabinet_b = new SerialBrand();
-                cabinet_b.setGridMark(1);
-                cabinet_b.setBrand(SerialBrand.yifeng);
-                dbUtil.saveOrUpdate(cabinet_b);
+                cabinet_b = new DeviceBrand();
+                cabinet_b.setDeviceType(1);
+                cabinet_b.setBrand(DeviceBrand.yifeng);
+                vmdbManager.saveOrUpdate(cabinet_b);
 
-                this.brand_cabinet = SerialBrand.yifeng;
+                this.brand_cabinet = DeviceBrand.yifeng;
             }
             this.brand_cabinet = cabinet_b.getBrand();
 
@@ -121,12 +112,11 @@ public class SerialManager {
      * @param track 指定轨道
      */
     public BeanTrackSet openMachineTrack(String track) {
-        TbLog.i("打开机器轨道:" + track);
-        log.info("打开机器轨道:" + track);
+        LogUtil.i("打开机器轨道:" + track);
         BeanTrackSet var5 = new BeanTrackSet();
-        if (StrUtil.isEmpty(track)) {
-            var5.trackstatus = 0;
-            var5.errorinfo = "轨道不存在-出货";
+        if (track == null || "".equals(track)) {
+            var5.trackStatus = 0;
+            var5.errorInfo = "轨道不存在-出货";
             return var5;
         }
 

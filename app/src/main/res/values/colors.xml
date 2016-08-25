@@ -6,4 +6,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="yellow">#ffffff00</color>
+
+    <color name="rb_check">#A2E91D</color>
+    <color name="pop_cart">#061C06</color>
 </resources>

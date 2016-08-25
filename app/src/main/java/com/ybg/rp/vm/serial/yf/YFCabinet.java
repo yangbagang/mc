@@ -2,28 +2,15 @@ package com.ybg.rp.vm.serial.yf;
 
 import android.os.SystemClock;
 
-import com.cnpay.tigerbalm.utils.CharacterUtil;
-import com.cnpay.tigerbalm.utils.TbLog;
 import com.dwin.navy.serialportapi.SerailPortOpt;
 import com.ybg.rp.vm.serial.BeanTrackSet;
 import com.ybg.rp.vm.serial.factory.OperaBase;
-import com.ybg.rp.vm.util.Config;
+import com.ybg.rp.vmbase.utils.CharacterUtil;
+import com.ybg.rp.vmbase.utils.LogUtil;
+import com.ybg.rp.vmbase.utils.VMConstant;
 
 import org.apache.log4j.Logger;
 
-/**
- * 格子柜
- * <p/>
- * 包            名:      com.cnpay.ppvending.comm.sp.serial
- * 类            名:      YFCabinet
- * 修 改 记 录:     // 修改历史记录，包括修改日期、修改者及修改内容
- * 版 权 所 有:     版权所有(C)2010-2015
- * 公            司:
- *
- * @author liyuanming
- * @version V1.0
- * @date 2016/6/14
- */
 public class YFCabinet extends OperaBase {
     private final Logger log = Logger.getLogger(YFCabinet.class);
     public YFCabinet(SerailPortOpt serialPort) {
@@ -33,8 +20,8 @@ public class YFCabinet extends OperaBase {
     @Override
     public BeanTrackSet operaMachines(byte[] command) {
         BeanTrackSet var5 = new BeanTrackSet();
-        var5.errorinfo = "格子柜打开失败";
-        var5.trackstatus = 0;
+        var5.errorInfo = "格子柜打开失败";
+        var5.trackStatus = 0;
         for (int k = 1; k <= 5; k++) {
             synchronized (this) {
                 if (this.serialPort.mFd != null) {
@@ -42,13 +29,13 @@ public class YFCabinet extends OperaBase {
                     /** 打开格子柜*/
                     serialPort.writeBytes(command);
                     String output = CharacterUtil.bytesToHexString(command, command.length);
-                    TbLog.i("发送格子柜(出货)：" + output);
+                    LogUtil.i("发送格子柜(出货)：" + output);
                     log.info("发送格子柜:(出货)：" + output);
                     for (int i = 0; i < 80; i++) {
                         SystemClock.sleep(10L);
                         if (this.rxByteArray != null) {
                             String str = CharacterUtil.bytesToHexString(this.rxByteArray, this.rxByteArray.length);
-                            TbLog.i("接收到数据(打开格子柜)：" + str);
+                            LogUtil.i("接收到数据(打开格子柜)：" + str);
                             if ((this.rxByteArray.length == 8) || (this.rxByteArray.length == 16) || (this.rxByteArray.length == 24)
                                     || (this.rxByteArray.length == 32)) {
                                 int var = 3;
@@ -64,22 +51,22 @@ public class YFCabinet extends OperaBase {
                                         break;
                                 }
                                 if (this.rxByteArray[var] == 98) {
-                                    var5.errorinfo = "格子柜打开成功";
-                                    var5.trackstatus = 1;
-                                    TbLog.i("[-打开格子柜成功- ");
+                                    var5.errorInfo = "格子柜打开成功";
+                                    var5.trackStatus = 1;
+                                    LogUtil.i("[-打开格子柜成功- ");
                                     return var5;
                                 } else {
-                                    TbLog.e("[-串口接收未知数据-错误打开- " + str);
+                                    LogUtil.e("[-串口接收未知数据-错误打开- " + str);
                                     break;
                                 }
                             } else {
-                                TbLog.i("[-验证通讯收到的数据的长度不对：" + this.rxByteArray.length + ";  --  " + i);
+                                LogUtil.i("[-验证通讯收到的数据的长度不对：" + this.rxByteArray.length + ";  --  " + i);
                             }
                         }
                     }
                 }
             }
-            SystemClock.sleep(Config.CYCLE_INTERVAL);
+            SystemClock.sleep(VMConstant.CYCLE_INTERVAL);
         }
         return var5;
     }

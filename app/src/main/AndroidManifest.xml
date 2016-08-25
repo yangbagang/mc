@@ -49,6 +49,29 @@
         <activity android:name=".activity.shopping.GoodsWindowActivity" />
         <activity android:name=".activity.shopping.TrackWindowActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.shopping.ShoppingWithOneGoodsActivity" />
+        <activity android:name=".activity.shopping.PayFailedActivity" />
+        <activity android:name=".activity.shopping.PaySuccessActivity" />
+        <activity android:name=".activity.setting.ManageActivity" />
+        <activity android:name=".activity.setting.SettingActivity" />
+
+        <meta-data
+            android:name="com.ybg.rp.vm.glide.CustomCachingGlideModule"
+            android:value="GlideModule" />
+
+        <!--个推SDK配置开始============================= -->
+        <receiver
+            android:name=".receiver.PushNoticeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+            </intent-filter>
+        </receiver>
+        <!--个推SDK配置结束============================= -->
+        <receiver android:name=".receiver.BootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

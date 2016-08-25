@@ -10,16 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * 包   名:     com.ybg.rp.vm.serial.factory
- * 类   名:     OperaBase
- * 版权所有:     版权所有(C)2010-2016
- * 公   司:
- * 版   本:          V1.0
- * 时   间:     2016/7/4 0004 11:36
- * 作   者:     yuyucheng
- */
 public abstract class OperaBase {
+
     private SimpleDateFormat formathms;
     public byte[] rxByteArray;
     public SerailPortOpt serialPort;

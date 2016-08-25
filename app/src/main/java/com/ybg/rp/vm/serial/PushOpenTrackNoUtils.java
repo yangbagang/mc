@@ -8,30 +8,24 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.util.ArrayMap;
 
+import com.ybg.rp.vm.activity.shopping.PayFailedActivity;
+import com.ybg.rp.vm.activity.shopping.PaySuccessActivity;
+import com.ybg.rp.vm.app.XApplication;
+import com.ybg.rp.vm.bean.ErrorTrackNo;
+import com.ybg.rp.vm.bean.ErrorTranData;
+import com.ybg.rp.vm.bean.TransactionData;
+import com.ybg.rp.vm.utils.VMRequest;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 import com.ybg.rp.vmbase.bean.OrderInfo;
 import com.ybg.rp.vmbase.utils.CharacterUtil;
+import com.ybg.rp.vmbase.utils.DateUtil;
 import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMConstant;
-
-import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 线上交易-推送和本地查询使用打开柜门
- * 包            名:      com.cnpay.ppvending.receiver
- * 类            名:      PushOpenTrackNoUtils
- * 修 改 记 录:     // 修改历史记录，包括修改日期、修改者及修改内容
- * 版 权 所 有:     版权所有(C)2010-2015
- * 公             司:
- *
- * @author liyuanming
- * @version V1.0
- * @date 2016/3/7
- */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class PushOpenTrackNoUtils {
 
@@ -124,7 +118,7 @@ public class PushOpenTrackNoUtils {
                 LogUtil.i("- 线上交易出货-=" + beanTrackSet);
                 if (null != beanTrackSet) {
                     LogUtil.i("- 线上交易出货-=" + beanTrackSet.toString());
-                    if (beanTrackSet.trackstatus == 1) {
+                    if (beanTrackSet.trackStatus == 1) {
                         /** 提示出货成功*/
                         if (handler != null) {
                             //线上交易不传handler
@@ -135,7 +129,7 @@ public class PushOpenTrackNoUtils {
                     } else {
                         ErrorTranData tranData = new ErrorTranData();
                         tranData.setTrackNo(goodsInfo.getTrackNo());
-                        tranData.setGid(goodsInfo.getgId());
+                        tranData.setGid(goodsInfo.getGid());
                         tranData.setGoodsName(goodsInfo.getGoodsName());
                         tranData.setIsUpd(0);
                         tranData.setPrice(goodsInfo.getPrice());
@@ -145,19 +139,23 @@ public class PushOpenTrackNoUtils {
                         /** 提示错误信息*/
                         ErrorTrackNo errorTrackNo = new ErrorTrackNo();
                         errorTrackNo.setOrderNo(orderInfo.getOrderNo());
-                        errorTrackNo.setErrMsg(beanTrackSet.errorinfo);
+                        errorTrackNo.setErrMsg(beanTrackSet.errorInfo);
                         errorTrackNo.setTrackNo(trackNo);
                         errorTrackNo.setType(1);
-                        LogUtil.e("--订单:" + orderInfo.getOrderNo() + " 出货失败--" + beanTrackSet.errorinfo);
+                        LogUtil.e("--订单:" + orderInfo.getOrderNo() + " 出货失败--" + beanTrackSet
+                                .errorInfo);
                         if (handler != null) {
                             handler.sendEmptyMessage(1005);
                         }
                         /** 上传轨道错误信息*/
-                        log.info("记录轨道错误信息 trackNo=" + trackNo + " ,msg=" + beanTrackSet.errorinfo);
-                        VMRequest.getInstance(mActivity).addFaultInfo(errorTrackNo);
+                        LogUtil.i("记录轨道错误信息 trackNo=" + trackNo + " ,msg=" + beanTrackSet.errorInfo);
+                        XApplication xApplication = (XApplication) mActivity
+                                .getApplicationContext();
+                        VMRequest.getInstance(mActivity).addFaultInfo(xApplication.getOperator(),
+                                errorTrackNo);
                     }
                 }
-                SystemClock.sleep(Config.CYCLE_INTERVAL);
+                SystemClock.sleep(VMConstant.CYCLE_INTERVAL);
             }
         }
         manager.closeSerial();
@@ -185,8 +183,6 @@ public class PushOpenTrackNoUtils {
         intent.putExtra("type", type);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mActivity.startActivity(intent);
-        //进入支付成功或者失败页面,关闭Shopping 和支付的页面
-        ExitShoppingActivity.getInstance().exit();
 
         arrayMap.put("trackNos", trackNos);
         arrayMap.put("errorGoods", errorGoods);
@@ -213,7 +209,6 @@ public class PushOpenTrackNoUtils {
 
 
         LogUtil.i("[线上支付上传 trackNos=" + trackNos + ", order=" + orderInfo.toString());
-        log.info("线上支付上传 trackNos=" + trackNos + ", order=" + orderInfo.toString());
         upLoadData(mActivity, orderInfo, trackNos, errorGoods);
 
         /**map置空释放内存*/
@@ -229,11 +224,11 @@ public class PushOpenTrackNoUtils {
      * @param errorGoods 错误轨道
      */
     private static void upLoadData(Context context, OrderInfo orderInfo, String trackNos, ArrayList<ErrorTranData> errorGoods) {
-        TranOnlineData data = new TranOnlineData();
-        data.setTranDate(new Date());
+        TransactionData data = new TransactionData();
+        data.setTransactionDate(DateUtil.getStringByFormat(new Date(), DateUtil.dateFormatYMDHMS));
         data.setOrderPrice(orderInfo.getOrderMoney());
         data.setOrderNo(orderInfo.getOrderNo());
-        data.setTrackNos(trackNos);//轨道数据
+        data.setTrackNo(trackNos);//轨道数据
 
         /** 交易结果 0 取消 1 成功 2 失败*/
         //        data.setSaleResult(order.isPayStatus() ? "1" : "2");

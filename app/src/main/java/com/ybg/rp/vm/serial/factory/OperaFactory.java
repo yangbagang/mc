@@ -3,19 +3,10 @@ package com.ybg.rp.vm.serial.factory;
 import android.content.Context;
 
 import com.dwin.navy.serialportapi.SerailPortOpt;
-import com.ybg.rp.vm.entity.db.SerialBrand;
+import com.ybg.rp.vm.bean.DeviceBrand;
 import com.ybg.rp.vm.serial.yf.YFCabinet;
 import com.ybg.rp.vm.serial.yf.YFVending;
 
-/**
- * 包   名:     com.ybg.rp.vm.serial.factory
- * 类   名:     OperaFactory
- * 版权所有:     版权所有(C)2010-2016
- * 公   司:
- * 版   本:          V1.0
- * 时   间:     2016/7/4 0004 11:39
- * 作   者:     yuyucheng
- */
 public class OperaFactory {
     private Context mContext;
 
@@ -27,12 +18,8 @@ public class OperaFactory {
      * 创建主机窜口对象
      */
     public OperaBase createMain(String brand_main) {
-        if (brand_main.equals(SerialBrand.yifeng)) {
+        if (brand_main.equals(DeviceBrand.yifeng)) {
             return getYFMain();
-        } else if (brand_main.equals(SerialBrand.yile)) {
-
-        } else if (brand_main.equals(SerialBrand.fushi)) {
-
         }
         return getYFMain();
     }
@@ -41,12 +28,8 @@ public class OperaFactory {
      * 创建格子柜窜口对象
      */
     public OperaBase createCabinet(String brand_cabinet) {
-        if (brand_cabinet.equals(SerialBrand.yifeng)) {
+        if (brand_cabinet.equals(DeviceBrand.yifeng)) {
             return getYFCabinet();
-        } else if (brand_cabinet.equals(SerialBrand.yile)) {
-
-        } else if (brand_cabinet.equals(SerialBrand.fushi)) {
-
         }
         return getYFCabinet();
     }
