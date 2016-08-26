@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:id="@+id/itempop_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="核桃仁"
+            android:textSize="28sp"/>
+
+        <TextView
+            android:id="@+id/itempop_tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/itempop_iv_minus"
+            android:text="¥ 16.0"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="28sp"/>
+
+        <ImageView
+            android:padding="10dp"
+            android:id="@+id/itempop_iv_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/itempop_tv_goods_count"
+            android:src="@mipmap/icon_minus"/>
+
+        <TextView
+            android:id="@+id/itempop_tv_goods_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/itempop_iv_add"
+            android:text=""
+            android:textSize="28sp"/>
+
+        <ImageView
+            android:padding="10dp"
+            android:id="@+id/itempop_iv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/icon_add"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_line"/>
+</LinearLayout>
