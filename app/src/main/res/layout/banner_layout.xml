@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/banner_dots"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:layout_gravity="bottom|center_horizontal">
     </LinearLayout>
 </FrameLayout>

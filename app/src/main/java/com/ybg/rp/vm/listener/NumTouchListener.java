@@ -52,6 +52,16 @@ public class NumTouchListener implements View.OnTouchListener {
                     setEditText("A");
                 }
                 break;
+            case R.id.bt_b:
+                if (text == null || "".equals(text)) {
+                    setEditText("B");
+                }
+                break;
+            case R.id.bt_c:
+                if (text == null || "".equals(text)) {
+                    setEditText("C");
+                }
+                break;
             case R.id.num_0:
                 setEditText("0");
                 break;

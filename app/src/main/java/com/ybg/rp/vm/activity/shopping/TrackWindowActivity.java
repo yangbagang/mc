@@ -23,7 +23,7 @@ public class TrackWindowActivity extends Activity {
 
     private EditText edit_trackNum;
     private TextView tv_inputInfo;
-    private TextView bt_delete, bt_a;
+    private TextView bt_delete, bt_a, bt_b, bt_c, bt_close;
     private TextView num_1, num_2, num_3, num_4;
     private TextView num_5, num_6, num_7, num_8;
     private TextView num_9, num_0;
@@ -55,8 +55,11 @@ public class TrackWindowActivity extends Activity {
         num_8 = (TextView) findViewById(R.id.num_08);
         num_9 = (TextView) findViewById(R.id.num_09);
         num_0 = (TextView) findViewById(R.id.num_0);
-        bt_delete = (TextView) findViewById(R.id.bt_delete);
         bt_a = (TextView) findViewById(R.id.bt_a);
+        bt_b = (TextView) findViewById(R.id.bt_b);
+        bt_c = (TextView) findViewById(R.id.bt_c);
+        bt_delete = (TextView) findViewById(R.id.bt_delete);
+        bt_close = (TextView) findViewById(R.id.bt_close);
     }
 
     private void setClickListener() {
@@ -73,7 +76,12 @@ public class TrackWindowActivity extends Activity {
                 return true;
             }
         });
-
+        bt_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         /**键盘点击*/
         NumTouchListener touchListener = new NumTouchListener(edit_trackNum, tv_inputInfo);
@@ -84,6 +92,14 @@ public class TrackWindowActivity extends Activity {
         bt_a.setOnTouchListener(touchListener);
         bt_a.setLongClickable(true);
         bt_a.setClickable(true);
+
+        bt_b.setOnTouchListener(touchListener);
+        bt_b.setLongClickable(true);
+        bt_b.setClickable(true);
+
+        bt_c.setOnTouchListener(touchListener);
+        bt_c.setLongClickable(true);
+        bt_c.setClickable(true);
 
         num_0.setOnTouchListener(touchListener);
         num_0.setLongClickable(true);
