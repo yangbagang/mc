@@ -3,12 +3,20 @@ package com.ybg.rp.vm.help;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.ybg.rp.vm.app.XApplication;
+import com.ybg.rp.vm.bean.LayerBean;
+import com.ybg.rp.vm.bean.TrackBean;
+import com.ybg.rp.vm.db.VMDBManager;
+import com.ybg.rp.vmbase.callback.ResultCallback;
+import com.ybg.rp.vmbase.utils.CharacterUtil;
+import com.ybg.rp.vmbase.utils.LogUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingHelper {
     private static SettingHelper helper;
-    private EntityDBUtil dbUtil;
+    private VMDBManager dbUtil;
     private Context mContext;
 
 
@@ -21,7 +29,7 @@ public class SettingHelper {
 
     public SettingHelper(Context context) {
         this.mContext = context;
-        dbUtil = EntityDBUtil.getInstance();
+        dbUtil = VMDBManager.getInstance();
 
         initMainLayer();
     }
@@ -31,16 +39,16 @@ public class SettingHelper {
      */
     public ArrayList<LayerBean> initMainLayer() {
         try {
-            ArrayList<LayerBean> listN = dbUtil.findAll(LayerBean.class, "GRID_MARK", "=", "0");
+            ArrayList<LayerBean> listN = dbUtil.findAll(LayerBean.class, "device_type", "=", "0");
             if (listN == null || listN.size() <= 0) {
-                TbLog.i("[-初始化数据-主机层数信息-]");
+                LogUtil.i("[-初始化数据-主机层数信息-]");
                 /**初始化主机 层数、和轨道数*/
                 listN = new ArrayList<>();
                 for (int i = 1; i <= 6; i++) {
                     LayerBean layer = new LayerBean();
                     layer.setLayerNo("0" + i);//层编号
                     layer.setTrackNum(10);//轨道数
-                    layer.setGridMark(0);//1：格子柜,0：不是格子柜
+                    layer.setDeviceType(0);//1：格子柜,0：不是格子柜
 
                     listN.add(layer);
                     dbUtil.getDb().saveOrUpdate(layer);
@@ -62,11 +70,11 @@ public class SettingHelper {
      * @param list
      */
     public void initMainTrack(ArrayList<LayerBean> list) {
-        TbLog.i("[-初始化数据-主机轨道信息-]");
+        LogUtil.i("[-初始化数据-主机轨道信息-]");
         for (int i = 0; i < list.size(); i++) {
             LayerBean lv = list.get(i);
 
-            ArrayList<TrackBean> oldList = dbUtil.findAll(TrackBean.class, "LAYER_NO", "=", lv.getLayerNo());
+            ArrayList<TrackBean> oldList = dbUtil.findAll(TrackBean.class, "layer_no", "=", lv.getLayerNo());
             int size = 0;
             if (oldList != null) {
                 size = oldList.size();
@@ -92,7 +100,7 @@ public class SettingHelper {
      * @param num     轨道数
      */
     public void setMainTrack(final String layerNo, final int num) {
-        TbLog.i("设置主机层级轨道数量 layerNo=" + layerNo + " ;num=" + num);
+        LogUtil.i("设置主机层级轨道数量 layerNo=" + layerNo + " ;num=" + num);
         new AsyncTask<String, Integer, Boolean>() {
 
             @Override
@@ -113,7 +121,7 @@ public class SettingHelper {
                                     TrackBean t = beanArrayList.get(i);
                                     dbUtil.getDb().delete(t);
                                 }
-                                TbLog.e("删除数据(TRACK_VENDING) - " + layerNo);
+                                LogUtil.e("删除数据(TRACK_VENDING) - " + layerNo);
                             }
 
                             setTrackList(layerNo, num);
@@ -123,7 +131,7 @@ public class SettingHelper {
                         lb = new LayerBean();
                         lb.setLayerNo(layerNo);//层编号
                         lb.setTrackNum(10);//轨道数
-                        lb.setGridMark(0);//1：格子柜,0：不是格子柜
+                        lb.setDeviceType(0);//1：格子柜,0：不是格子柜
                         /*设置对应排放量*/
                         dbUtil.getDb().saveOrUpdate(lb);
 
@@ -144,8 +152,9 @@ public class SettingHelper {
      * 设置当前层排放信息
      */
     public void setTrackList(String layerNo, int num) {
-        TbLog.i("[添加(TrackBean)  数据]");
-        dbUtil.saveLog("设置主机轨道数量 layerNo=" + layerNo + " ;num=" + num);
+        LogUtil.i("[添加(TrackBean)  数据]");
+        XApplication xApplication = (XApplication) mContext.getApplicationContext();
+        dbUtil.saveLog(xApplication.getOperator(),"设置主机轨道数量 layerNo=" + layerNo + " ;num=" + num);
         for (int j = 0; j < num; j++) {
             TrackBean tv = new TrackBean();
             tv.setFault(TrackBean.FAULT_O);
@@ -164,13 +173,15 @@ public class SettingHelper {
      * 最大排放数-不对格子柜进行设置
      */
     public void setTrackmax(final String trackNo, final int max) {
-        TbLog.i("----轨道---" + trackNo + "--修改最大排放为:" + max);
+        LogUtil.i("----轨道---" + trackNo + "--修改最大排放为:" + max);
         try {
-            TrackBean tb = dbUtil.getDb().selector(TrackBean.class).where("TRACK_NO", "=", trackNo).and("GRID_MARK", "=", "0").findFirst();
+            XApplication xApplication = (XApplication) mContext.getApplicationContext();
+            TrackBean tb = dbUtil.getDb().selector(TrackBean.class).where("track_no", "=",
+                    trackNo).and("device_type", "=", "0").findFirst();
             if (tb != null) {
                 tb.setMaxInventory(max);
                 dbUtil.getDb().saveOrUpdate(tb);
-                dbUtil.saveLog("-轨道-" + trackNo + "--修改最大排放为:" + max);
+                dbUtil.saveLog(xApplication.getOperator(), "-轨道-" + trackNo + "--修改最大排放为:" + max);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -196,7 +207,7 @@ public class SettingHelper {
             } else {
                 lyList.addAll(list);
             }
-            TbLog.i("获取主机 层级轨道信息 list=" + (null != list ? list.toString() : "NULL"));
+            LogUtil.i("获取主机 层级轨道信息 list=" + (null != list ? list.toString() : "NULL"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -212,7 +223,7 @@ public class SettingHelper {
             ArrayList<TrackBean> list = (ArrayList<TrackBean>) dbUtil.getDb().selector(TrackBean.class)
                     .where("LAYER_NO", "=", layer)
                     .orderBy("TRACK_NO").findAll();
-            TbLog.i("[- get trackList:" + list.toString() + "-]");
+            LogUtil.i("[- get trackList:" + list.toString() + "-]");
             if (list != null && list.size() > 0) {
                 trackList.addAll(list);
             }
@@ -235,7 +246,7 @@ public class SettingHelper {
             if (list == null) {
                 list = new ArrayList<LayerBean>();
             }
-            TbLog.i("获取设置的格子柜信息 list=" + list.toString());
+            LogUtil.i("获取设置的格子柜信息 list=" + list.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -251,7 +262,7 @@ public class SettingHelper {
      */
     public void setCabinet(final ResultCallback.ResultListener listener,
                            final String cabinetNo, final Integer num, final Integer max) {
-        TbLog.i("[-更新格子柜数据-" + cabinetNo + "--轨道数据:" + num+" -排放量:"+max);
+        LogUtil.i("[-更新格子柜数据-" + cabinetNo + "--轨道数据:" + num+" -排放量:"+max);
 
         new AsyncTask<String, Integer, Boolean>() {
             @Override
@@ -270,11 +281,11 @@ public class SettingHelper {
 
             @Override
             protected Boolean doInBackground(String... params) {
-
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 try {
-                    if (!StrUtil.isEmpty(cabinetNo)) {
+                    if (cabinetNo != null && !"".equals(cabinetNo)) {
                         LayerBean layer = dbUtil.getDb().selector(LayerBean.class)
-                                .where("LAYER_NO", "=", cabinetNo).findFirst();
+                                .where("layer_no", "=", cabinetNo).findFirst();
                         if (null != layer && layer.getTrackNum() == num) {
                             /**存在格子柜 且 柜门数对应*/
 
@@ -285,12 +296,13 @@ public class SettingHelper {
                             if (layer == null) {
                                 layer = new LayerBean();
                             }
-                            layer.setGridMark(1);
+                            layer.setDeviceType(1);
                             layer.setLayerNo(cabinetNo);////1-6
                             layer.setTrackNum(num);
                             dbUtil.saveOrUpdate(layer);
 
-                            dbUtil.saveLog("-更新格子柜数据-" + cabinetNo + "--轨道数据:" + num);
+                            dbUtil.saveLog(xApplication.getOperator(), "-更新格子柜数据-" + cabinetNo +
+                                    "--轨道数据:" + num);
 
                             /**初始化对应的格子(轨道)排放量*/
                             return initCabinetTrack(cabinetNo, num, max);
@@ -354,13 +366,14 @@ public class SettingHelper {
      * @param cabinetNo 层编号
      */
     public void delLayer(final String cabinetNo) {
-        TbLog.i("[- 删除机器数据 cabinetNo=" + cabinetNo + "-]");
+        LogUtil.i("[- 删除机器数据 cabinetNo=" + cabinetNo + "-]");
         try {
             LayerBean layer = dbUtil.getDb().selector(LayerBean.class).where("LAYER_NO", "=", cabinetNo)
                     .findFirst();
             if (layer != null) {
                 dbUtil.getDb().delete(layer);
-                dbUtil.saveLog(" 删除机器数据 LAYER_NO=" + cabinetNo);
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
+                dbUtil.saveLog(xApplication.getOperator(), " 删除机器数据 LAYER_NO=" + cabinetNo);
             }
             ArrayList<TrackBean> tracks = dbUtil.findAll(TrackBean.class, "LAYER_NO", "=", cabinetNo);
             if (tracks != null && tracks.size() > 0) {
@@ -391,7 +404,7 @@ public class SettingHelper {
             }
         }
         if (trackList.size() > 0)
-            TbLog.i("有错误轨道");
+            LogUtil.i("有错误轨道");
         return trackList;
     }
 }

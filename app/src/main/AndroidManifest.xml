@@ -53,6 +53,10 @@
         <activity android:name=".activity.shopping.PaySuccessActivity" />
         <activity android:name=".activity.setting.ManageActivity" />
         <activity android:name=".activity.setting.SettingActivity" />
+        <activity android:name=".activity.setting.MachinesLogActivity" />
+        <activity android:name=".activity.setting.TestMachineActivity" />
+        <activity android:name=".activity.setting.TestCabinetActivity" />
+        <activity android:name=".activity.setting.TestMainActivity" />
 
         <meta-data
             android:name="com.ybg.rp.vm.glide.CustomCachingGlideModule"

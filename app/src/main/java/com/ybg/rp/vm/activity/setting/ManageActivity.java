@@ -17,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ybg.rp.vm.R;
+import com.ybg.rp.vm.adapter.ErrorTrackAdapter;
 import com.ybg.rp.vm.app.XApplication;
 import com.ybg.rp.vm.bean.TrackBean;
+import com.ybg.rp.vm.bean.TrackError;
 import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.help.SettingHelper;
 import com.ybg.rp.vm.help.DeviceHelper;
@@ -26,6 +28,7 @@ import com.ybg.rp.vm.serial.BeanTrackSet;
 import com.ybg.rp.vm.serial.SerialManager;
 import com.ybg.rp.vm.utils.AppConstant;
 import com.ybg.rp.vm.utils.DialogUtil;
+import com.ybg.rp.vm.utils.ViewUtil;
 import com.ybg.rp.vmbase.preference.VMPreferences;
 import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMConstant;
@@ -84,8 +87,8 @@ public class ManageActivity extends Activity implements View.OnClickListener {
      */
     private PercentLinearLayout ll_baseSet;
 
-    private SettingHelper setHelper;
-    private DeviceHelper mHelper;
+    private SettingHelper settingHelper;
+    private DeviceHelper deviceHelper;
     private SerialManager manager;
     private ErrorTrackAdapter errorAdapter;
     private ArrayList<TrackBean> errorList;//当前的故障轨道
@@ -97,11 +100,11 @@ public class ManageActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_setting);
+        setContentView(R.layout.manage_layout);
 
         findLayout();
-        setHelper = SettingHelper.getInstance(this);
-        mHelper = DeviceHelper.getInstance(this);
+        settingHelper = SettingHelper.getInstance(this);
+        deviceHelper = DeviceHelper.getInstance(this);
         manager = SerialManager.getInstance(this.getApplicationContext());
 
         errorList = new ArrayList<>();
@@ -201,7 +204,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
                     selectList.clear();
                     errors.clear();
                     errorList.clear();
-                    errorList.addAll(setHelper.getErrorTack());
+                    errorList.addAll(settingHelper.getErrorTack());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -220,7 +223,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
         bt_fixTrack.setOnClickListener(this);
         btn_setting.setOnClickListener(this);
 
-        errorAdapter = new ErrorTrackAdapter(ManageSetActivity.this, errors);
+        errorAdapter = new ErrorTrackAdapter(ManageActivity.this, errors);
         gv_track.setAdapter(errorAdapter);
 
         gv_track.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -229,10 +232,10 @@ public class ManageActivity extends Activity implements View.OnClickListener {
                 /**添加选中*/
                 boolean isSelect = errors.get(position).isSelect();
                 if (isSelect) {
-                    errors.get(position).setIsSelect(false);
+                    errors.get(position).setSelect(false);
                     selectList.remove(errorList.get(position));//从选择数据中移除
                 } else {
-                    errors.get(position).setIsSelect(true);
+                    errors.get(position).setSelect(true);
                     selectList.add(errorList.get(position));//添加进选择数据
                 }
                 refreshView();
@@ -262,7 +265,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
      * 刷新页面
      */
     private void refreshView() {
-        SimpleUtil.setListViewHeightBasedOnChildren(gv_track, 6);
+        ViewUtil.setListViewHeightBasedOnChildren(gv_track, 6);
         errorAdapter.notifyDataSetChanged();
     }
 

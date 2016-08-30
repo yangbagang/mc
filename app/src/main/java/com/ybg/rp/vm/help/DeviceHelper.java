@@ -4,15 +4,28 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 
+import com.ybg.rp.vm.app.XApplication;
+import com.ybg.rp.vm.bean.ErrorTrackNo;
+import com.ybg.rp.vm.bean.LayerBean;
+import com.ybg.rp.vm.bean.TrackBean;
+import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.serial.BeanTrackSet;
 import com.ybg.rp.vm.serial.SerialManager;
+import com.ybg.rp.vm.utils.VMRequest;
+import com.ybg.rp.vmbase.callback.ResultCallback;
+import com.ybg.rp.vmbase.task.TaskItem;
+import com.ybg.rp.vmbase.task.TaskObjectListener;
+import com.ybg.rp.vmbase.task.TaskQueue;
+import com.ybg.rp.vmbase.utils.LogUtil;
+import com.ybg.rp.vmbase.utils.VMConstant;
 
 import java.util.ArrayList;
 
 public class DeviceHelper {
+
     private static DeviceHelper helper;
     private SerialManager manager;
-    private EntityDBUtil dbUtil;
+    private VMDBManager dbUtil;
     private TaskQueue mTaskQueue;
     private Context mContext;
 
@@ -25,7 +38,7 @@ public class DeviceHelper {
 
     public DeviceHelper(Context context) {
         this.mContext = context;
-        dbUtil = EntityDBUtil.getInstance();
+        dbUtil = VMDBManager.getInstance();
         manager = SerialManager.getInstance(mContext);
         mTaskQueue = TaskQueue.getInstance();
     }
@@ -52,14 +65,16 @@ public class DeviceHelper {
 
             @Override
             protected ArrayList<String> doInBackground(String... params) {
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 ArrayList<String> listStr = new ArrayList<String>();
                 try {
                     for (int i = 0; i < lvs.size(); i++) {
                         LayerBean bean = lvs.get(i);
-                        TbLog.i("打开轨道(层)：" + bean.getLayerNo());
-                        dbUtil.saveLog("打开轨道(层)：" + bean.getLayerNo());
+                        LogUtil.i("打开轨道(层)：" + bean.getLayerNo());
+                        dbUtil.saveLog(xApplication.getOperator(), "打开轨道(层)：" + bean.getLayerNo());
                         ArrayList<TrackBean> list = (ArrayList<TrackBean>) dbUtil.getDb().selector(TrackBean.class)
-                                .where("GRID_MARK", "=", "0").and("LAYER_NO", "=", bean.getLayerNo()).orderBy("TRACK_NO").findAll();
+                                .where("device_type", "=", "0").and("layer_no", "=", bean
+                                        .getLayerNo()).orderBy("track_no").findAll();
 
                         manager.createSerial(1);// 1:主机 2:格子柜
                         if (null != list && list.size() > 0) {
@@ -67,17 +82,17 @@ public class DeviceHelper {
                                 TrackBean track = list.get(j);
                                 String str = track.getTrackNo() + "轨道：";
                                 BeanTrackSet trackSet = manager.openMachineTrack(track.getTrackNo());//未定
-                                if (trackSet.trackstatus == 1) {
+                                if (trackSet.trackStatus == 1) {
                                     str += "电机正常";
                                 } else {
-                                    str += trackSet.errorinfo;
+                                    str += trackSet.errorInfo;
                                     track.setFault(TrackBean.FAULT_E);
                                     dbUtil.saveOrUpdate(track);
-                                    upLoadTaskQueue(track.getTrackNo(), trackSet.errorinfo);
-                                    TbLog.e("轨道错误-------" + str);
+                                    upLoadTaskQueue(track.getTrackNo(), trackSet.errorInfo);
+                                    LogUtil.e("轨道错误-------" + str);
                                 }
                                 listStr.add(str);
-                                SystemClock.sleep(Config.CYCLE_INTERVAL);
+                                SystemClock.sleep(VMConstant.CYCLE_INTERVAL);
                             }
                         }
                         manager.closeSerial();
@@ -116,12 +131,14 @@ public class DeviceHelper {
 
             @Override
             protected ArrayList<String> doInBackground(String... params) {
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 ArrayList<String> listStr = new ArrayList<String>();
                 try {
-                    TbLog.i("打开轨道(层)：" + layerBean.getLayerNo());
-                    dbUtil.saveLog("打开轨道(层)：" + layerBean.getLayerNo());
-                    ArrayList<TrackBean> list = (ArrayList<TrackBean>) dbUtil.getDb().selector(TrackBean.class).where("GRID_MARK", "=", "0")
-                            .and("LAYER_NO", "=", layerBean.getLayerNo()).orderBy("TRACK_NO").findAll();
+                    LogUtil.i("打开轨道(层)：" + layerBean.getLayerNo());
+                    dbUtil.saveLog(xApplication.getOperator(), "打开轨道(层)：" + layerBean.getLayerNo());
+                    ArrayList<TrackBean> list = (ArrayList<TrackBean>) dbUtil.getDb().selector
+                            (TrackBean.class).where("device_type", "=", "0")
+                            .and("layer_no", "=", layerBean.getLayerNo()).orderBy("track_no").findAll();
 
                     manager.createSerial(1);// 1:主机 2:格子柜
                     if (null != list && list.size() > 0) {
@@ -129,17 +146,17 @@ public class DeviceHelper {
                             TrackBean track = list.get(i);
                             String str = track.getTrackNo() + "轨道：";
                             BeanTrackSet trackSet = manager.openMachineTrack(track.getTrackNo());
-                            if (trackSet.trackstatus == 1) {
+                            if (trackSet.trackStatus == 1) {
                                 str += "电机正常";
                             } else {
-                                str += trackSet.errorinfo;
+                                str += trackSet.errorInfo;
                                 track.setFault(TrackBean.FAULT_E);
                                 dbUtil.saveOrUpdate(track);
-                                upLoadTaskQueue(track.getTrackNo(), trackSet.errorinfo);
-                                TbLog.e("轨道错误-------" + str);
+                                upLoadTaskQueue(track.getTrackNo(), trackSet.errorInfo);
+                                LogUtil.e("轨道错误-------" + str);
                             }
                             listStr.add(str);
-                            SystemClock.sleep(Config.CYCLE_INTERVAL);
+                            SystemClock.sleep(VMConstant.CYCLE_INTERVAL);
                         }
                     }
                     manager.closeSerial();
@@ -178,24 +195,25 @@ public class DeviceHelper {
 
             @Override
             protected ArrayList<String> doInBackground(String... params) {
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 ArrayList<String> listStr = new ArrayList<String>();
                 try {
-                    TbLog.i("打开轨道(单)：" + track.getTrackNo());
-                    dbUtil.saveLog("打开轨道(单)：" + track.getTrackNo());
+                    LogUtil.i("打开轨道(单)：" + track.getTrackNo());
+                    dbUtil.saveLog(xApplication.getOperator(), "打开轨道(单)：" + track.getTrackNo());
                     String str = track.getTrackNo() + "轨道：";
 
                     manager.createSerial(1);// 1:主机 2:格子柜
                     BeanTrackSet trackSet = manager.openMachineTrack(track.getTrackNo());
                     manager.closeSerial();
 
-                    if (trackSet.trackstatus == 1) {
+                    if (trackSet.trackStatus == 1) {
                         str += "电机正常";
                     } else {
-                        str += trackSet.errorinfo;
+                        str += trackSet.errorInfo;
                         track.setFault(TrackBean.FAULT_E);
                         dbUtil.saveOrUpdate(track);
-                        upLoadTaskQueue(track.getTrackNo(), trackSet.errorinfo);
-                        TbLog.e("轨道错误-------" + str);
+                        upLoadTaskQueue(track.getTrackNo(), trackSet.errorInfo);
+                        LogUtil.e("轨道错误-------" + str);
                     }
                     listStr = new ArrayList<String>();
                     listStr.add(str);
@@ -234,15 +252,16 @@ public class DeviceHelper {
 
             @Override
             protected ArrayList<String> doInBackground(String... params) {
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 ArrayList<String> listStr = new ArrayList<String>();
                 try {
                     for (int i = 0; i < datas.size(); i++) {
                         LayerBean bean = datas.get(i);
-                        TbLog.i("打开格子柜(层)：" + bean.getLayerNo());
-                        dbUtil.saveLog("打开格子柜(层)：" + bean.getLayerNo());
+                        LogUtil.i("打开格子柜(层)：" + bean.getLayerNo());
+                        dbUtil.saveLog(xApplication.getOperator(), "打开格子柜(层)：" + bean.getLayerNo());
                         ArrayList<TrackBean> list = (ArrayList<TrackBean>) dbUtil.getDb()
-                                .selector(TrackBean.class).where("GRID_MARK", "=", "1")
-                                .and("LAYER_NO", "=", bean.getLayerNo()).orderBy("TRACK_NO").findAll();
+                                .selector(TrackBean.class).where("device_type", "=", "1")
+                                .and("layer_no", "=", bean.getLayerNo()).orderBy("track_no").findAll();
 
                         manager.createSerial(2);// 1:主机 2:格子柜
                         if (null != list && list.size() > 0) {
@@ -250,17 +269,17 @@ public class DeviceHelper {
                                 TrackBean track = list.get(j);
                                 String str = track.getTrackNo() + "格子轨道：";
                                 BeanTrackSet trackSet = manager.openMachineTrack(track.getTrackNo());
-                                if (trackSet.trackstatus == 1) {
+                                if (trackSet.trackStatus == 1) {
                                     str += "电机正常";
                                 } else {
-                                    str += trackSet.errorinfo;
+                                    str += trackSet.errorInfo;
                                     track.setFault(TrackBean.FAULT_E);
                                     dbUtil.saveOrUpdate(track);
-                                    upLoadTaskQueue(track.getTrackNo(), trackSet.errorinfo);
-                                    TbLog.e("轨道错误-------" + str);
+                                    upLoadTaskQueue(track.getTrackNo(), trackSet.errorInfo);
+                                    LogUtil.e("轨道错误-------" + str);
                                 }
                                 listStr.add(str);
-                                SystemClock.sleep(Config.CYCLE_INTERVAL);
+                                SystemClock.sleep(VMConstant.CYCLE_INTERVAL);
                             }
                         }
                         manager.closeSerial();
@@ -299,32 +318,34 @@ public class DeviceHelper {
 
             @Override
             protected ArrayList<String> doInBackground(String... params) {
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 ArrayList<String> listStr = new ArrayList<String>();
                 try {
                     ArrayList<TrackBean> itemList = (ArrayList<TrackBean>) dbUtil.getDb().selector(TrackBean.class).
-                            where("LAYER_NO", "=", layer.getLayerNo()).and("GRID_MARK", "=", "1").orderBy("TRACK_NO").findAll();
-                    TbLog.i("打开格子柜(层)：" + layer.getLayerNo());
-                    dbUtil.saveLog("打开格子柜(层)：" + layer.getLayerNo());
+                            where("layer_no", "=", layer.getLayerNo()).and("device_type", "=", "1")
+                            .orderBy("track_no").findAll();
+                    LogUtil.i("打开格子柜(层)：" + layer.getLayerNo());
+                    dbUtil.saveLog(xApplication.getOperator(), "打开格子柜(层)：" + layer.getLayerNo());
 
                     manager.createSerial(2);// 1:主机 2:格子柜
 
                     if (null != itemList && itemList.size() > 0) {
                         for (int i = 0; i < itemList.size(); i++) {
                             TrackBean track = itemList.get(i);
-                            TbLog.i("-----TrackNo = " + track.getTrackNo());
+                            LogUtil.i("-----TrackNo = " + track.getTrackNo());
                             String str = track.getTrackNo() + "-格子轨道：";
                             BeanTrackSet trackSet = manager.openMachineTrack(track.getTrackNo());
-                            if (trackSet.trackstatus == 1) {
+                            if (trackSet.trackStatus == 1) {
                                 str += "电机正常";
                             } else {
-                                str += trackSet.errorinfo;
+                                str += trackSet.errorInfo;
                                 track.setFault(TrackBean.FAULT_E);
                                 dbUtil.saveOrUpdate(track);
-                                upLoadTaskQueue(track.getTrackNo(), trackSet.errorinfo);
-                                TbLog.e("轨道错误-------" + str);
+                                upLoadTaskQueue(track.getTrackNo(), trackSet.errorInfo);
+                                LogUtil.e("轨道错误-------" + str);
                             }
                             listStr.add(str);
-                            SystemClock.sleep(Config.CYCLE_INTERVAL);
+                            SystemClock.sleep(VMConstant.CYCLE_INTERVAL);
                         }
                     }
                     manager.closeSerial();
@@ -360,23 +381,24 @@ public class DeviceHelper {
 
             @Override
             protected ArrayList<String> doInBackground(String... params) {
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 ArrayList<String> listStr = new ArrayList<String>();
                 try {
-                    TbLog.i("打开格子柜(单)：" + bean.getTrackNo());
-                    dbUtil.saveLog("打开格子柜(单)：" + bean.getTrackNo());
+                    LogUtil.i("打开格子柜(单)：" + bean.getTrackNo());
+                    dbUtil.saveLog(xApplication.getOperator(), "打开格子柜(单)：" + bean.getTrackNo());
                     String str = bean.getTrackNo() + "格子轨道：";
 
                     manager.createSerial(2);// 1:主机 2:格子柜
                     BeanTrackSet trackSet = manager.openMachineTrack(bean.getTrackNo());
                     manager.closeSerial();
-                    if (trackSet.trackstatus == 1) {
+                    if (trackSet.trackStatus == 1) {
                         str += "电机正常";
                     } else {
-                        str += trackSet.errorinfo;
+                        str += trackSet.errorInfo;
                         bean.setFault(TrackBean.FAULT_E);
                         dbUtil.saveOrUpdate(bean);
-                        upLoadTaskQueue(bean.getLayerNo(), trackSet.errorinfo);
-                        TbLog.e("轨道错误-------" + str);
+                        upLoadTaskQueue(bean.getLayerNo(), trackSet.errorInfo);
+                        LogUtil.e("轨道错误-------" + str);
                     }
                     listStr = new ArrayList<>();
                     listStr.add(str);
@@ -408,7 +430,9 @@ public class DeviceHelper {
                 ErrorTrackNo errorTrackNo = new ErrorTrackNo();
                 errorTrackNo.setTrackNo(trackNo);
                 errorTrackNo.setErrMsg(errorMsg);
-                VMRequest.getInstance(mContext).addFaultInfo(errorTrackNo);
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
+                VMRequest.getInstance(mContext).addFaultInfo(xApplication.getOperator(),
+                        errorTrackNo);
                 return null;
             }
         });
