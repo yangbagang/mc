@@ -155,7 +155,7 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                DialogUtil.removeDialog(mActivity);
+                DialogUtil.hideLoading();
                 try {
                     JSONObject json = new JSONObject(result);
                     LogUtil.i("-----------strCharge------" + json.toString());
@@ -194,7 +194,7 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                DialogUtil.removeDialog(mActivity);
+                DialogUtil.hideLoading();
                 LogUtil.e(ex.getLocalizedMessage());
                 Toast.makeText(mActivity, "网络连接故障,请重试", Toast.LENGTH_SHORT).show();
             }

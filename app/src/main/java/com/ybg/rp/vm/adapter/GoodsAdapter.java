@@ -144,7 +144,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                DialogUtil.removeDialog(mActivity);
+                DialogUtil.hideLoading();
                 LogUtil.i("---------Vend/ShoppingActivity: " + result);
                 try {
                     JSONObject json = new JSONObject(result);
@@ -173,7 +173,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
             public void onError(Throwable ex, boolean isOnCallback) {
                 mLoadFinisCallBack.loadFinish();
                 LogUtil.e("获取商品信息-请求失败-" + ex.getLocalizedMessage());
-                DialogUtil.removeDialog(mActivity);
+                DialogUtil.hideLoading();
                 if (ll_no_data.getVisibility() == View.GONE)
                     ll_no_data.setVisibility(View.VISIBLE);//显示无数据图片
             }

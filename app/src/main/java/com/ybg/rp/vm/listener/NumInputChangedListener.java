@@ -150,7 +150,7 @@ public class NumInputChangedListener implements TextWatcher {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                DialogUtil.removeDialog(mContext);
+                DialogUtil.hideLoading();
             }
 
             @Override
@@ -159,7 +159,7 @@ public class NumInputChangedListener implements TextWatcher {
                 et_command.setText("");
                 input_text.setText("");
                 Toast.makeText(mContext, throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                DialogUtil.removeDialog(mContext);
+                DialogUtil.hideLoading();
             }
 
             @Override

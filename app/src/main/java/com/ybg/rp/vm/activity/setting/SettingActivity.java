@@ -450,7 +450,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
-                DialogUtil.removeDialog(SettingActivity.this);
+                DialogUtil.hideLoading();
             }
 
             @Override

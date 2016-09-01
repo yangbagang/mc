@@ -359,7 +359,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
             x.http().post(params, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
-                    DialogUtil.removeDialog(GoodsWindowActivity.this);
+                    DialogUtil.hideLoading();
                     LogUtil.i("---------makeOrder/ShoppingActivity: " + result);
                     try {
                         JSONObject json = new JSONObject(result);
@@ -387,7 +387,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
 
                 @Override
                 public void onError(Throwable ex, boolean isOnCallback) {
-                    DialogUtil.removeDialog(GoodsWindowActivity.this);
+                    DialogUtil.hideLoading();
                     Toast.makeText(GoodsWindowActivity.this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
 

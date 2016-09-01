@@ -10,8 +10,8 @@
     </com.ybg.rp.vm.views.BannerFrame>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
         android:layout_gravity="bottom|left"
         android:layout_marginBottom="40dp"
         android:layout_marginLeft="40dp"
@@ -22,8 +22,8 @@
         android:onClick="openGoodsWin"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="40dp"
         android:layout_marginRight="40dp"

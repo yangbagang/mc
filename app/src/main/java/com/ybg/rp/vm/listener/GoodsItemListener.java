@@ -68,7 +68,7 @@ public class GoodsItemListener implements View.OnClickListener {
             public void onSuccess(String result) {
                 mGoodsInfo.setNum(mNum);    //不管有无库存,支付成功失败,都将num设置回为原来的num
 
-                DialogUtil.removeDialog(mActivity);
+                DialogUtil.hideLoading();
                 LogUtil.i("---------AllCagetory/ShoppingActivity: " + result);
                 try {
                     JSONObject json = new JSONObject(result);
@@ -94,7 +94,7 @@ public class GoodsItemListener implements View.OnClickListener {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 mGoodsInfo.setNum(mNum);  //不管有无库存,支付成功失败,都将num设置回为原来的num
-                DialogUtil.removeDialog(mActivity);
+                DialogUtil.hideLoading();
                 Toast.makeText(mActivity, ex.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
 
