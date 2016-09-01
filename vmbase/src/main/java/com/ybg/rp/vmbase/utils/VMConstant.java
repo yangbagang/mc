@@ -29,7 +29,7 @@ public class VMConstant {
     public static final String ERROR = "msg";
 
     /** 数据库名称*/
-    public static final String DB_NAME = "YBG_VM_DB";
+    public static final String DB_NAME = "YBG_MC_DB";
     /** 数据库初始版本*/
     public static final int DB_VERSION = 10;
 
