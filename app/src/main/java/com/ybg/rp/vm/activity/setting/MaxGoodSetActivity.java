@@ -19,6 +19,7 @@ import com.ybg.rp.vm.help.SettingHelper;
 import com.ybg.rp.vm.utils.ProgressDialogUtil;
 import com.ybg.rp.vm.views.MaxSelectDialog;
 import com.ybg.rp.vmbase.callback.ResultCallback;
+import com.ybg.rp.vmbase.utils.LogUtil;
 
 import java.util.ArrayList;
 
@@ -123,6 +124,7 @@ public class MaxGoodSetActivity extends AppCompatActivity {
             @Override
             protected Boolean doInBackground(String... params) {
                 helper.setTrackmax(trackNo, max);
+                LogUtil.i("set " + trackNo + ": " + max);
 
                 trackList.clear();
                 trackList.addAll(helper.getTrackList(selectLayer));

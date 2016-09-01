@@ -3,6 +3,7 @@ package com.ybg.rp.vm.utils;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,25 +22,24 @@ import com.ybg.rp.vmbase.utils.LogUtil;
  */
 public class DialogUtil {
 
-    private static String mDialogTag = "loadding...";
+    private static String mDialogTag = "加载中...";
 
+    private static ProgressDialog progressDialog;
 
-    public static void showLoadding(Context mContext) {
-        Activity activity = (Activity) mContext;
-        if (activity == null) {
-            LogUtil.e("页面为NULL--不能显示DIALOG");
-            return;
+    public static void showLoading(Context mContext) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(mContext);
+            progressDialog.setTitle(mDialogTag);
+            progressDialog.setMessage("正在加载数据，请稍候。");
         }
-
-         /*为了不重复显示dialog，在显示对话框之前移除正在显示的对话框。*/
-        removeDialog(mContext);
-        FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
-        // 指定一个过渡动画
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        LoaddingDialog dialogFragment = LoaddingDialog.newInstance(R.style.Dialog_Fullscreen);
-        ft.add(dialogFragment, mDialogTag).commitAllowingStateLoss();
+        progressDialog.show();
     }
 
+    public static void hideLoading() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
 
     /**
      * 显示USB设备列表

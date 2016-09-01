@@ -108,20 +108,20 @@ public class SettingHelper {
                 //层级 01/02/03/04/05/06/07/08 选择轨道数据 4/5/8/10
                 try {
 
-                    LayerBean lb = dbUtil.getDb().selector(LayerBean.class).where("LAYER_NO", "=", layerNo).findFirst();
+                    LayerBean lb = dbUtil.getDb().selector(LayerBean.class).where("layer_no", "=", layerNo).findFirst();
                     if (lb != null) {
                         if (lb.getTrackNum() != num) {
                             /** 轨道数据不相同-覆盖*/
                             lb.setTrackNum(num);
                             dbUtil.getDb().saveOrUpdate(lb);
 
-                            ArrayList<TrackBean> beanArrayList = (ArrayList<TrackBean>) dbUtil.getDb().selector(TrackBean.class).where("LAYER_NO", "=", layerNo).findAll();
+                            ArrayList<TrackBean> beanArrayList = (ArrayList<TrackBean>) dbUtil.getDb().selector(TrackBean.class).where("layer_no", "=", layerNo).findAll();
                             if (beanArrayList != null) {
                                 for (int i = 0; i < beanArrayList.size(); i++) {
                                     TrackBean t = beanArrayList.get(i);
                                     dbUtil.getDb().delete(t);
                                 }
-                                LogUtil.e("删除数据(TRACK_VENDING) - " + layerNo);
+                                LogUtil.e("删除数据(track_vending) - " + layerNo);
                             }
 
                             setTrackList(layerNo, num);
@@ -198,7 +198,7 @@ public class SettingHelper {
             /**读取主机信息 没有就初始化*/
             //ArrayList<LayerBean> list = dbUtil.findAll(LayerBean.class, "GRID_MARK", "=", "0");
             ArrayList<LayerBean> list = (ArrayList<LayerBean>) dbUtil.getDb().selector(LayerBean.class)
-                    .where("GRID_MARK", "=", "0").orderBy("LAYER_NO").findAll();
+                    .where("device_type", "=", "0").orderBy("layer_no").findAll();
             if (null == list || list.size() <= 0) {
                 /**初始化主机 层数、和轨道数*/
                 ArrayList<LayerBean> datas = initMainLayer();
@@ -221,8 +221,8 @@ public class SettingHelper {
         ArrayList<TrackBean> trackList = new ArrayList<>();
         try {
             ArrayList<TrackBean> list = (ArrayList<TrackBean>) dbUtil.getDb().selector(TrackBean.class)
-                    .where("LAYER_NO", "=", layer)
-                    .orderBy("TRACK_NO").findAll();
+                    .where("layer_no", "=", layer)
+                    .orderBy("track_no").findAll();
             LogUtil.i("[- get trackList:" + list.toString() + "-]");
             if (list != null && list.size() > 0) {
                 trackList.addAll(list);
@@ -242,7 +242,7 @@ public class SettingHelper {
         try {
             //1：格子柜,0：不是格子柜
             list = (ArrayList<LayerBean>) dbUtil.getDb().selector(LayerBean.class)
-                    .where("GRID_MARK", "=", "1").orderBy("LAYER_NO").findAll();
+                    .where("device_type", "=", "1").orderBy("layer_no").findAll();
             if (list == null) {
                 list = new ArrayList<LayerBean>();
             }
@@ -328,7 +328,7 @@ public class SettingHelper {
      */
     public boolean initCabinetTrack(String cabinetNo, int trackNum, int max) {
         try {
-            List<TrackBean> trackBeans = dbUtil.findAll(TrackBean.class, "LAYER_NO", "=", cabinetNo);
+            List<TrackBean> trackBeans = dbUtil.findAll(TrackBean.class, "layer_no", "=", cabinetNo);
             if (null!=trackBeans && trackBeans.size()>0){
                 TrackBean bean=trackBeans.get(0);
                 if (trackBeans.size() == trackNum && bean.getMaxInventory()==max) {
@@ -368,14 +368,14 @@ public class SettingHelper {
     public void delLayer(final String cabinetNo) {
         LogUtil.i("[- 删除机器数据 cabinetNo=" + cabinetNo + "-]");
         try {
-            LayerBean layer = dbUtil.getDb().selector(LayerBean.class).where("LAYER_NO", "=", cabinetNo)
+            LayerBean layer = dbUtil.getDb().selector(LayerBean.class).where("layer_no", "=", cabinetNo)
                     .findFirst();
             if (layer != null) {
                 dbUtil.getDb().delete(layer);
                 XApplication xApplication = (XApplication) mContext.getApplicationContext();
-                dbUtil.saveLog(xApplication.getOperator(), " 删除机器数据 LAYER_NO=" + cabinetNo);
+                dbUtil.saveLog(xApplication.getOperator(), " 删除机器数据 layer_no=" + cabinetNo);
             }
-            ArrayList<TrackBean> tracks = dbUtil.findAll(TrackBean.class, "LAYER_NO", "=", cabinetNo);
+            ArrayList<TrackBean> tracks = dbUtil.findAll(TrackBean.class, "layer_no", "=", cabinetNo);
             if (tracks != null && tracks.size() > 0) {
                 for (int i = 0; i < tracks.size(); i++) {
                     dbUtil.getDb().delete(tracks.get(i));

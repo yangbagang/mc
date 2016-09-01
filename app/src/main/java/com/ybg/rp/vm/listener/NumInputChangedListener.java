@@ -113,7 +113,7 @@ public class NumInputChangedListener implements TextWatcher {
      * @param payType 支付类型 0：离线，1：支付宝，2：微信支付
      */
     public void inputTrackNo(final String trackNo, final String payType) {
-        DialogUtil.showLoadding(mContext);
+        DialogUtil.showLoading(mContext);
         // 添加请求参数
         String url = AppConstant.HOST + "orderInfo/createOrderWithMachineIdAndTrackNo";
         final XApplication xApplication = (XApplication) mContext.getApplicationContext();

@@ -140,7 +140,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         params.addBodyParameter("vid", VMPreferences.getInstance().getVMId());          //机器id
         params.addBodyParameter("pageNum", ""+currPage);
         params.addBodyParameter("pageSize", ""+30);
-        DialogUtil.showLoadding(mActivity);
+        DialogUtil.showLoading(mActivity);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

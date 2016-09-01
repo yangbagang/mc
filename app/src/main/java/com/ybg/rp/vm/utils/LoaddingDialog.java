@@ -43,11 +43,8 @@ public class LoaddingDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);//标题
         getDialog().setCanceledOnTouchOutside(false);// 设置点击屏幕Dialog不消失
-
         View view = inflater.inflate(R.layout.dialog_loading, container);
         gif_iv_erweima = (PowerImageView) view.findViewById(R.id.loading);
-//        R.style.Dialog_Fullscreen
-
         Window dialogWindow = getDialog().getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         DisplayMetrics d = getResources().getDisplayMetrics(); // 获取屏幕宽、高用

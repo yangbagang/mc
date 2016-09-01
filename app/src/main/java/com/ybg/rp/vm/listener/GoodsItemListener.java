@@ -62,7 +62,7 @@ public class GoodsItemListener implements View.OnClickListener {
         params.addBodyParameter("goodsJson", jsonStr);
         params.addBodyParameter("machineId", VMPreferences.getInstance().getVMId());
         //支付方式：默认 0：com.ybg.rp.vm，1：支付宝，2：微信支付
-        DialogUtil.showLoadding(mActivity);
+        DialogUtil.showLoading(mActivity);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

@@ -151,7 +151,7 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
         params.addBodyParameter("orderNo", orderNo);
         params.addBodyParameter("payType", payType);//1:支付宝 , 2:微信
         LogUtil.i("----machineId = " + machineId + "-- orderNo = " + orderNo + "-  payType = " + payType);
-        DialogUtil.showLoadding(mActivity);
+        DialogUtil.showLoading(mActivity);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

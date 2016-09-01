@@ -32,7 +32,7 @@ public class TrackBean implements Serializable {
     /**
      * 1：格子柜,0：不是格子柜
      */
-    @Column(name = "grid_mark")
+    @Column(name = "device_type")
     private Integer gridMark;
 
     /**

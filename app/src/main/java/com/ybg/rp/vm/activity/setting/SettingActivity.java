@@ -24,6 +24,7 @@ import com.ybg.rp.vm.bean.LayerBean;
 import com.ybg.rp.vm.bean.TrackBean;
 import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.help.SettingHelper;
+import com.ybg.rp.vm.listener.TrackNoChangedListener;
 import com.ybg.rp.vm.utils.AppConstant;
 import com.ybg.rp.vm.utils.DialogUtil;
 import com.ybg.rp.vm.utils.ProgressDialogUtil;
@@ -55,8 +56,8 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
     /**
      * 层级数量
      */
-    private EditText edt_main_track_1, edt_main_track_2, edt_main_track_3, edt_main_track_4,
-            edt_main_track_5, edt_main_track_6, edt_main_track_7, edt_main_track_8;
+    private EditText edit_main_track_1, edit_main_track_2, edit_main_track_3, edit_main_track_4,
+            edit_main_track_5, edit_main_track_6, edit_main_track_7, edit_main_track_8;
     /**
      * 排放量设置
      */
@@ -122,14 +123,14 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         tv_07 = (TextView) findViewById(R.id.container_tv_main_track_7);
         tv_08 = (TextView) findViewById(R.id.container_tv_main_track_8);
 
-        edt_main_track_1 = (EditText) findViewById(R.id.container_edt_main_track_1);
-        edt_main_track_2 = (EditText) findViewById(R.id.container_edt_main_track_2);
-        edt_main_track_3 = (EditText) findViewById(R.id.container_edt_main_track_3);
-        edt_main_track_4 = (EditText) findViewById(R.id.container_edt_main_track_4);
-        edt_main_track_5 = (EditText) findViewById(R.id.container_edt_main_track_5);
-        edt_main_track_6 = (EditText) findViewById(R.id.container_edt_main_track_6);
-        edt_main_track_7 = (EditText) findViewById(R.id.container_edt_main_track_7);
-        edt_main_track_8 = (EditText) findViewById(R.id.container_edt_main_track_8);
+        edit_main_track_1 = (EditText) findViewById(R.id.container_edit_main_track_1);
+        edit_main_track_2 = (EditText) findViewById(R.id.container_edit_main_track_2);
+        edit_main_track_3 = (EditText) findViewById(R.id.container_edit_main_track_3);
+        edit_main_track_4 = (EditText) findViewById(R.id.container_edit_main_track_4);
+        edit_main_track_5 = (EditText) findViewById(R.id.container_edit_main_track_5);
+        edit_main_track_6 = (EditText) findViewById(R.id.container_edit_main_track_6);
+        edit_main_track_7 = (EditText) findViewById(R.id.container_edit_main_track_7);
+        edit_main_track_8 = (EditText) findViewById(R.id.container_edit_main_track_8);
 
         tv_main_emission_1 = (TextView) findViewById(R.id.container_tv_main_emission_1);
         tv_main_emission_2 = (TextView) findViewById(R.id.container_tv_main_emission_2);
@@ -142,6 +143,23 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
 
         tv_addCabinet = (TextView) findViewById(R.id.container_tv_addCabinet);
         lv_cabinet = (ListView) findViewById(R.id.container_lv_cabinet);
+
+        edit_main_track_1.addTextChangedListener(new TrackNoChangedListener("01",
+                edit_main_track_1, helper));
+        edit_main_track_2.addTextChangedListener(new TrackNoChangedListener("02",
+                edit_main_track_2, helper));
+        edit_main_track_3.addTextChangedListener(new TrackNoChangedListener("03",
+                edit_main_track_3, helper));
+        edit_main_track_4.addTextChangedListener(new TrackNoChangedListener("04",
+                edit_main_track_4, helper));
+        edit_main_track_5.addTextChangedListener(new TrackNoChangedListener("05",
+                edit_main_track_5, helper));
+        edit_main_track_6.addTextChangedListener(new TrackNoChangedListener("06",
+                edit_main_track_6, helper));
+        edit_main_track_7.addTextChangedListener(new TrackNoChangedListener("07",
+                edit_main_track_7, helper));
+        edit_main_track_8.addTextChangedListener(new TrackNoChangedListener("08",
+                edit_main_track_8, helper));
     }
 
     @Override
@@ -237,31 +255,31 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
      */
     private void setMainLayout(String layer, int selectNum) {
         if (layer.equals("01")) {
-            edt_main_track_1.setText(String.valueOf(selectNum));
-            edt_main_track_1.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_1.setText(String.valueOf(selectNum));
+            edit_main_track_1.setSelection(String.valueOf(selectNum).length());
         } else if (layer.equals("02")) {
-            edt_main_track_2.setText(String.valueOf(selectNum));
-            edt_main_track_2.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_2.setText(String.valueOf(selectNum));
+            edit_main_track_2.setSelection(String.valueOf(selectNum).length());
         } else if (layer.equals("03")) {
-            edt_main_track_3.setText(String.valueOf(selectNum));
-            edt_main_track_3.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_3.setText(String.valueOf(selectNum));
+            edit_main_track_3.setSelection(String.valueOf(selectNum).length());
         } else if (layer.equals("04")) {
-            edt_main_track_4.setText(String.valueOf(selectNum));
-            edt_main_track_4.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_4.setText(String.valueOf(selectNum));
+            edit_main_track_4.setSelection(String.valueOf(selectNum).length());
         } else if (layer.equals("05")) {
-            edt_main_track_5.setText(String.valueOf(selectNum));
-            edt_main_track_5.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_5.setText(String.valueOf(selectNum));
+            edit_main_track_5.setSelection(String.valueOf(selectNum).length());
         } else if (layer.equals("06")) {
-            edt_main_track_6.setText(String.valueOf(selectNum));
-            edt_main_track_6.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_6.setText(String.valueOf(selectNum));
+            edit_main_track_6.setSelection(String.valueOf(selectNum).length());
         } else if (layer.equals("07")) {
             tg_main_7.setChecked(true);
-            edt_main_track_7.setText(String.valueOf(selectNum));
-            edt_main_track_7.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_7.setText(String.valueOf(selectNum));
+            edit_main_track_7.setSelection(String.valueOf(selectNum).length());
         } else if (layer.equals("08")) {
             tg_main_8.setChecked(true);
-            edt_main_track_8.setText(String.valueOf(selectNum));
-            edt_main_track_8.setSelection(String.valueOf(selectNum).length());
+            edit_main_track_8.setText(String.valueOf(selectNum));
+            edit_main_track_8.setSelection(String.valueOf(selectNum).length());
         }
     }
 
@@ -341,27 +359,27 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         if (cabinetNo != null && !"".equals(cabinetNo)) {
             if (cabinetNo.equals("07")) {
                 if (isSelect) {
-                    edt_main_track_7.setVisibility(View.VISIBLE);
+                    edit_main_track_7.setVisibility(View.VISIBLE);
                     tv_07.setVisibility(View.VISIBLE);
                 } else {
-                    edt_main_track_7.setVisibility(View.GONE);
+                    edit_main_track_7.setVisibility(View.GONE);
                     tv_07.setVisibility(View.GONE);
                     deleteMain("07");
                 }
             } else if (cabinetNo.equals("08")) {
                 if (isSelect) {
-                    edt_main_track_8.setVisibility(View.VISIBLE);
+                    edit_main_track_8.setVisibility(View.VISIBLE);
                     tv_08.setVisibility(View.VISIBLE);
                 } else {
-                    edt_main_track_8.setVisibility(View.GONE);
+                    edit_main_track_8.setVisibility(View.GONE);
                     tv_08.setVisibility(View.GONE);
                     deleteMain("08");
                 }
             }
         } else {
-            edt_main_track_7.setVisibility(View.GONE);
+            edit_main_track_7.setVisibility(View.GONE);
             tv_07.setVisibility(View.GONE);
-            edt_main_track_8.setVisibility(View.GONE);
+            edit_main_track_8.setVisibility(View.GONE);
             tv_08.setVisibility(View.GONE);
         }
     }
@@ -426,7 +444,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                DialogUtil.showLoadding(SettingActivity.this);
+                DialogUtil.showLoading(SettingActivity.this);
             }
 
             @Override

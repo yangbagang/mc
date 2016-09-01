@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@mipmap/bg">
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="关闭"
+        android:textColor="@android:color/white"
+        android:background="@drawable/border_layout_white"
+        android:onClick="closeWin"/>
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -48,12 +57,5 @@
         android:dividerHeight="10dp"
         android:divider="@color/transparent"
         android:scrollbars="none"/>
-    <Button
-        android:layout_width="160dp"
-        android:layout_height="60dp"
-        android:layout_marginLeft="20dp"
-        android:text="关闭"
-        android:textColor="@android:color/white"
-        android:background="@drawable/border_layout_white"
-        android:onClick="closeWin"/>
+
 </com.zhy.android.percent.support.PercentLinearLayout>

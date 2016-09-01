@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -184,7 +185,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
             protected void onPreExecute() {
                 super.onPreExecute();
                 /**开始*/
-                //YFDialogUtil.showLoadding(ManageSetActivity.this);
+                DialogUtil.showLoading(ManageActivity.this);
             }
 
             @Override
@@ -194,7 +195,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
                 updUi();
 
                 /**结果返回*/
-                //YFDialogUtil.removeDialog(ManageSetActivity.this);
+                DialogUtil.hideLoading();
             }
 
             @Override
@@ -321,7 +322,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                DialogUtil.showLoadding(ManageActivity.this);
+                DialogUtil.showLoading(ManageActivity.this);
             }
 
             @Override
@@ -336,7 +337,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
                 tv_operate.setText("测试结果");
                 tv_operateInfo.setText(result);
                 /**结果返回*/
-                DialogUtil.removeDialog(ManageActivity.this);
+                DialogUtil.hideLoading();
             }
 
             @Override
@@ -390,7 +391,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                DialogUtil.showLoadding(ManageActivity.this);
+                DialogUtil.showLoading(ManageActivity.this);
             }
 
             @Override
@@ -443,7 +444,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
-                DialogUtil.removeDialog(ManageActivity.this);
+                DialogUtil.hideLoading();
 
                 if (aBoolean) {
                     Toast.makeText(ManageActivity.this, "修改服务器错误轨道完成！", Toast.LENGTH_SHORT).show();

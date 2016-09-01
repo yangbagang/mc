@@ -355,7 +355,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
             params.addBodyParameter("goodsJson", jsonStr);
             params.addBodyParameter("machineId", VMPreferences.getInstance().getVMId());
             //支付方式：默认 0：com.ybg.rp.vm，1：支付宝，2：微信支付
-            DialogUtil.showLoadding(GoodsWindowActivity.this);
+            DialogUtil.showLoading(GoodsWindowActivity.this);
             x.http().post(params, new Callback.CommonCallback<String>() {
                 @Override
                 public void onSuccess(String result) {
