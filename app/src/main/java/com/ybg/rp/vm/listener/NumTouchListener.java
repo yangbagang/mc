@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ybg.rp.vm.R;
+import com.ybg.rp.vm.activity.shopping.TrackWindowActivity;
 import com.ybg.rp.vmbase.utils.LogUtil;
 
 /**
@@ -15,14 +16,18 @@ public class NumTouchListener implements View.OnTouchListener {
 
     private EditText et_command;
     private TextView input_text;
+    private TrackWindowActivity trackWindowActivity;
 
-    public NumTouchListener(EditText et_command, TextView input_text) {
+    public NumTouchListener(TrackWindowActivity trackWindowActivity, EditText et_command, TextView
+            input_text) {
+        this.trackWindowActivity = trackWindowActivity;
         this.et_command = et_command;
         this.input_text = input_text;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        trackWindowActivity.resetTimer();
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             LogUtil.i("[- ACTION_DOWN -]");
         }else if (event.getAction() == MotionEvent.ACTION_MOVE) {

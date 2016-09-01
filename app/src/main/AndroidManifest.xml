@@ -46,6 +46,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.login.LoginActivity" />
+        <activity android:name=".activity.login.ScanSuccessActivity" />
         <activity android:name=".activity.shopping.GoodsWindowActivity" />
         <activity android:name=".activity.shopping.TrackWindowActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.shopping.ShoppingWithOneGoodsActivity" />
@@ -54,6 +56,8 @@
         <activity android:name=".activity.setting.ManageActivity" />
         <activity android:name=".activity.setting.SettingActivity" />
         <activity android:name=".activity.setting.MachinesLogActivity" />
+        <activity android:name=".activity.setting.MaxGoodSetActivity" />
+        <activity android:name=".activity.setting.SelectCabinetActivity" />
         <activity android:name=".activity.setting.TestMachineActivity" />
         <activity android:name=".activity.setting.TestCabinetActivity" />
         <activity android:name=".activity.setting.TestMainActivity" />

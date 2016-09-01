@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    android:background="@mipmap/bg">
 
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
@@ -12,15 +13,12 @@
 
         <!--第一部分-->
         <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_round_green_dark"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            app:layout_heightPercent="5%"
-            app:layout_widthPercent="100%">
+            app:layout_heightPercent="5%">
 
             <TextView
                 android:layout_width="0dp"
@@ -60,10 +58,9 @@
             android:id="@+id/manage_ll_error_track"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border_round_green_dark"
+            android:background="@drawable/border_layout_white"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:layout_margin="@dimen/normal_margin">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -136,8 +133,8 @@
             android:id="@+id/manage_ll_operate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/border_round_green_dark"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
             android:minHeight="200dp"
             android:orientation="vertical"
             android:visibility="gone">
@@ -164,20 +161,12 @@
 
         <!--第三部分-->
         <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/border_round_green_dark"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
             android:orientation="vertical"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            app:layout_heightPercent="20%"
-            app:layout_widthPercent="100%">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/white" />
+            app:layout_heightPercent="20%">
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:id="@+id/manage_ll_trackTest"
@@ -202,9 +191,11 @@
                     android:src="@mipmap/icon_arrow_enter" />
             </com.zhy.android.percent.support.PercentLinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:layout_marginRight="@dimen/normal_margin"
                 android:background="@android:color/white" />
 
             <com.zhy.android.percent.support.PercentLinearLayout
@@ -235,15 +226,12 @@
 
         <!--第四部分-->
         <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/border_round_green_dark"
+            android:background="@drawable/border_layout_white"
             android:orientation="vertical"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp"
-            app:layout_heightPercent="30%"
-            app:layout_marginTopPercent="1%"
-            app:layout_widthPercent="100%">
+            android:layout_margin="@dimen/normal_margin"
+            app:layout_heightPercent="30%">
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:id="@+id/manage_ll_baseSet"
@@ -268,9 +256,11 @@
                     android:src="@mipmap/icon_arrow_enter" />
             </com.zhy.android.percent.support.PercentLinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:layout_marginRight="@dimen/normal_margin"
                 android:background="@android:color/white" />
 
             <TextView
@@ -291,10 +281,22 @@
             android:id="@+id/manage_btn_setting"
             android:layout_width="200dp"
             android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_round_green_dark"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
             android:text="设置"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/manage_btn_close"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
+            android:text="关闭"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:onClick="closeWin"/>
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 </ScrollView>

@@ -3,6 +3,7 @@ package com.ybg.rp.vm.activity.login;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
-        loginActivity= this;
+        loginActivity = this;
 
         iv_code = (ImageView) findViewById(R.id.login_iv_code);
         tv_sn = (TextView) findViewById(R.id.login_tv_sn);
@@ -63,4 +64,7 @@ public class LoginActivity extends Activity {
         }
     }
 
+    public void closeWin(View view) {
+        finish();
+    }
 }

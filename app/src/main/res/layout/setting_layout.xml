@@ -3,7 +3,7 @@
     android:id="@+id/sv_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light"
+    android:background="@mipmap/bg"
     android:scrollbars="none">
 
 
@@ -12,10 +12,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="基础设置"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
         <!--第一部分-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
             android:orientation="vertical">
 
             <TextView
@@ -28,93 +45,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/white" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="15dp"
-                    android:text="第零层"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/container_edt_main_track_0"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="15dp"
-                        android:layout_marginTop="15dp"
-                        android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:gravity="center"
-                        android:maxLength="2"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/container_tv_main_track_0"
-                        android:layout_width="120dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp"
-                        android:text="轨"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ToggleButton
-                        android:id="@+id/container_sv_main_0"
-                        android:layout_width="100dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="25dp"
-                        android:background="@drawable/selector_switch_green"
-                        android:textOff="关闭"
-                        android:textOn="开启"
-                        android:textSize="22sp" />
-
-                    <TextView
-                        android:id="@+id/container_tv_main_emission_0"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical|right"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="25dp"
-                        android:text="排放数"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -148,8 +79,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -179,7 +109,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -213,8 +143,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -244,7 +173,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -278,8 +207,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -309,7 +237,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -343,8 +271,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -374,7 +301,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -408,8 +335,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -439,7 +365,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -473,8 +399,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -504,7 +429,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -538,8 +463,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -589,7 +513,7 @@
             </LinearLayout>
 
 
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/white" />
@@ -623,8 +547,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         android:background="@drawable/border_layout_white"
-                        android:cursorVisible="false"
-                        android:focusable="false"
+                        android:inputType="number"
                         android:gravity="center"
                         android:maxLength="2"
                         android:textSize="25sp"
@@ -673,10 +596,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/white" />
         </LinearLayout>
 
         <!--第二部分-->
@@ -689,7 +608,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:gravity="center_vertical"
-                android:paddingLeft="20dp"
+                android:paddingLeft="36dp"
                 android:text="便利柜设置"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
@@ -712,9 +631,11 @@
         </RelativeLayout>
 
 
-        <TextView
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_marginRight="@dimen/normal_margin"
             android:background="@android:color/white" />
 
         <ListView
@@ -725,6 +646,32 @@
             android:dividerHeight="1dp"
             android:divider="@android:color/white"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/normal_margin">
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:text="关闭"
+                android:textColor="@android:color/white"
+                android:background="@drawable/border_layout_white"
+                android:onClick="closeWin"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="20dp"
+                android:text="上传"
+                android:textColor="@android:color/white"
+                android:background="@drawable/border_layout_white"
+                android:onClick="updBaseVMData"/>
+        </LinearLayout>
 
     </LinearLayout>
 

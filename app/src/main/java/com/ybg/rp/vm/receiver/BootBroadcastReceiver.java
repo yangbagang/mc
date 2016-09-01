@@ -15,7 +15,7 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //TODO 开机启动程序
+        //开机启动程序
         if (intent.getAction().equals(action_boot)) {
             Intent ootStartIntent = new Intent(context, WelcomeActivity.class);
             ootStartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

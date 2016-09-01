@@ -6,7 +6,11 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.activity.WelcomeActivity;
@@ -111,4 +115,46 @@ public class DialogUtil {
         }
     }
 
+    /**
+     * 显示一个一般的对话框（View内容）.
+     *
+     * @param view 对话框标题内容
+     */
+    public static AlertDialogFragment showAlertDialog(View view) {
+        if (null == view) return null;
+        FragmentActivity activity = (FragmentActivity) view.getContext();
+        removeDialog(activity);
+        AlertDialogFragment newFragment = AlertDialogFragment.newInstance(0, null, null, view, null);
+        FragmentTransaction ft = activity.getFragmentManager().beginTransaction();
+        // 指定一个过渡动画
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//        newFragment.show(ft, mDialogTag);
+        ft.add(newFragment,mDialogTag).commitAllowingStateLoss();
+        return newFragment;
+    }
+
+    /**
+     * 描述：移除Fragment和View
+     *
+     * @param view
+     */
+    public static void removeDialog(View view) {
+        if (null == view) return;
+        removeDialog(view.getContext());
+        removeSelfFromParent(view);
+    }
+
+    /**
+     * 从父亲布局中移除自己
+     *
+     * @param v
+     */
+    private static void removeSelfFromParent(View v) {
+        ViewParent parent = v.getParent();
+        if (parent != null) {
+            if (parent instanceof ViewGroup) {
+                ((ViewGroup) parent).removeView(v);
+            }
+        }
+    }
 }

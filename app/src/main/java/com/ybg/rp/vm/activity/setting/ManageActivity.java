@@ -166,7 +166,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.manage_btn_setting:
                 /**跳转到系统设置*/
-                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 startActivity(intent);
                 break;
         }
@@ -457,4 +457,7 @@ public class ManageActivity extends Activity implements View.OnClickListener {
         }.execute();
     }
 
+    public void closeWin(View view) {
+        finish();
+    }
 }

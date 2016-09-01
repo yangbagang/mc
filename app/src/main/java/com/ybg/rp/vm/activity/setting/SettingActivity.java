@@ -26,6 +26,7 @@ import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.help.SettingHelper;
 import com.ybg.rp.vm.utils.AppConstant;
 import com.ybg.rp.vm.utils.DialogUtil;
+import com.ybg.rp.vm.utils.ProgressDialogUtil;
 import com.ybg.rp.vm.utils.ViewUtil;
 import com.ybg.rp.vmbase.bean.VMOperator;
 import com.ybg.rp.vmbase.preference.VMPreferences;
@@ -49,17 +50,17 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
     /**
      * 开关 主机
      */
-    private ToggleButton tg_main_0, tg_main_7, tg_main_8;
-    private TextView tv_00, tv_07, tv_08;
+    private ToggleButton tg_main_7, tg_main_8;
+    private TextView tv_07, tv_08;
     /**
      * 层级数量
      */
-    private EditText edt_main_track_0, edt_main_track_1, edt_main_track_2, edt_main_track_3, edt_main_track_4,
+    private EditText edt_main_track_1, edt_main_track_2, edt_main_track_3, edt_main_track_4,
             edt_main_track_5, edt_main_track_6, edt_main_track_7, edt_main_track_8;
     /**
      * 排放量设置
      */
-    private TextView tv_main_emission_0, tv_main_emission_1, tv_main_emission_2, tv_main_emission_3,
+    private TextView tv_main_emission_1, tv_main_emission_2, tv_main_emission_3,
             tv_main_emission_4, tv_main_emission_5, tv_main_emission_6, tv_main_emission_7,
             tv_main_emission_8;
 
@@ -116,14 +117,11 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
      */
     private void initView() {
         scrollView = (ScrollView) findViewById(R.id.sv_layout);
-        tg_main_0 = (ToggleButton) findViewById(R.id.container_sv_main_0);
         tg_main_7 = (ToggleButton) findViewById(R.id.container_sv_main_7);
         tg_main_8 = (ToggleButton) findViewById(R.id.container_sv_main_8);
-        tv_00 = (TextView) findViewById(R.id.container_tv_main_track_0);
         tv_07 = (TextView) findViewById(R.id.container_tv_main_track_7);
         tv_08 = (TextView) findViewById(R.id.container_tv_main_track_8);
 
-        edt_main_track_0 = (EditText) findViewById(R.id.container_edt_main_track_0);
         edt_main_track_1 = (EditText) findViewById(R.id.container_edt_main_track_1);
         edt_main_track_2 = (EditText) findViewById(R.id.container_edt_main_track_2);
         edt_main_track_3 = (EditText) findViewById(R.id.container_edt_main_track_3);
@@ -133,7 +131,6 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         edt_main_track_7 = (EditText) findViewById(R.id.container_edt_main_track_7);
         edt_main_track_8 = (EditText) findViewById(R.id.container_edt_main_track_8);
 
-        tv_main_emission_0 = (TextView) findViewById(R.id.container_tv_main_emission_0);
         tv_main_emission_1 = (TextView) findViewById(R.id.container_tv_main_emission_1);
         tv_main_emission_2 = (TextView) findViewById(R.id.container_tv_main_emission_2);
         tv_main_emission_3 = (TextView) findViewById(R.id.container_tv_main_emission_3);
@@ -152,9 +149,6 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         Intent intent = new Intent(SettingActivity.this, MaxGoodSetActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         switch (v.getId()) {
-            case R.id.container_tv_main_emission_0:
-                intent.putExtra("layer", "00");
-                break;
             case R.id.container_tv_main_emission_1:
                 intent.putExtra("layer", "01");
                 break;
@@ -192,7 +186,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
             protected void onPreExecute() {
                 super.onPreExecute();
                 /**开始*/
-                DialogUtil.showLoadding(SettingActivity.this);
+                ProgressDialogUtil.showDialog(SettingActivity.this, "正在加载数据...");
                 setMainSelect(null, false);
             }
 
@@ -200,7 +194,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
                 /**结果返回*/
-                DialogUtil.removeDialog(SettingActivity.this);
+                ProgressDialogUtil.closeDialog();
             }
 
             @Override
@@ -268,10 +262,6 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
             tg_main_8.setChecked(true);
             edt_main_track_8.setText(String.valueOf(selectNum));
             edt_main_track_8.setSelection(String.valueOf(selectNum).length());
-        } else if (layer.equals("00")) {
-            tg_main_0.setChecked(true);
-            edt_main_track_0.setText(String.valueOf(selectNum));
-            edt_main_track_0.setSelection(String.valueOf(selectNum).length());
         }
     }
 
@@ -280,7 +270,6 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
      * 设置监听
      */
     private void initListener() {
-        tv_main_emission_0.setOnClickListener(this);
         tv_main_emission_1.setOnClickListener(this);
         tv_main_emission_2.setOnClickListener(this);
         tv_main_emission_3.setOnClickListener(this);
@@ -290,7 +279,6 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         tv_main_emission_7.setOnClickListener(this);
         tv_main_emission_8.setOnClickListener(this);
 
-        tg_main_0.setOnCheckedChangeListener(this);
         tg_main_7.setOnCheckedChangeListener(this);
         tg_main_8.setOnCheckedChangeListener(this);
 
@@ -332,9 +320,6 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         /**可选择启用与否*/
         switch (buttonView.getId()) {
-            case R.id.container_sv_main_0:
-                setMainSelect("00", isChecked);
-                break;
             case R.id.container_sv_main_7:
                 setMainSelect("07", isChecked);
                 break;
@@ -354,17 +339,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
             LogUtil.i("[-不选中 删除主机 :" + cabinetNo + " 层");
         }
         if (cabinetNo != null && !"".equals(cabinetNo)) {
-            if (cabinetNo.equals("00")) {
-                if (isSelect) {
-                    edt_main_track_0.setVisibility(View.VISIBLE);
-                    tv_00.setVisibility(View.VISIBLE);
-                } else {
-                    edt_main_track_0.setVisibility(View.GONE);
-                    tv_00.setVisibility(View.GONE);
-                    deleteMain("00");
-                }
-
-            } else if (cabinetNo.equals("07")) {
+            if (cabinetNo.equals("07")) {
                 if (isSelect) {
                     edt_main_track_7.setVisibility(View.VISIBLE);
                     tv_07.setVisibility(View.VISIBLE);
@@ -384,8 +359,6 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
                 }
             }
         } else {
-            edt_main_track_0.setVisibility(View.GONE);
-            tv_00.setVisibility(View.GONE);
             edt_main_track_7.setVisibility(View.GONE);
             tv_07.setVisibility(View.GONE);
             edt_main_track_8.setVisibility(View.GONE);
@@ -516,7 +489,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
     /**
      * 层级、轨道数保存
      */
-    public void updBaseVMData() {
+    public void updBaseVMData(View view) {
         XApplication xApplication = (XApplication) getApplication();
         VMOperator operator = xApplication.getOperator();
         if (null == operator) {
@@ -631,6 +604,10 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         msg.what = 1;
         msg.obj = obj;
         handler.sendMessage(msg);
+    }
+
+    public void closeWin(View view) {
+        finish();
     }
 
     private VMPreferences preferences = VMPreferences.getInstance();

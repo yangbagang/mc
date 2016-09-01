@@ -3,12 +3,15 @@ package com.ybg.rp.vm.activity.shopping;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.activity.login.LoginActivity;
+import com.ybg.rp.vm.activity.setting.ManageActivity;
 import com.ybg.rp.vm.bean.TrackBean;
 import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.listener.NumInputChangedListener;
@@ -30,6 +33,14 @@ public class TrackWindowActivity extends Activity {
 
     private ArrayList<TrackBean> allTrackList;
 
+    private int time = 120;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +50,8 @@ public class TrackWindowActivity extends Activity {
 
         initView();
         setClickListener();
+
+        mHandler.postDelayed(runnable, 1000);
     }
 
     private void initView() {
@@ -66,25 +79,32 @@ public class TrackWindowActivity extends Activity {
         tv_inputInfo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if ("78".equals(edit_trackNum.getText().toString())) {
-                    /** 跳转到登录*/
-                    Intent login = new Intent();
-                    login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    login.setClass(TrackWindowActivity.this, LoginActivity.class);
-                    startActivity(login);
-                }
+//                if ("78".equals(edit_trackNum.getText().toString())) {
+//                    /** 跳转到登录*/
+//                    Intent login = new Intent();
+//                    login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    login.setClass(TrackWindowActivity.this, LoginActivity.class);
+//                    startActivity(login);
+//                    finish();
+//                }
+//                return true;
+                Intent intent = new Intent(TrackWindowActivity.this, ManageActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
             }
         });
         bt_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**取消倒计时*/
+                mHandler.removeCallbacks(runnable);
                 finish();
             }
         });
 
         /**键盘点击*/
-        NumTouchListener touchListener = new NumTouchListener(edit_trackNum, tv_inputInfo);
+        NumTouchListener touchListener = new NumTouchListener(this, edit_trackNum, tv_inputInfo);
         bt_delete.setOnTouchListener(touchListener);
         bt_delete.setLongClickable(true);
         bt_delete.setClickable(true);
@@ -146,4 +166,34 @@ public class TrackWindowActivity extends Activity {
                 edit_trackNum, tv_inputInfo, allTrackList);
         edit_trackNum.addTextChangedListener(textChangedListener);
     }
+
+    /**
+     * 倒计时
+     */
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            time--;
+            if (time == 0) {
+                /**关闭窗口*/
+                finish();
+            } else {
+                tv_inputInfo.setText(time + "S");
+            }
+            mHandler.postDelayed(this, 1000);
+        }
+    };
+
+    public void resetTimer() {
+        time = 120;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(runnable);
+        mHandler.removeCallbacksAndMessages(null);
+        mHandler = null;
+    }
+
 }
