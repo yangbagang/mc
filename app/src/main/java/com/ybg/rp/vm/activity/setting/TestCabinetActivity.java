@@ -104,4 +104,7 @@ public class TestCabinetActivity extends Activity {
         recordAdapter.notifyDataSetChanged();
     }
 
+    public void closeWin(View view) {
+        finish();
+    }
 }

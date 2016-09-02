@@ -114,10 +114,8 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
 
     private void initView() {
         ll_code_bg = (RelativeLayout) findViewById(R.id.payWay_ll_bg);
-//        tv_Title = (TextView) findViewById(R.id.cartPay_tv_title);
-//        ll_back = (LinearLayout) findViewById(R.id.cartPay_ll_back);
-        tv_Title = (TextView) findViewById(R.id.paySingle_tv_title);
-        ll_back = (LinearLayout) findViewById(R.id.paySingle_ll_back);
+        tv_Title = (TextView) findViewById(R.id.cartPay_tv_title);
+        ll_back = (LinearLayout) findViewById(R.id.cartPay_ll_back);
 
         listView = (ListView) findViewById(R.id.cartPay_listview);
         tv_total_money = (TextView) findViewById(R.id.cartPay_tv_total_money);
@@ -172,7 +170,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.paySingle_ll_back:
+            case R.id.cartPay_ll_back:
                 mHandler.removeCallbacks(runnable);
                 cancelOrderNo(1);
                 finish();

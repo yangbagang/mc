@@ -95,4 +95,8 @@ public class TestMainActivity extends Activity {
         recordAdapter.notifyDataSetChanged();
     }
 
+    public void closeWin(View view) {
+        finish();
+    }
+
 }

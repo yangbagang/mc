@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
+    android:background="@mipmap/bg"
     android:orientation="vertical">
 
     <com.zhy.android.percent.support.PercentLinearLayout
@@ -14,7 +14,7 @@
         app:layout_widthPercent="96%"
         app:layout_marginTopPercent="1%"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/border_round_green_dark"
+        android:background="@drawable/border_layout_white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,20 +26,24 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="200dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:paddingLeft="25dp"
                 android:text="主机测试"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingRight="20dp"
-                android:src="@mipmap/icon_arrow_enter" />
+            <Button
+                android:id="@+id/manage_btn_close"
+                android:layout_width="200dp"
+                android:layout_height="80dp"
+                android:paddingLeft="25dp"
+                android:background="@drawable/border_layout_white"
+                android:text="关闭"
+                android:textSize="30sp"
+                android:textColor="@android:color/white"
+                android:onClick="closeWin"/>
 
         </LinearLayout>
 
@@ -72,7 +76,7 @@
             app:layout_widthPercent="90%"
             app:layout_marginPercent="4%"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/border_round_green_white"
+            android:background="@drawable/border_layout_white"
             android:gravity="center"
             android:text="测试全部主机货道"
             android:textColor="@android:color/white"
@@ -87,7 +91,7 @@
         app:layout_widthPercent="96%"
         app:layout_marginTopPercent="1%"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/border_round_green_dark"
+        android:background="@drawable/border_layout_white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -145,7 +149,7 @@
             app:layout_widthPercent="90%"
             app:layout_marginPercent="4%"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/border_round_green_white"
+            android:background="@drawable/border_layout_white"
             android:gravity="center"
             android:text="测试全部格子柜"
             android:textColor="@android:color/white"
@@ -171,8 +175,8 @@
         app:layout_heightPercent="30%"
         app:layout_widthPercent="96%"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/holo_green_dark"
-        android:divider="@color/transparent"
+        android:background="@drawable/border_layout_white"
+        android:divider="@android:color/white"
         android:dividerHeight="1dp"
         android:scrollbars="none" />
 </com.zhy.android.percent.support.PercentLinearLayout>

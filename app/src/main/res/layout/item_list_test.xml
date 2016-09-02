@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_margin="5dp"
-        android:background="@drawable/border_round_green_white"
+        android:background="@drawable/border_layout_white"
         android:gravity="center"
         android:text="第一层测试"
         android:textSize="22sp"

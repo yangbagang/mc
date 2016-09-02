@@ -103,7 +103,7 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/border_round_green_white"
+                        android:background="@drawable/border_layout_white"
                         android:gravity="center"
                         android:text="测试货道"
                         android:textColor="@android:color/white"

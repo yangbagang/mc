@@ -79,18 +79,14 @@ public class TrackWindowActivity extends Activity {
         tv_inputInfo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                if ("78".equals(edit_trackNum.getText().toString())) {
-//                    /** 跳转到登录*/
-//                    Intent login = new Intent();
-//                    login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                    login.setClass(TrackWindowActivity.this, LoginActivity.class);
-//                    startActivity(login);
-//                    finish();
-//                }
-//                return true;
-                Intent intent = new Intent(TrackWindowActivity.this, ManageActivity.class);
-                startActivity(intent);
-                finish();
+                if ("78".equals(edit_trackNum.getText().toString())) {
+                    /** 跳转到登录*/
+                    Intent login = new Intent();
+                    login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    login.setClass(TrackWindowActivity.this, LoginActivity.class);
+                    startActivity(login);
+                    finish();
+                }
                 return true;
             }
         });

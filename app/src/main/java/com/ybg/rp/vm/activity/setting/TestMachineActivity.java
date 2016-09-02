@@ -270,4 +270,7 @@ public class TestMachineActivity extends Activity {
         recordAdapter.notifyDataSetChanged();
     }
 
+    public void closeWin(View view) {
+        finish();
+    }
 }

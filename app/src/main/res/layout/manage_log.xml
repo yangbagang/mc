@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/normal_margin"
+            android:gravity="center_vertical"
+            android:text="操作日志"
+            android:textColor="@android:color/white"
+            android:textSize="35sp" />
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/normal_margin"
+            android:background="@drawable/border_layout_white"
+            android:text="关闭"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:onClick="closeWin"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_layout_white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="操作时间"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="操作内容"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="操作人"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/log_sl_swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp">
+
+            <com.ybg.rp.vm.views.AutoLoadRecyclerView
+                android:id="@+id/log_av_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/log_ll_noDataLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/log_iv_noData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+
+                android:contentDescription="@null"
+                android:scaleType="center"
+                android:src="@mipmap/icon_guide" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/log_iv_noData"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="暂无数据,请下拉刷新噢!" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

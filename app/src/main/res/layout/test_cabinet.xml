@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
+    android:background="@mipmap/bg"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,35 +14,37 @@
         app:layout_widthPercent="96%"
         app:layout_marginTopPercent="1%"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/border_round_green_dark"
+        android:background="@drawable/border_layout_white"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:paddingLeft="25dp"
             android:gravity="center_vertical"
             android:text="格子柜测试"
             android:textColor="@android:color/white"
             android:textSize="24sp"/>
-
+        <Button
+            android:id="@+id/manage_btn_close"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:paddingLeft="25dp"
+            android:background="@drawable/border_layout_white"
+            android:text="关闭"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:onClick="closeWin"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/normal_margin"
         app:layout_heightPercent="50%"
         app:layout_widthPercent="96%"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/border_round_green_dark"
+        android:background="@drawable/border_layout_white"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:visibility="visible"
-            android:background="@android:color/white"/>
         <GridView
             android:id="@+id/trackTest_cabinet_gv_trackList"
             android:layout_width="match_parent"
@@ -76,7 +78,7 @@
         app:layout_heightPercent="25%"
         app:layout_widthPercent="96%"
         android:layout_gravity="center_horizontal"
-        android:background="@android:color/holo_green_dark"
+        android:background="@drawable/border_layout_white"
         android:divider="@color/transparent"
         android:dividerHeight="1dp"
         android:scrollbars="none"/>

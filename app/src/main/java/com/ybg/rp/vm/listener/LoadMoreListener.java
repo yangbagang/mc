@@ -5,6 +5,6 @@ package com.ybg.rp.vm.listener;
  */
 public interface LoadMoreListener {
 
-    public void loadMore();
+    void loadMore();
 
 }
