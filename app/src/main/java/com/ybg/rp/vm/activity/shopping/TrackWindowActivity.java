@@ -158,8 +158,8 @@ public class TrackWindowActivity extends Activity {
         num_9.setClickable(true);
 
         /**数字输入变化*/
-        NumInputChangedListener textChangedListener = new NumInputChangedListener(TrackWindowActivity.this,
-                edit_trackNum, tv_inputInfo, allTrackList);
+        NumInputChangedListener textChangedListener = new NumInputChangedListener
+                (TrackWindowActivity.this, edit_trackNum, tv_inputInfo, allTrackList);
         edit_trackNum.addTextChangedListener(textChangedListener);
     }
 

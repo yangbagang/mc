@@ -127,7 +127,7 @@ public class NumInputChangedListener implements TextWatcher {
                     JSONObject json = new JSONObject(s);
                     String success = json.getString("success");
                     String msg = json.getString("msg");
-                    if ("success".equals(success)) {
+                    if ("true".equals(success)) {
                         OrderInfo orderInfo = GsonUtil.createGson().fromJson(json.getString("orderInfo"), OrderInfo.class);
 
                         xApplication.setIsOpenTrack(orderInfo.getOrderNo());//设置订单号

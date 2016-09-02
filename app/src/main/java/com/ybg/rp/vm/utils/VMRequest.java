@@ -96,7 +96,7 @@ public class VMRequest {
                 JSONObject json = new JSONObject(result);
                 String success = json.getString("success");
                 //String msg = json.getString("msg");
-                if ("success".equals(success)) {
+                if ("true".equals(success)) {
                     sendErrorData(errorGoods);
                     VMDBManager.getInstance().saveForTranUpdate(data.getOrderNo(), true);
                     break;
@@ -138,7 +138,7 @@ public class VMRequest {
                             String result = x.http().postSync(params, String.class);
                             JSONObject json = new JSONObject(result);
                             String success = json.getString("success");
-                            if ("success".equals(success)) {
+                            if ("true".equals(success)) {
                                 tranData.setIsUpd(1);
                                 VMDBManager.getInstance().saveOrUpdate(tranData);
                                 break;
@@ -182,7 +182,7 @@ public class VMRequest {
                 try {
                     JSONObject json = new JSONObject(result);
                     String success = json.getString("success");
-                    if ("success".equals(success)) {
+                    if ("true".equals(success)) {
                         addFaultCount = 0;
                         LogUtil.i("--售卖机错误信息上送完成--");
                     } else {

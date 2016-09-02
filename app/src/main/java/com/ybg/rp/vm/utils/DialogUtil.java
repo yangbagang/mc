@@ -32,7 +32,12 @@ public class DialogUtil {
             progressDialog.setTitle(mDialogTag);
             progressDialog.setMessage("正在加载数据，请稍候。");
         }
-        progressDialog.show();
+
+        try {
+            progressDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void hideLoading() {
