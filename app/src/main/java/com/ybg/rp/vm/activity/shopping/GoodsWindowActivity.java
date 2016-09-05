@@ -461,6 +461,9 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         if(typeOnes != null) {
             typeOnes = null;
         }
+        if (null != mPopupWindow) {
+            mPopupWindow.dismiss();
+        }
     }
 
 }

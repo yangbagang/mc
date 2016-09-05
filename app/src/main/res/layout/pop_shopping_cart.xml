@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-                android:id="@+id/relative"
+              android:id="@+id/relative"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
-        android:background="@drawable/shape_pop_cart"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -57,6 +56,7 @@
         <ListView
             android:divider="@null"
             android:id="@+id/pop_listview"
+            android:background="@drawable/border_layout_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

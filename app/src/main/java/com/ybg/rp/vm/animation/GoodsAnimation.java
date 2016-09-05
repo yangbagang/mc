@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
@@ -76,10 +77,13 @@ public class GoodsAnimation {
         translateAnimationY.setRepeatCount(0);// 动画重复执行的次数
         translateAnimationX.setFillAfter(true);
 
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0.3f);
+
         AnimationSet set = new AnimationSet(false);
         set.setFillAfter(false);
         set.addAnimation(translateAnimationY);
         set.addAnimation(translateAnimationX);
+        set.addAnimation(alphaAnimation);
         set.setDuration(800);// 动画的执行时间
         view.startAnimation(set);
         // 动画监听事件

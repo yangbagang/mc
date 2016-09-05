@@ -16,7 +16,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="核桃仁"
-            android:textSize="28sp"/>
+            android:textSize="28sp"
+            android:textColor="@android:color/white"/>
 
         <TextView
             android:id="@+id/itempop_tv_price"
@@ -26,7 +27,7 @@
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/itempop_iv_minus"
             android:text="¥ 16.0"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@android:color/black"
             android:textSize="28sp"/>
 
         <ImageView
@@ -47,7 +48,8 @@
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/itempop_iv_add"
             android:text=""
-            android:textSize="28sp"/>
+            android:textSize="28sp"
+            android:textColor="@android:color/white"/>
 
         <ImageView
             android:padding="10dp"
@@ -61,9 +63,11 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <View
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/icon_line"/>
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        android:background="@android:color/white"/>
 </LinearLayout>

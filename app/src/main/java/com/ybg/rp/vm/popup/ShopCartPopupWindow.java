@@ -80,7 +80,6 @@ public class ShopCartPopupWindow extends PopupWindow implements View.OnClickList
      */
     public void showPopupWindow(View parent) {
         this.parent = parent;
-        parent.setBackgroundColor(mContext.getResources().getColor(R.color.pop_cart));
         if (!this.isShowing()) {
             // 以下拉方式显示popupwindow
             this.showAtLocation(parent, Gravity.BOTTOM, 0, 269);   //269位高度偏移量

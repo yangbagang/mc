@@ -65,7 +65,7 @@ public class CartAdapter extends BaseAdapter {
         //设置数据
         GoodsInfo goodsInfo = cartData.get(position);
         holder.tv_name.setText(goodsInfo.getGoodsName());
-        holder.tv_price.setText("¥ " + goodsInfo.getPrice());
+        holder.tv_price.setText("单价" + goodsInfo.getPrice() + "元");
         holder.tv_goods_count.setText(goodsInfo.getNum() + "");
 
         holder.iv_add.setOnClickListener(new CartAddShoppingListener(mActivity, cartData, mHandler, position, this, mGoodsAdapter));
