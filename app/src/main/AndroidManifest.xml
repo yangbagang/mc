@@ -51,6 +51,7 @@
         <activity android:name=".activity.shopping.GoodsWindowActivity" />
         <activity android:name=".activity.shopping.TrackWindowActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.shopping.ShoppingWithOneGoodsActivity" />
+        <activity android:name=".activity.shopping.ShoppingWithCartActivity" />
         <activity android:name=".activity.shopping.PayFailedActivity" />
         <activity android:name=".activity.shopping.PaySuccessActivity" />
         <activity android:name=".activity.setting.ManageActivity" />

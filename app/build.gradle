@@ -9,7 +9,7 @@ android {
         variant.outputs.each { output ->
             def oldFile = output.outputFile
             if (variant.buildType.name.equals('release')) {
-                def releaseApkName = 'VM-' + defaultConfig.versionName + '.apk'
+                def releaseApkName = 'CM-' + defaultConfig.versionName + '.apk'
                 output.outputFile = new File(oldFile.parent, releaseApkName)
             }
             if (variant.buildType.name.equals('beta')) {
@@ -25,8 +25,8 @@ android {
         applicationId "com.ybg.rp.vm"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
 
         //个推推送配置
         manifestPlaceholders = [

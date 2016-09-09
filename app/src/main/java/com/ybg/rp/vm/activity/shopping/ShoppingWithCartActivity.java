@@ -75,6 +75,8 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
     private String type;
     private ArrayList<GoodsInfo> orderInfos;
 
+    public static ShoppingWithCartActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +85,8 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.shopping_layout);
         initView();
+
+        activity = this;
 
         orderInfo = (OrderInfo) getIntent().getSerializableExtra("orderInfo");
         type = getIntent().getStringExtra("type");

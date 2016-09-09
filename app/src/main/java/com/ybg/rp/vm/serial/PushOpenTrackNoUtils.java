@@ -10,6 +10,8 @@ import android.util.ArrayMap;
 
 import com.ybg.rp.vm.activity.shopping.PayFailedActivity;
 import com.ybg.rp.vm.activity.shopping.PaySuccessActivity;
+import com.ybg.rp.vm.activity.shopping.ShoppingWithCartActivity;
+import com.ybg.rp.vm.activity.shopping.ShoppingWithOneGoodsActivity;
 import com.ybg.rp.vm.app.XApplication;
 import com.ybg.rp.vm.bean.ErrorTrackNo;
 import com.ybg.rp.vm.bean.ErrorTranData;
@@ -171,6 +173,13 @@ public class PushOpenTrackNoUtils {
             //跳转正确页面
             intent.setClass(mActivity, PaySuccessActivity.class);
         }
+        /** 关闭二维码扫描页面*/
+        if (null != ShoppingWithCartActivity.activity && !ShoppingWithCartActivity.activity.isFinishing()) {
+            ShoppingWithCartActivity.activity.finish();
+        }
+        if (null != ShoppingWithOneGoodsActivity.activity && !ShoppingWithOneGoodsActivity.activity.isFinishing()) {
+            ShoppingWithOneGoodsActivity.activity.finish();
+        }
         String type = "3";
         //1：弹簧柜，2：格子柜，3：弹簧柜 + 格子柜
         if (isVending && isCabinet) {
@@ -208,7 +217,7 @@ public class PushOpenTrackNoUtils {
         //线上支付上传
 
 
-        LogUtil.i("[线上支付上传 trackNos=" + trackNos + ", order=" + orderInfo.toString());
+        LogUtil.i("线上支付上传 trackNos=" + trackNos + ", order=" + orderInfo.toString());
         upLoadData(mActivity, orderInfo, trackNos, errorGoods);
 
         /**map置空释放内存*/

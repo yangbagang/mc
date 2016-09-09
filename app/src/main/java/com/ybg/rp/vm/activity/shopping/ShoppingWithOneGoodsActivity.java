@@ -66,6 +66,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
      */
     private OrderInfo orderInfo;
 
+    public static ShoppingWithOneGoodsActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,8 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         setContentView(R.layout.one_goods_pay);
         initView();
+
+        activity = this;
 
         /**传进的数据*/
         orderInfo = (OrderInfo) getIntent().getSerializableExtra("orderInfo");

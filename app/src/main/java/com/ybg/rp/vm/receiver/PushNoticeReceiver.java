@@ -54,9 +54,11 @@ public class PushNoticeReceiver extends BroadcastReceiver {
                     //String messageid = bundle.getString("messageid");
                     if (payload != null) {
                         String data = new String(payload);
-                        LogUtil.i("[--Receive:" + data);
+                        LogUtil.i("--Receive:" + data);
+                        log.info("--Receive PUSH DATA:" + data);
                         JSONObject json = new JSONObject(data);
                         String type = json.getString("type");
+                        log.info("--type--:" + type);
                         switch (type) {
                             case TYPE_OPEN:
                                 /**打开柜门*/
@@ -89,6 +91,7 @@ public class PushNoticeReceiver extends BroadcastReceiver {
                                             // 柜门打开后，进行数据初始化
                                             xApplication.isOpenTrackRemove(orderInfo.getOrderNo());
                                             LogUtil.e("----------线上支付--------PUSH");
+                                            log.info("----------线上支付--------PUSH");
                                             PushOpenTrackNoUtils.shipmentLine(context, orderInfo);
                                         } else {
                                             log.info("------柜门已打开/没有改订单数据---  " + orderInfo.getOrderNo());
