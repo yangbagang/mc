@@ -119,7 +119,7 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:background="@drawable/shape_success"
+        android:background="@drawable/border_layout_white"
         android:gravity="center"
         android:text="3S返回主页"
         android:textSize="35sp" />

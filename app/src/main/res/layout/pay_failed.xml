@@ -30,7 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:background="@drawable/shape_success"
+        android:background="@drawable/border_layout_white"
         android:gravity="center"
         android:text="5秒返回主页"
         android:textSize="35sp"/>
