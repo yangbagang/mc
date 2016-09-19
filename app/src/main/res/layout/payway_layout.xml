@@ -17,14 +17,6 @@
             android:layout_height="390dp"
             android:layout_centerInParent="true"/>
 
-        <!-- 卡支付提示的图片-->
-        <!--<ImageView-->
-            <!--android:id="@+id/payWay_iv_read"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:src="@mipmap/icon_read"-->
-            <!--android:visibility="gone"/>-->
     </RelativeLayout>
 
     <TextView

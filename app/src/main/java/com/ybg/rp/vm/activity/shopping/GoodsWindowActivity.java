@@ -25,11 +25,13 @@ import com.ybg.rp.vm.adapter.TypeOneAdapter;
 import com.ybg.rp.vm.animation.GoodsAnimation;
 import com.ybg.rp.vm.app.XApplication;
 import com.ybg.rp.vm.listener.LoadMoreListener;
+import com.ybg.rp.vm.popup.CouponPopupWindow;
 import com.ybg.rp.vm.popup.ShopCartPopupWindow;
 import com.ybg.rp.vm.utils.AppConstant;
 import com.ybg.rp.vm.utils.DialogUtil;
 import com.ybg.rp.vm.views.AutoLoadRecyclerView;
 import com.ybg.rp.vm.views.SpaceItemDecoration;
+import com.ybg.rp.vmbase.bean.Coupon;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 import com.ybg.rp.vmbase.bean.OrderInfo;
 import com.ybg.rp.vmbase.bean.TypeOne;
@@ -159,6 +161,8 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         recyclerViewBig = (AutoLoadRecyclerView) findViewById(R.id.shopping_recycler_view_big);
         recyclerViewSmall = (AutoLoadRecyclerView) findViewById(R.id.shopping_recycler_view_small);
         rl_cart = (RelativeLayout) findViewById(R.id.shopping_rl_cart);
+
+        couponInfo = (TextView) findViewById(R.id.couponInfo);
     }
 
     /**
@@ -351,10 +355,12 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
             String jsonStr = GsonUtil.toJsonPropertiesDes(cartDatas, "gid", "num");
             LogUtil.i("---Shopping/:" + jsonStr);
             String url = AppConstant.HOST + "orderInfo/createOrderWithMachineIdAndGoodsJson";
+            String yhCode = coupon == null ? "0" : coupon.getCode();
             RequestParams params = new RequestParams(url);
             params.addBodyParameter("goodsJson", jsonStr);
             params.addBodyParameter("machineId", VMPreferences.getInstance().getVMId());
-            //支付方式：默认 0：com.ybg.rp.vm，1：支付宝，2：微信支付
+            params.addBodyParameter("yhCode", yhCode);
+            //支付方式：默认 1：支付宝，2：微信支付
             DialogUtil.showLoading(GoodsWindowActivity.this);
             x.http().post(params, new Callback.CommonCallback<String>() {
                 @Override
@@ -428,15 +434,18 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
     private void changeUi() {
         int tvCount = 0;
         double totalMoney = 0d;
+        float yhMoney = 0f;
         //计算总金额数量
         if (null != cartDatas && cartDatas.size() > 0) {
             for (int i = 0; i < cartDatas.size(); ++i) {
                 GoodsInfo cartInfo = cartDatas.get(i);
                 int num = cartInfo.getNum();
                 double money = cartInfo.getPrice();
-
                 totalMoney = totalMoney + (money * num);
                 tvCount = tvCount + num;
+                if (cartInfo.getYhEnable() == 1) {
+                    yhMoney += money * num;
+                }
             }
         }
         if (tvCount == 0) {
@@ -444,7 +453,16 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         } else {
             tv_count.setVisibility(View.VISIBLE);
         }
+        //计算优惠后金额
+        if (coupon != null) {
+            if (coupon.getType() == 1 && yhMoney >= coupon.getMinMoney()) {
+                totalMoney -= coupon.getYhMoney();
+            } else if (coupon.getType() == 2) {
+                totalMoney *= coupon.getDiscount();
+            }
+        }
         tv_total_money.setText(String.format("%.2f", totalMoney));
+
         tv_count.setText(String.valueOf(tvCount));
     }
 
@@ -452,7 +470,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-        mHandler=null;
+        mHandler = null;
 
         cartDatas.clear();
         cartDatas = null;
@@ -466,4 +484,37 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         }
     }
 
+    public void openYHWin(View view) {
+        if (couponPopupWindow == null) {
+            couponPopupWindow = new CouponPopupWindow(GoodsWindowActivity.this, couponCallback);
+        }
+        couponPopupWindow.showPopupWindow(view);
+    }
+
+    private CouponPopupWindow.CouponCallback couponCallback = new CouponPopupWindow.CouponCallback() {
+        @Override
+        public void setCoupon(Coupon c) {
+            if (c == null) {
+                return;
+            }
+            if (c.getType() == 1) {
+                String msg = "满" + c.getMinMoney() + "减" + c.getYhMoney() + "优惠卷，编号：" + c.getCode
+                        () + "。";
+                couponInfo.setText(msg);
+            } else if (c.getType() == 2) {
+                String msg = (c.getDiscount() * 10) + "折优惠卷，编号：" + c.getCode
+                        () + "。";
+                couponInfo.setText(msg);
+            }
+
+            coupon = c;
+            changeUi();
+        }
+    };
+
+    private CouponPopupWindow couponPopupWindow;
+
+    private Coupon coupon;
+
+    private TextView couponInfo;
 }
