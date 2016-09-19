@@ -34,6 +34,16 @@ public class GoodsInfo implements Serializable {
      */
     private int num;
 
+    private int yhEnable;
+
+    public int getYhEnable() {
+        return yhEnable;
+    }
+
+    public void setYhEnable(int yhEnable) {
+        this.yhEnable = yhEnable;
+    }
+
     /** 轨道*/
     private String trackNo;
 
