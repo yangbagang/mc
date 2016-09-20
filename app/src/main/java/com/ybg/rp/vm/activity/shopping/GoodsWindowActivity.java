@@ -381,6 +381,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
                         Bundle bundle = new Bundle();
                         intent.putExtra("type", type);
                         bundle.putSerializable("orderInfo", orderInfo);
+                        bundle.putSerializable("coupon", coupon);
                         intent.putExtras(bundle);
                         startActivity(intent);
 
@@ -479,12 +480,16 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         if(typeOnes != null) {
             typeOnes = null;
         }
-        if (null != mPopupWindow) {
+        if (null != mPopupWindow && mPopupWindow.isShowing()) {
             mPopupWindow.dismiss();
+        }
+        if (null != couponPopupWindow && couponPopupWindow.isShowing()) {
+            couponPopupWindow.dismiss();
         }
     }
 
     public void openYHWin(View view) {
+        time = 150;//调整倒计时，以便有时间可以输入优惠卷。
         if (couponPopupWindow == null) {
             couponPopupWindow = new CouponPopupWindow(GoodsWindowActivity.this, couponCallback);
         }

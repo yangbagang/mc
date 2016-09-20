@@ -151,7 +151,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
             @Override
             public void onSuccess(String result) {
                 DialogUtil.hideLoading();
-                LogUtil.i("---------Vend/ShoppingActivity: " + result);
+                LogUtil.i("---------GoodsAdapter/getSmallGoodsData: " + result);
                 try {
                     JSONObject json = new JSONObject(result);
                     Type type = new TypeToken<List<GoodsInfo>>() {

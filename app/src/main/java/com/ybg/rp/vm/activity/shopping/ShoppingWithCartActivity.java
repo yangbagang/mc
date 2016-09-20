@@ -19,6 +19,7 @@ import com.ybg.rp.vm.adapter.PayGoodsAdapter;
 import com.ybg.rp.vm.bean.TransactionData;
 import com.ybg.rp.vm.listener.PayWaySelectListener;
 import com.ybg.rp.vm.utils.VMRequest;
+import com.ybg.rp.vmbase.bean.Coupon;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 import com.ybg.rp.vmbase.bean.OrderInfo;
 import com.ybg.rp.vmbase.utils.DateUtil;
@@ -43,6 +44,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
     private LinearLayout ll_back;       //返回
     private ListView listView;
     private TextView tv_total_money;    //总金额
+    private TextView tv_real_money;
     private ImageView iv_code;      //二维码
     private TextView tv_orderno;    //订单号
     public TextView tv_hint;    //卡支付成功提示
@@ -74,6 +76,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
      */
     private String type;
     private ArrayList<GoodsInfo> orderInfos;
+    private Coupon coupon;
 
     public static ShoppingWithCartActivity activity;
 
@@ -90,6 +93,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
 
         orderInfo = (OrderInfo) getIntent().getSerializableExtra("orderInfo");
         type = getIntent().getStringExtra("type");
+        coupon = (Coupon) getIntent().getSerializableExtra("coupon");
         LogUtil.i("[ type=" + type + " ,order=" + orderInfo.toString());
 
         mHandler.postDelayed(runnable, 1000);
@@ -123,6 +127,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
 
         listView = (ListView) findViewById(R.id.cartPay_listview);
         tv_total_money = (TextView) findViewById(R.id.cartPay_tv_total_money);
+        tv_real_money = (TextView) findViewById(R.id.cartPay_tv_real_money);
 
         iv_code = (ImageView) findViewById(R.id.payWay_iv_code);
         rg_pay_all = (RadioGroup) findViewById(R.id.payWay_rg_pay_all);
@@ -151,6 +156,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
 
         String orderNo = orderInfo.getOrderNo();
         tv_orderno.setText(orderNo);
+        tv_real_money.setText("¥ " + orderInfo.getOrderMoney());
     }
 
     /**

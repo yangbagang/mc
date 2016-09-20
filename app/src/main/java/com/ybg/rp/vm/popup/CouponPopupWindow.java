@@ -44,11 +44,36 @@ public class CouponPopupWindow extends PopupWindow implements View.OnClickListen
         View view = View.inflate(context, R.layout.coupon_layout, null);
         setContentView(view);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        setHeight(500);
 
+        initView(view);
+    }
+
+    private void initView(View view) {
         couponNum = (EditText) view.findViewById(R.id.coupon_num);
         couponNotice = (TextView) view.findViewById(R.id.tv_input);
         couponNotice.setText("");
+        //初始化数字单击事件
+        TextView num0 = (TextView) view.findViewById(R.id.num_00);
+        num0.setOnClickListener(this);
+        TextView num1 = (TextView) view.findViewById(R.id.num_01);
+        num1.setOnClickListener(this);
+        TextView num2 = (TextView) view.findViewById(R.id.num_02);
+        num2.setOnClickListener(this);
+        TextView num3 = (TextView) view.findViewById(R.id.num_03);
+        num3.setOnClickListener(this);
+        TextView num4 = (TextView) view.findViewById(R.id.num_04);
+        num4.setOnClickListener(this);
+        TextView num5 = (TextView) view.findViewById(R.id.num_05);
+        num5.setOnClickListener(this);
+        TextView num6 = (TextView) view.findViewById(R.id.num_06);
+        num6.setOnClickListener(this);
+        TextView num7 = (TextView) view.findViewById(R.id.num_07);
+        num7.setOnClickListener(this);
+        TextView num8 = (TextView) view.findViewById(R.id.num_08);
+        num8.setOnClickListener(this);
+        TextView num9 = (TextView) view.findViewById(R.id.num_09);
+        num9.setOnClickListener(this);
     }
 
     /**
@@ -59,7 +84,7 @@ public class CouponPopupWindow extends PopupWindow implements View.OnClickListen
     public void showPopupWindow(View parent) {
         if (!this.isShowing()) {
             // 以下拉方式显示popupwindow
-            this.showAtLocation(parent, Gravity.BOTTOM, 0, 800);   //高度偏移量
+            this.showAtLocation(parent, Gravity.BOTTOM, 0, 300);   //高度偏移量
         } else {
             this.dismiss();
         }

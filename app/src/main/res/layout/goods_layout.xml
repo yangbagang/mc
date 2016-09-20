@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_sell_detail"
-            android:text="优惠卷"
+            android:text="  优惠卷  "
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:onClick="openYHWin"/>
