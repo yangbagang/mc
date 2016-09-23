@@ -62,14 +62,18 @@ public class PushNoticeReceiver extends BroadcastReceiver {
                         switch (type) {
                             case TYPE_OPEN:
                                 /**打开柜门*/
+                                log.info("准备开柜门");
                                 final String trackNos = json.getString("data");
+                                log.info("准备开的柜门是:" + trackNos);
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
                                         LogUtil.i("----" + trackNos);
                                         /**打开柜门*/
                                         try {
+                                            log.info("开始开柜门");
                                             PushOpenTrackNoUtils.operTrackNo(context, trackNos);
+                                            log.info("开柜门结束");
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }

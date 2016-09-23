@@ -44,7 +44,7 @@ public class CouponPopupWindow extends PopupWindow implements View.OnClickListen
         View view = View.inflate(context, R.layout.coupon_layout, null);
         setContentView(view);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        setHeight(500);
+        setHeight(600);
 
         initView(view);
     }
@@ -74,6 +74,10 @@ public class CouponPopupWindow extends PopupWindow implements View.OnClickListen
         num8.setOnClickListener(this);
         TextView num9 = (TextView) view.findViewById(R.id.num_09);
         num9.setOnClickListener(this);
+        TextView bt_delete = (TextView) view.findViewById(R.id.bt_delete);
+        bt_delete.setOnClickListener(this);
+        TextView bt_close = (TextView) view.findViewById(R.id.bt_close);
+        bt_close.setOnClickListener(this);
     }
 
     /**

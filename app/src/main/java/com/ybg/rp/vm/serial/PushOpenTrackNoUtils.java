@@ -24,12 +24,16 @@ import com.ybg.rp.vmbase.utils.DateUtil;
 import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMConstant;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class PushOpenTrackNoUtils {
+
+    private static Logger log = Logger.getLogger(PushOpenTrackNoUtils.class);
 
     /**
      * 打开柜门
@@ -38,14 +42,19 @@ public class PushOpenTrackNoUtils {
      * @param trackNos 柜门数据
      */
     public synchronized static void operTrackNo(final Context mContext, final String trackNos) throws Exception {
+        log.info("开柜门方法开始");
+        log.info("接收到的轨道编号 :" + trackNos);
         List<String> tracks = CharacterUtil.getDataList(trackNos);
         if (null != tracks && tracks.size() > 0) {
             LogUtil.i("切割出来的轨道集合 :" + tracks.toString());
+            log.info("切割出来的轨道集合 :" + tracks.toString());
             SerialManager manager = SerialManager.getInstance(mContext);
             for (int i = 0; i < tracks.size(); i++) {
                 String trackNo = tracks.get(i);
-                if (trackNo != null || trackNo.length() != 3) {
+                log.info("打开第个"+i+"柜门：" + trackNo);
+                if (trackNo == null || trackNo.length() != 3) {
                     LogUtil.i("打开柜门有问题--柜门：" + trackNo + " -- 错误柜门数据");
+                    log.info("打开柜门有问题--柜门：" + trackNo + " -- 错误柜门数据");
                     return;
                 }
                 // 打开柜门
@@ -56,12 +65,13 @@ public class PushOpenTrackNoUtils {
                     /** 弹簧柜*/
                     manager.createSerial(1);//1:主机 2: 格子机
                     beanTrackSet = manager.openMachineTrack(trackNo);
-
+                    log.info("弹簧柜--- " + trackNo);
                 } else {
                     /** 格子柜*/
                     LogUtil.i("格子柜--- " + trackNo);
                     manager.createSerial(2);
                     beanTrackSet = manager.openMachineTrack(trackNo);
+                    log.info("格子柜--- " + trackNo);
                 }
                 LogUtil.i("---" + beanTrackSet.toString());
                 SystemClock.sleep(VMConstant.CYCLE_INTERVAL);
@@ -69,8 +79,9 @@ public class PushOpenTrackNoUtils {
             manager.closeSerial();
         } else {
             LogUtil.i("--推送打开机器柜门---空数据返回，不执行打开--");
+            log.info("--推送打开机器柜门---空数据返回，不执行打开--");
         }
-
+        log.info("开柜门方法结束");
     }
 
     /**

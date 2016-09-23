@@ -75,14 +75,14 @@
             android:id="@+id/couponInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="如有优惠卷，请点击按钮输入。"
+            android:text="如有优惠券，请点击按钮输入。"
             android:textColor="@android:color/white"
             android:textSize="24sp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_sell_detail"
-            android:text="  优惠卷  "
+            android:text="  优惠券  "
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:onClick="openYHWin"/>

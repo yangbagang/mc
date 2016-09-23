@@ -116,7 +116,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
                 mHandler, position, this));
         holder.ll_item.setOnClickListener(new GoodsItemListener(mActivity,goodsInfo,cartData,
                 position));
-        //检查是否可以用卷
+        //检查是否可以用券
         if (goodsInfo.getYhEnable() == 1) {
             holder.yh_image.setVisibility(View.VISIBLE);
         } else {
@@ -215,7 +215,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         private CardView ll_item;   //单个item
         private ImageView iv_bg;
         private ImageView iv_image; //商品图片
-        private ImageView yh_image; //是否可以用卷
+        private ImageView yh_image; //是否可以用券
         private TextView tv_name;   //商品名
         private TextView tv_price;  //价格
         private TextView tv_standard;   //规格

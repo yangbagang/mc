@@ -489,7 +489,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
     }
 
     public void openYHWin(View view) {
-        time = 150;//调整倒计时，以便有时间可以输入优惠卷。
+        time = 150;//调整倒计时，以便有时间可以输入优惠券。
         if (couponPopupWindow == null) {
             couponPopupWindow = new CouponPopupWindow(GoodsWindowActivity.this, couponCallback);
         }
@@ -503,11 +503,11 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
                 return;
             }
             if (c.getType() == 1) {
-                String msg = "满" + c.getMinMoney() + "减" + c.getYhMoney() + "优惠卷，编号：" + c.getCode
+                String msg = "满" + c.getMinMoney() + "减" + c.getYhMoney() + "优惠券，编号：" + c.getCode
                         () + "。";
                 couponInfo.setText(msg);
             } else if (c.getType() == 2) {
-                String msg = (c.getDiscount() * 10) + "折优惠卷，编号：" + c.getCode
+                String msg = (c.getDiscount() * 10) + "折优惠券，编号：" + c.getCode
                         () + "。";
                 couponInfo.setText(msg);
             }
