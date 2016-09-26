@@ -3,6 +3,7 @@ package com.ybg.rp.vm.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -113,51 +114,46 @@ public class WelcomeActivity extends Activity {
     }
 
     private void updateClientId() {
-        String vmCode = preferences.getVMCode();
-        String clientId = PushManager.getInstance().getClientid(WelcomeActivity.this);
-        String url = AppConstant.HOST + "vendMachineInfo/updateClientIdByVmCode";
-        RequestParams params = new RequestParams(url);
-        params.addBodyParameter("vmCode", vmCode);
-        params.addBodyParameter("clientId", clientId);
-        x.http().post(params, new Callback.CommonCallback<String>() {
+        new Thread() {
             @Override
-            public void onSuccess(String s) {
-                try {
-                    JSONObject json = new JSONObject(s);
-                    String success = json.getString("success");
-                    String machineId = json.getString("machineId");
-                    String msg = json.getString("msg");
+            public void run() {
+                String vmCode = preferences.getVMCode();
+                String clientId = PushManager.getInstance().getClientid(WelcomeActivity.this);
+                String url = AppConstant.HOST + "vendMachineInfo/updateClientIdByVmCode";
+                RequestParams params = new RequestParams(url);
+                params.addBodyParameter("vmCode", vmCode);
+                params.addBodyParameter("clientId", clientId);
+                boolean connected = false;
+                while (!connected) {
+                    try {
+                        String result = x.http().postSync(params, String.class);
+                        JSONObject json = new JSONObject(result);
+                        String success = json.getString("success");
+                        String machineId = json.getString("machineId");
+                        String msg = json.getString("msg");
 
-                    if ("true".equals(success)) {
-                        preferences.setVmId(machineId);
-                        startAnima();
-                    } else {
-                        preferences.setVmCode("");
-                        Toast.makeText(WelcomeActivity.this, "更新失败,,请稍后重试。" + msg, Toast
-                                .LENGTH_SHORT).show();
+                        if ("true".equals(success)) {
+                            preferences.setVmId(machineId);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startAnima();
+                                }
+                            });
+                            connected = true;
+                            break;
+                        } else {
+                            preferences.setVmCode("");
+                            Toast.makeText(WelcomeActivity.this, "更新失败,,正在重试。。。" + msg, Toast
+                                    .LENGTH_SHORT).show();
+                        }
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    Toast.makeText(WelcomeActivity.this, "更新失败,请稍后重试。" + e.getLocalizedMessage(), Toast.LENGTH_SHORT)
-                            .show();
-                    e.printStackTrace();
+                    //1秒后重试
+                    SystemClock.sleep(2000);
                 }
             }
-
-            @Override
-            public void onError(Throwable throwable, boolean b) {
-                LogUtil.i("#WelcomeActivity:", throwable.getMessage());
-                Toast.makeText(WelcomeActivity.this, "获取数据异常,请稍后重试。", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException e) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
+        }.start();
     }
 }
