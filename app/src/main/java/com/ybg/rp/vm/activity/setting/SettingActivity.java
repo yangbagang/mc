@@ -19,6 +19,7 @@ import android.widget.ToggleButton;
 
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.adapter.CabinetListAdapter;
+import com.ybg.rp.vm.adapter.FuguiListAdapter;
 import com.ybg.rp.vm.app.XApplication;
 import com.ybg.rp.vm.bean.LayerBean;
 import com.ybg.rp.vm.bean.TrackBean;
@@ -70,12 +71,20 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
      */
     private TextView tv_addCabinet;
     private ListView lv_cabinet;
-    private CabinetListAdapter listAdapter;
+    private CabinetListAdapter cabinetListAdapter;
+
+    /**
+     * 副柜设置
+     */
+    private TextView tv_addFugui;
+    private ListView lv_fugui;
+    private FuguiListAdapter fuguiListAdapter;
 
     private SettingHelper helper;
 
     private ArrayList<LayerBean> lyList;
     private ArrayList<LayerBean> cabinetList;
+    private ArrayList<LayerBean> fuguiList;
 
     private Handler handler = new Handler() {
         @Override
@@ -94,7 +103,12 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
                 case 3:
                     /** 格子柜设置*/
                     ViewUtil.setListViewHeightBasedOnChildren(lv_cabinet);
-                    listAdapter.notifyDataSetChanged();
+                    cabinetListAdapter.notifyDataSetChanged();
+                    break;
+                case 4:
+                    /** 副柜设置*/
+                    ViewUtil.setListViewHeightBasedOnChildren(lv_fugui);
+                    fuguiListAdapter.notifyDataSetChanged();
                     break;
             }
         }
@@ -109,6 +123,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
 
         lyList = new ArrayList<>();
         cabinetList = new ArrayList<>();
+        fuguiList = new ArrayList<>();
         initView();
         initListener();
     }
@@ -143,6 +158,9 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
 
         tv_addCabinet = (TextView) findViewById(R.id.container_tv_addCabinet);
         lv_cabinet = (ListView) findViewById(R.id.container_lv_cabinet);
+
+        tv_addFugui = (TextView) findViewById(R.id.container_tv_addFugui);
+        lv_fugui = (ListView) findViewById(R.id.container_lv_fugui);
 
         edit_main_track_1.addTextChangedListener(new TrackNoChangedListener("01",
                 edit_main_track_1, helper));
@@ -227,6 +245,11 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
                  */
                 cabinetList.clear();
                 cabinetList.addAll(helper.getCabinetList());
+                /**
+                 * 获取当前保存副格柜信息
+                 */
+                fuguiList.clear();
+                fuguiList.addAll(helper.getFuguiList());
 
                 if (lyList.size() > 0) {
                     for (LayerBean lb : lyList) {
@@ -240,6 +263,13 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
                 if (cabinetList.size() > 0) {
                     Message msg = new Message();
                     msg.what = 3;
+                    //msg.obj = "";
+                    handler.sendMessage(msg);
+                }
+
+                if (fuguiList.size() > 0) {
+                    Message msg = new Message();
+                    msg.what = 4;
                     //msg.obj = "";
                     handler.sendMessage(msg);
                 }
@@ -300,7 +330,8 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         tg_main_7.setOnCheckedChangeListener(this);
         tg_main_8.setOnCheckedChangeListener(this);
 
-        listAdapter = new CabinetListAdapter(new CabinetListAdapter.CabinetListener() {
+        //格子柜
+        cabinetListAdapter = new CabinetListAdapter(new CabinetListAdapter.CabinetListener() {
             @Override
             public void modifyCabinet(int position) {
                 /**修改*/
@@ -315,16 +346,45 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
                 /**删除*/
                 LayerBean cabinet = cabinetList.get(position);
                 if (cabinet != null) {
-                    showWarn(cabinet.getLayerNo(), position);
+                    showCabinetWarn(cabinet.getLayerNo(), position);
                 }
             }
         }, SettingActivity.this, cabinetList);
-        lv_cabinet.setAdapter(listAdapter);
+        lv_cabinet.setAdapter(cabinetListAdapter);
 
         tv_addCabinet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addCabinet();
+            }
+        });
+
+        //副柜
+        fuguiListAdapter = new FuguiListAdapter(new FuguiListAdapter.FuguiListener() {
+            @Override
+            public void modifyFugui(int position) {
+                /**修改*/
+                LayerBean fugui = fuguiList.get(position);
+                if (fugui != null) {
+                    settingFugui(fugui);
+                }
+            }
+
+            @Override
+            public void deleteFugui(int position) {
+                /**删除*/
+                LayerBean fugui = fuguiList.get(position);
+                if (fugui != null) {
+                    showFuguiWarn(fugui.getLayerNo(), position);
+                }
+            }
+        }, SettingActivity.this, fuguiList);
+        lv_fugui.setAdapter(fuguiListAdapter);
+
+        tv_addFugui.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFugui();
             }
         });
     }
@@ -409,7 +469,7 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
     /**
      * 提示
      */
-    private void showWarn(final String cabinetNo, final int position) {
+    private void showCabinetWarn(final String cabinetNo, final int position) {
         new AlertDialog.Builder(SettingActivity.this)
                        .setMessage("删除后无法进行购买")
                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -498,7 +558,97 @@ public class SettingActivity extends Activity implements View.OnClickListener, C
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1000 && resultCode == 1001) {
             LogUtil.i("[-格子柜操作成功=" + data.getBooleanExtra("select", true) + "]");
+        } else if (requestCode == 2000 && resultCode == 2001) {
+            LogUtil.i("[-副柜操作成功=" + data.getBooleanExtra("select", true) + "]");
         }
+    }
+
+    /********************************************************
+     *                  副柜操作
+     * *****************************************************/
+    /**
+     * 新增副柜
+     */
+    private void addFugui() {
+        if (fuguiList.size() >= 3) {
+            Toast.makeText(SettingActivity.this, "副柜数量己满", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(SettingActivity.this, SelectFuguiActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("op", 0);
+        intent.putExtra("index", fuguiList.size());
+        startActivityForResult(intent, 2000);
+    }
+
+    /**
+     * 跳转修改副柜信息
+     *
+     * @param fugui 指定副柜
+     */
+    private void settingFugui(LayerBean fugui) {
+        Intent intent = new Intent(SettingActivity.this, SelectFuguiActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("op", 1);
+        intent.putExtra("layerNo", fugui.getLayerNo());
+        startActivityForResult(intent, 2000);
+    }
+
+    /**
+     * 提示
+     */
+    private void showFuguiWarn(final String fuguiNo, final int position) {
+        new AlertDialog.Builder(SettingActivity.this)
+                .setMessage("删除后无法进行购买")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        LogUtil.i("-------ok-------------");
+                        DialogUtil.removeDialog(SettingActivity.this);
+
+                        cutFugui(fuguiNo);
+                        /**刷新页面*/
+                        fuguiList.remove(position);
+                        Message msg = new Message();
+                        msg.what = 4;
+                        handler.sendMessage(msg);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        LogUtil.i("-------ocancel-------------");
+                        DialogUtil.removeDialog(SettingActivity.this);
+                    }
+                })
+                .create().show();
+    }
+
+    /**
+     * 删除副柜
+     */
+    private void cutFugui(final String fuguiNo) {
+        new AsyncTask<String, Integer, Boolean>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                DialogUtil.showLoading(SettingActivity.this);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                super.onPostExecute(aBoolean);
+                DialogUtil.hideLoading();
+            }
+
+            @Override
+            protected Boolean doInBackground(String... params) {
+                helper.delLayer(fuguiNo);
+                return null;
+            }
+        }.execute();
+
     }
 
     /********************************************************

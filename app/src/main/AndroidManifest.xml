@@ -59,6 +59,7 @@
         <activity android:name=".activity.setting.MachinesLogActivity" />
         <activity android:name=".activity.setting.MaxGoodSetActivity" />
         <activity android:name=".activity.setting.SelectCabinetActivity" />
+        <activity android:name=".activity.setting.SelectFuguiActivity" />
         <activity android:name=".activity.setting.TestMachineActivity" />
         <activity android:name=".activity.setting.TestCabinetActivity" />
         <activity android:name=".activity.setting.TestMainActivity" />

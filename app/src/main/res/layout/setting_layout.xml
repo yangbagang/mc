@@ -609,7 +609,55 @@
                 android:layout_alignParentLeft="true"
                 android:gravity="center_vertical"
                 android:paddingLeft="36dp"
-                android:text="便利柜设置"
+                android:text="副柜设置"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/container_tv_addFugui"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/border_layout_white"
+                android:gravity="center"
+                android:text="新增副柜"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/normal_margin"
+            android:layout_marginRight="@dimen/normal_margin"
+            android:background="@android:color/white" />
+
+        <ListView
+            android:id="@+id/container_lv_fugui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@color/transparent"
+            android:dividerHeight="1dp"
+            android:divider="@android:color/white" />
+
+        <!--第三部分-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="36dp"
+                android:text="格子柜设置"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -624,7 +672,7 @@
                 android:layout_marginRight="30dp"
                 android:background="@drawable/border_layout_white"
                 android:gravity="center"
-                android:text="新增格子"
+                android:text="新增格子柜"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -644,9 +692,9 @@
             android:layout_height="wrap_content"
             android:listSelector="@color/transparent"
             android:dividerHeight="1dp"
-            android:divider="@android:color/white"
-            />
+            android:divider="@android:color/white" />
 
+        <!--第四部分-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

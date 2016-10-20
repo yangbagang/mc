@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/createFugui"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:background="@drawable/border_layout_white"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="快速生成"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="总层数"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/layerNum"
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="6"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="180dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="每层轨道数"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/orbitalNum"
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="260dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="单轨道最大排放数"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/maxNum"
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <Button
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center_vertical"
+                android:text="快速生成"
+                android:textColor="@android:color/white"
+                android:background="@drawable/border_layout_white"
+                android:onClick="addFugui"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/updateFugui"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/normal_margin"
+        android:layout_marginRight="@dimen/normal_margin"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:background="@drawable/border_layout_white"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="修改参数"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+
+        <ListView
+            android:id="@+id/container_lv_fugui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@color/transparent"
+            android:dividerHeight="1dp"
+            android:divider="@android:color/white" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="160dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:text="关闭"
+        android:textColor="@android:color/white"
+        android:background="@drawable/border_layout_white"
+        android:onClick="closeWin"/>
+</LinearLayout>

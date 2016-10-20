@@ -254,6 +254,25 @@ public class SettingHelper {
     }
 
     /**
+     * 获取设置的副柜信息
+     */
+    public ArrayList<LayerBean> getFuguiList() {
+        ArrayList<LayerBean> list = new ArrayList<>();
+        try {
+            //1：格子柜,0：不是格子柜
+            list = (ArrayList<LayerBean>) dbUtil.getDb().selector(LayerBean.class)
+                    .where("device_type", "=", "2").orderBy("layer_no").findAll();
+            if (list == null) {
+                list = new ArrayList<LayerBean>();
+            }
+            LogUtil.i("获取设置的格子柜信息 list=" + list.toString());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return list;
+    }
+
+    /**
      * 更新一条格子柜数据,有返回
      *
      * @param cabinetNo 层编号
@@ -406,5 +425,10 @@ public class SettingHelper {
         if (trackList.size() > 0)
             LogUtil.i("有错误轨道");
         return trackList;
+    }
+
+    public void addFugui(String layerNo, int layerNum, int orbitalNum, int maxNum) {
+        //插入轨道
+
     }
 }

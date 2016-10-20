@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ybg.rp.vm.R;
+import com.ybg.rp.vm.transformer.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ public class BannerFrame extends FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.banner_layout, this, true);
         mLinearLayout = (LinearLayout) findViewById(R.id.banner_dots);
         mViewPager = (ViewPager) findViewById(R.id.banner_page);
+        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 
     public void setImageResorces(List<Integer> imageResorces) {

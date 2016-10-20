@@ -2,6 +2,7 @@ package com.ybg.rp.vm.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
@@ -29,10 +30,20 @@ public class MainActivity extends Activity {
 
     private List<Integer> getAdList() {
         List<Integer> adList = new ArrayList<Integer>();
-        adList.add(R.mipmap.ad1);
-        adList.add(R.mipmap.ad2);
-        adList.add(R.mipmap.ad3);
-        adList.add(R.mipmap.ad4);
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //竖屏
+            adList.add(R.mipmap.ad1);
+            adList.add(R.mipmap.ad2);
+            adList.add(R.mipmap.ad3);
+            adList.add(R.mipmap.ad4);
+        } else {
+            //横屏
+            adList.add(R.mipmap.ad1);
+            adList.add(R.mipmap.ad2);
+            adList.add(R.mipmap.ad3);
+            adList.add(R.mipmap.ad4);
+        }
         return adList;
     }
 
@@ -64,4 +75,7 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    public void openQuHuo(View view) {
+        //TODO 取货码取货
+    }
 }

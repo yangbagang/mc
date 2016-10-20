@@ -1,6 +1,5 @@
 package com.ybg.rp.vm.activity.setting;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.ybg.rp.vm.bean.TrackBean;
 import com.ybg.rp.vm.bean.TrackError;
 import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.help.SettingHelper;
-import com.ybg.rp.vm.utils.AlertDialogFragment;
 import com.ybg.rp.vm.utils.DialogUtil;
 import com.ybg.rp.vm.utils.ProgressDialogUtil;
 import com.ybg.rp.vmbase.callback.ResultCallback;
