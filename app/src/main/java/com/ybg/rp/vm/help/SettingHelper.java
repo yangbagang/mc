@@ -11,6 +11,8 @@ import com.ybg.rp.vmbase.callback.ResultCallback;
 import com.ybg.rp.vmbase.utils.CharacterUtil;
 import com.ybg.rp.vmbase.utils.LogUtil;
 
+import org.xutils.ex.DbException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -169,15 +171,15 @@ public class SettingHelper {
 
     /**
      * 设置主机轨道最大排放量
-     * 单个
-     * 最大排放数-不对格子柜进行设置
+     * @param trackNo 轨道号
+     * @param max 最大排放数
      */
     public void setTrackmax(final String trackNo, final int max) {
         LogUtil.i("----轨道---" + trackNo + "--修改最大排放为:" + max);
         try {
             XApplication xApplication = (XApplication) mContext.getApplicationContext();
             TrackBean tb = dbUtil.getDb().selector(TrackBean.class).where("track_no", "=",
-                    trackNo).and("device_type", "=", "0").findFirst();
+                    trackNo).findFirst();
             if (tb != null) {
                 tb.setMaxInventory(max);
                 dbUtil.getDb().saveOrUpdate(tb);
@@ -428,7 +430,27 @@ public class SettingHelper {
     }
 
     public void addFugui(String layerNo, int layerNum, int orbitalNum, int maxNum) {
-        //插入轨道
-
+        try {
+            //插入层数据
+            LayerBean layer = new LayerBean();
+            layer.setLayerNo(layerNo);//层编号
+            layer.setTrackNum(layerNum * orbitalNum);//轨道数
+            layer.setDeviceType(2);//1：格子柜,0：不是格子柜, 2 副柜
+            dbUtil.getDb().saveOrUpdate(layer);
+            //插入轨道数据
+            for (int i = 1; i <= layerNum; i++) {
+                for (int j = 0; j < orbitalNum; j++) {
+                    TrackBean tb = new TrackBean();
+                    tb.setFault(TrackBean.FAULT_O);
+                    tb.setLayerNo(layerNo);//层编号
+                    tb.setTrackNo(layerNo + i + j);//A12,B23
+                    tb.setGridMark(2);//1：格子柜,0：不是格子柜
+                    tb.setMaxInventory(maxNum);//库存
+                    dbUtil.saveOrUpdate(tb);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

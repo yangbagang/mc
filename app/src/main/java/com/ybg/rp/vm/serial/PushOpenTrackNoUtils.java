@@ -66,6 +66,12 @@ public class PushOpenTrackNoUtils {
                     manager.createSerial(1);//1:主机 2: 格子机
                     beanTrackSet = manager.openMachineTrack(trackNo);
                     log.info("弹簧柜--- " + trackNo);
+                } else if ("A".equals(ss) || "B".equals(ss) || "C".equals(ss)){
+                    /** 格子柜*/
+                    LogUtil.i("副柜--- " + trackNo);
+                    manager.createSerial(3);
+                    beanTrackSet = manager.openMachineTrack(trackNo);
+                    log.info("格子柜--- " + trackNo);
                 } else {
                     /** 格子柜*/
                     LogUtil.i("格子柜--- " + trackNo);

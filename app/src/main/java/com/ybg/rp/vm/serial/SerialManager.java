@@ -19,6 +19,7 @@ public class SerialManager {
      */
     private String brand_main;
     private String brand_cabinet;
+    private String brand_fugui;
 
     private OperaBase operate;
 
@@ -54,8 +55,9 @@ public class SerialManager {
                 vmdbManager.saveOrUpdate(main_b);
 
                 this.brand_main = DeviceBrand.yifeng;
+            } else {
+                this.brand_main = main_b.getBrand();
             }
-            this.brand_main = main_b.getBrand();
 
             /**获取格子柜的选择品牌*/
             DeviceBrand cabinet_b = vmdbManager.getDb().selector(DeviceBrand.class).where("device_type", "=",
@@ -67,8 +69,23 @@ public class SerialManager {
                 vmdbManager.saveOrUpdate(cabinet_b);
 
                 this.brand_cabinet = DeviceBrand.yifeng;
+            } else {
+                this.brand_cabinet = cabinet_b.getBrand();
             }
-            this.brand_cabinet = cabinet_b.getBrand();
+
+            /**获取副柜的选择品牌*/
+            DeviceBrand fugui_b = vmdbManager.getDb().selector(DeviceBrand.class).where
+                    ("device_type", "=", "2").findFirst();
+            if (fugui_b == null) {
+                fugui_b = new DeviceBrand();
+                fugui_b.setDeviceType(2);
+                fugui_b.setBrand(DeviceBrand.yifeng);
+                vmdbManager.saveOrUpdate(fugui_b);
+
+                this.brand_cabinet = DeviceBrand.yifeng;
+            } else {
+                this.brand_cabinet = cabinet_b.getBrand();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,6 +108,8 @@ public class SerialManager {
             this.operate = new OperaFactory(mContext).createMain(this.brand_main);
         } else if (type == 2) {
             this.operate = new OperaFactory(mContext).createCabinet(this.brand_cabinet);
+        } else if (type == 3) {
+            this.operate = new OperaFactory(mContext).createFugui(this.brand_fugui);
         }
         /** 打开串口 */
         this.operate.openSerialPort();

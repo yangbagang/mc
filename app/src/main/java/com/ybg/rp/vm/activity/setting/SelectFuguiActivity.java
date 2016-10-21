@@ -12,9 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ybg.rp.vm.R;
-import com.ybg.rp.vm.adapter.CabinetListAdapter;
 import com.ybg.rp.vm.adapter.FuguiItemAdapter;
-import com.ybg.rp.vm.bean.LayerBean;
 import com.ybg.rp.vm.bean.TrackBean;
 import com.ybg.rp.vm.help.SettingHelper;
 import com.ybg.rp.vm.utils.ProgressDialogUtil;
@@ -95,7 +93,8 @@ public class SelectFuguiActivity extends AppCompatActivity {
                 /**删除*/
                 TrackBean trackBean = trackList.get(position);
                 if (trackBean != null) {
-                    showWarn(trackBean, position);
+                    //showWarn(trackBean, position);
+                    //TODO 删除暂时不做，等新增一起做
                 }
             }
         }, SelectFuguiActivity.this, trackList);
@@ -113,10 +112,13 @@ public class SelectFuguiActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             //
         }
-        if (layer < 1 || orbital < 1 || max < 1) {
+        if (layer < 1 || orbital < 1 || max < 0) {
             Toast.makeText(SelectFuguiActivity.this, "参数为空或非法", Toast.LENGTH_SHORT).show();
             return;
         }
+        final int finalLayer = layer;
+        final int finalOrbital = orbital;
+        final int finalMax = max;
         new AsyncTask<String, Integer, Boolean>() {
 
             @Override
@@ -138,7 +140,7 @@ public class SelectFuguiActivity extends AppCompatActivity {
 
             @Override
             protected Boolean doInBackground(String... params) {
-                helper.addFugui(layerNo, layer, orbital, max);
+                helper.addFugui(layerNo, finalLayer, finalOrbital, finalMax);
                 return true;
             }
         }.execute();
@@ -174,6 +176,31 @@ public class SelectFuguiActivity extends AppCompatActivity {
             protected Boolean doInBackground(String... params) {
                 trackList.clear();
                 trackList.addAll(helper.getTrackList(layerNo));
+                return true;
+            }
+        }.execute();
+    }
+
+    private void updateTrackBean(final TrackBean trackBean, final int max) {
+        new AsyncTask<String, Integer, Boolean>() {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                /**开始*/
+                ProgressDialogUtil.showDialog(SelectFuguiActivity.this, "正在加载数据...");
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                super.onPostExecute(aBoolean);
+                /**结果返回*/
+                ProgressDialogUtil.closeDialog();
+            }
+
+            @Override
+            protected Boolean doInBackground(String... params) {
+                helper.setTrackmax(trackBean.getTrackNo(), max);
                 return true;
             }
         }.execute();
