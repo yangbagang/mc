@@ -127,6 +127,12 @@ public class PushOpenTrackNoUtils {
                     /** 弹簧柜*/
                     manager.createSerial(1);//1:主机 2: 格子机
                     beanTrackSet = manager.openMachineTrack(trackNo);
+                } else if ("A".equals(ss) || "B".equals(ss) || "C".equals(ss)){
+                    isVending = true;
+                    /** 格子柜*/
+                    LogUtil.i("格子柜--- " + trackNo);
+                    manager.createSerial(3);
+                    beanTrackSet = manager.openMachineTrack(trackNo);
                 } else {
                     isCabinet = true;
                     /** 格子柜*/
