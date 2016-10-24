@@ -168,7 +168,7 @@ public class SelectFuguiActivity extends AppCompatActivity {
                 super.onPostExecute(aBoolean);
                 /**结果返回*/
                 ProgressDialogUtil.closeDialog();
-                ViewUtil.setListViewHeightBasedOnChildren(fuguiItem);
+                //ViewUtil.setListViewHeightBasedOnChildren(fuguiItem);
                 adapter.notifyDataSetChanged();
             }
 

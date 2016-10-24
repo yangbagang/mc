@@ -83,8 +83,8 @@ public class TrackWindowActivity extends Activity {
                     /** 跳转到登录*/
                     Intent login = new Intent();
                     login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    //login.setClass(TrackWindowActivity.this, LoginActivity.class);
-                    login.setClass(TrackWindowActivity.this, ManageActivity.class);
+                    login.setClass(TrackWindowActivity.this, LoginActivity.class);
+                    //login.setClass(TrackWindowActivity.this, ManageActivity.class);
                     startActivity(login);
                     finish();
                 }
