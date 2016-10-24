@@ -39,10 +39,10 @@ public class MainActivity extends Activity {
             adList.add(R.mipmap.ad4);
         } else {
             //横屏
-            adList.add(R.mipmap.ad1);
-            adList.add(R.mipmap.ad2);
-            adList.add(R.mipmap.ad3);
-            adList.add(R.mipmap.ad4);
+            adList.add(R.mipmap.ad1_l);
+            adList.add(R.mipmap.ad2_l);
+            adList.add(R.mipmap.ad3_l);
+            adList.add(R.mipmap.ad4_l);
         }
         return adList;
     }

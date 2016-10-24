@@ -14,6 +14,7 @@
         android:id="@+id/banner_dots"
         android:gravity="center_horizontal"
         android:layout_marginBottom="40dp"
-        android:layout_gravity="bottom|center_horizontal">
+        android:layout_gravity="bottom|center_horizontal"
+        android:visibility="invisible">
     </LinearLayout>
 </FrameLayout>

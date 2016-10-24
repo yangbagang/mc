@@ -2,6 +2,7 @@ package com.ybg.rp.vm.popup;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,18 @@ public class CouponPopupWindow extends PopupWindow implements View.OnClickListen
         this.context = context;
         this.couponCallback = couponCallback;
 
+        int orientation = context.getResources().getConfiguration().orientation;
         View view = View.inflate(context, R.layout.coupon_layout, null);
         setContentView(view);
-        setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        setHeight(600);
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //竖屏
+            setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            setHeight(600);
+        } else {
+            //横屏
+            setWidth(800);
+            setHeight(600);
+        }
 
         initView(view);
     }
