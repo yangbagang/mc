@@ -20,6 +20,8 @@ import com.ybg.rp.vm.utils.AppConstant;
 import com.ybg.rp.vmbase.preference.VMPreferences;
 import com.ybg.rp.vmbase.utils.LogUtil;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -36,6 +38,8 @@ public class WelcomeActivity extends Activity {
     private ImageView init_img;
     private EditText vm_code;
     private Button btn_update_code;
+
+    private Logger logger = Logger.getLogger(WelcomeActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +58,9 @@ public class WelcomeActivity extends Activity {
             public void onClick(View v) {
                 String vmCode = vm_code.getText().toString();
                 if (vmCode != null && !"".equals(vmCode)) {
+                    logger.debug("set vm code: " + vmCode);
                     preferences.setVmCode(vmCode);
-
+                    logger.debug("update client id ");
                     updateClientId();
                 }
             }
@@ -119,6 +124,7 @@ public class WelcomeActivity extends Activity {
             public void run() {
                 String vmCode = preferences.getVMCode();
                 String clientId = PushManager.getInstance().getClientid(WelcomeActivity.this);
+                logger.debug("client id is " + clientId);
                 String url = AppConstant.HOST + "vendMachineInfo/updateClientIdByVmCode";
                 RequestParams params = new RequestParams(url);
                 params.addBodyParameter("vmCode", vmCode);

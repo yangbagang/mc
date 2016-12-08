@@ -2,6 +2,7 @@ package com.ybg.rp.vm.activity.shopping;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -218,7 +219,10 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         rl_cart.setOnClickListener(this);
 
         /** LOAD BIG DATA*/
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        int screenOrientation = getResources().getConfiguration().orientation;
+        int layoutOrientation = screenOrientation == Configuration.ORIENTATION_PORTRAIT ?
+                LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, layoutOrientation, false);
         recyclerViewBig.setLayoutManager(layoutManager);
         recyclerViewBig.setHasFixedSize(true);
         recyclerViewBig.setOnPauseListenerParams(false, false);

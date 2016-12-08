@@ -13,6 +13,8 @@ import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.utils.QRUtil;
 import com.ybg.rp.vmbase.preference.VMPreferences;
 
+import org.apache.log4j.Logger;
+
 /**
  * Created by yangbagang on 16/8/20.
  */
@@ -24,6 +26,8 @@ public class LoginActivity extends Activity {
 
     public static LoginActivity loginActivity;
 
+    private Logger logger = Logger.getLogger(LoginActivity.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +37,7 @@ public class LoginActivity extends Activity {
         iv_code = (ImageView) findViewById(R.id.login_iv_code);
         tv_sn = (TextView) findViewById(R.id.login_tv_sn);
 
+        logger.debug("begin to create code ");
         createCode2();
     }
 
@@ -41,6 +46,7 @@ public class LoginActivity extends Activity {
      */
     private void createCode2() {
         String vmCode = VMPreferences.getInstance().getVMCode();
+        logger.debug("vmCode=|" + vmCode + "|");
         try {
             if (vmCode != null && !"".equals(vmCode)) {
                 tv_sn.setText("设备编号 :    " + vmCode);
@@ -50,6 +56,7 @@ public class LoginActivity extends Activity {
                 Toast.makeText(this, "生成登录二维码故障", Toast.LENGTH_LONG).show();
             }
         } catch (WriterException e) {
+            logger.debug("生成登录二维码失败", e);
             e.printStackTrace();
         }
     }
