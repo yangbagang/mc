@@ -247,7 +247,8 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         });
 
         /** LOAD GOODS INFO*/
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        int spanCount = screenOrientation == Configuration.ORIENTATION_PORTRAIT ? 3 : 2;
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, spanCount);
         gridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerViewSmall.setLayoutManager(gridLayoutManager);
         recyclerViewSmall.setHasFixedSize(true);
