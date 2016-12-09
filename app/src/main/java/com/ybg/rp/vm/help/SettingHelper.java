@@ -11,16 +11,19 @@ import com.ybg.rp.vmbase.callback.ResultCallback;
 import com.ybg.rp.vmbase.utils.CharacterUtil;
 import com.ybg.rp.vmbase.utils.LogUtil;
 
+import org.apache.log4j.Logger;
 import org.xutils.ex.DbException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingHelper {
+
     private static SettingHelper helper;
     private VMDBManager dbUtil;
     private Context mContext;
 
+    private Logger logger = Logger.getLogger(SettingHelper.class);
 
     public static SettingHelper getInstance(Context context) {
         if (null == helper) {
@@ -187,6 +190,7 @@ public class SettingHelper {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("设置主机轨道最大排放量出错", e);
         }
 
     }

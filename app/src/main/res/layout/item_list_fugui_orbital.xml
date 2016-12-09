@@ -70,6 +70,18 @@
             android:text="删除"
             android:textColor="@android:color/white"
             android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/item_tv_test"
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/selector_bt_green"
+            android:gravity="center"
+            android:text="测试"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"

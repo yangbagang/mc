@@ -412,6 +412,59 @@ public class DeviceHelper {
         }.execute();
     }
 
+    /**
+     * 测试副柜柜 单个轨道
+     */
+    public void testFuguiItem(final TrackBean bean, final ResultCallback.ReturnListener listener) {
+
+        new AsyncTask<String, Integer, ArrayList<String>>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                /**启动*/
+                listener.startRecord();
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<String> list) {
+                super.onPostExecute(list);
+                /**返回*/
+                listener.returnRecord(list);
+            }
+
+            @Override
+            protected ArrayList<String> doInBackground(String... params) {
+                XApplication xApplication = (XApplication) mContext.getApplicationContext();
+                ArrayList<String> listStr = new ArrayList<String>();
+                try {
+                    LogUtil.i("打开副柜(单)：" + bean.getTrackNo());
+                    dbUtil.saveLog(xApplication.getOperator(), "打开副柜(单)：" + bean.getTrackNo());
+                    String str = bean.getTrackNo() + "副柜轨道：";
+
+                    manager.createSerial(3);// 1:主机 2:格子柜 3:副柜
+                    BeanTrackSet trackSet = manager.openMachineTrack(bean.getTrackNo());
+                    manager.closeSerial();
+                    if (trackSet.trackStatus == 1) {
+                        str += "电机正常";
+                    } else {
+                        str += trackSet.errorInfo;
+                        bean.setFault(TrackBean.FAULT_E);
+                        dbUtil.saveOrUpdate(bean);
+                        upLoadTaskQueue(bean.getLayerNo(), trackSet.errorInfo);
+                        LogUtil.e("副柜轨道错误-------" + str);
+                    }
+                    listStr = new ArrayList<>();
+                    listStr.add(str);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return listStr;
+            }
+        }.execute();
+    }
+
 
     /**
      * 队列上传错误轨道信息

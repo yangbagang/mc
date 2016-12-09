@@ -14,7 +14,9 @@ import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.bean.LayerBean;
 import com.ybg.rp.vm.bean.TrackBean;
 import com.ybg.rp.vm.db.VMDBManager;
+import com.ybg.rp.vm.help.DeviceHelper;
 import com.ybg.rp.vm.help.SettingHelper;
+import com.ybg.rp.vmbase.callback.ResultCallback;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class FuguiItemAdapter extends BaseAdapter {
     private ArrayList<TrackBean> fuguiList;
     private FuguiItemAdapter.FuguiItemListener listener;
     private SettingHelper dHelper;
+    private DeviceHelper deviceHelper;
     private VMDBManager dbUtil;
 
     public FuguiItemAdapter(FuguiItemAdapter.FuguiItemListener listener, Context context,
@@ -36,6 +39,7 @@ public class FuguiItemAdapter extends BaseAdapter {
         this.mContext = context;
         this.fuguiList = fuguiList;
         this.dHelper = SettingHelper.getInstance(mContext);
+        this.deviceHelper = DeviceHelper.getInstance(mContext);
         this.dbUtil = VMDBManager.getInstance();
     }
 
@@ -65,12 +69,13 @@ public class FuguiItemAdapter extends BaseAdapter {
             holder.maxNum = (EditText) convertView.findViewById(R.id.maxNum);
             holder.tv_update = (TextView) convertView.findViewById(R.id.item_tv_update);
             holder.tv_delete = (TextView) convertView.findViewById(R.id.item_tv_delete);
+            holder.tv_test = (TextView) convertView.findViewById(R.id.item_tv_test);
 
             convertView.setTag(holder);
         } else {
             holder = (FuguiItemAdapter.ViewHolder) convertView.getTag();
         }
-        TrackBean trackBean = fuguiList.get(position);
+        final TrackBean trackBean = fuguiList.get(position);
         holder.tv_no.setText(trackBean.getTrackNo());
         holder.maxNum.setText("" + trackBean.getMaxInventory());
 
@@ -103,6 +108,25 @@ public class FuguiItemAdapter extends BaseAdapter {
             }
         });
 
+        holder.tv_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deviceHelper.testFuguiItem(trackBean, new ResultCallback.ReturnListener() {
+                    @Override
+                    public void startRecord() {
+
+                    }
+
+                    @Override
+                    public void returnRecord(ArrayList<String> list) {
+                        for (String msg : list) {
+                            Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
         return convertView;
     }
 
@@ -111,6 +135,7 @@ public class FuguiItemAdapter extends BaseAdapter {
         private EditText maxNum;
         private TextView tv_update;
         private TextView tv_delete;
+        private TextView tv_test;
     }
 
     public interface FuguiItemListener {

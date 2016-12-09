@@ -66,12 +66,12 @@ public class PushOpenTrackNoUtils {
                     manager.createSerial(1);//1:主机 2: 格子机
                     beanTrackSet = manager.openMachineTrack(trackNo);
                     log.info("弹簧柜--- " + trackNo);
-                } else if ("A".equals(ss) || "B".equals(ss) || "C".equals(ss)){
+                } else if ("A".equalsIgnoreCase(ss) || "B".equalsIgnoreCase(ss) || "C".equalsIgnoreCase(ss)){
                     /** 格子柜*/
                     LogUtil.i("副柜--- " + trackNo);
                     manager.createSerial(3);
                     beanTrackSet = manager.openMachineTrack(trackNo);
-                    log.info("格子柜--- " + trackNo);
+                    log.info("副柜--- " + trackNo);
                 } else {
                     /** 格子柜*/
                     LogUtil.i("格子柜--- " + trackNo);
@@ -127,18 +127,21 @@ public class PushOpenTrackNoUtils {
                     /** 弹簧柜*/
                     manager.createSerial(1);//1:主机 2: 格子机
                     beanTrackSet = manager.openMachineTrack(trackNo);
-                } else if ("A".equals(ss) || "B".equals(ss) || "C".equals(ss)){
+                    log.info("弹簧柜--- " + trackNo);
+                } else if ("A".equalsIgnoreCase(ss) || "B".equalsIgnoreCase(ss) || "C".equalsIgnoreCase(ss)){
                     isVending = true;
                     /** 格子柜*/
-                    LogUtil.i("格子柜--- " + trackNo);
+                    LogUtil.i("副柜--- " + trackNo);
                     manager.createSerial(3);
                     beanTrackSet = manager.openMachineTrack(trackNo);
+                    log.info("副柜--- " + trackNo);
                 } else {
                     isCabinet = true;
                     /** 格子柜*/
                     LogUtil.i("格子柜--- " + trackNo);
                     manager.createSerial(2);
                     beanTrackSet = manager.openMachineTrack(trackNo);
+                    log.info("格子柜--- " + trackNo);
                 }
                 LogUtil.i("- 线上交易出货-=" + beanTrackSet);
                 if (null != beanTrackSet) {
@@ -151,6 +154,7 @@ public class PushOpenTrackNoUtils {
                         }
                         /**需要查询货架状态-成功出货后，进行上传数据*/
                         LogUtil.i("--轨道-:" + trackNo + " 出货成功--");
+                        log.info("--轨道-:" + trackNo + " 出货成功--");
                     } else {
                         ErrorTranData tranData = new ErrorTranData();
                         tranData.setTrackNo(goodsInfo.getTrackNo());
@@ -174,6 +178,7 @@ public class PushOpenTrackNoUtils {
                         }
                         /** 上传轨道错误信息*/
                         LogUtil.i("记录轨道错误信息 trackNo=" + trackNo + " ,msg=" + beanTrackSet.errorInfo);
+                        log.info("记录轨道错误信息 trackNo=" + trackNo + " ,msg=" + beanTrackSet.errorInfo);
                         XApplication xApplication = (XApplication) mActivity
                                 .getApplicationContext();
                         VMRequest.getInstance(mActivity).addFaultInfo(xApplication.getOperator(),

@@ -97,7 +97,7 @@ public class SerialManager {
     /**
      * 创造串口
      *
-     * @param type 1:主机 2: 格子机
+     * @param type 1:主机 2: 格子机 3: 副柜
      */
     public void createSerial(int type) {
         if (this.operate!=null){
