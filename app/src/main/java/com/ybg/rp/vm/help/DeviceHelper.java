@@ -19,6 +19,8 @@ import com.ybg.rp.vmbase.task.TaskQueue;
 import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMConstant;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 
 public class DeviceHelper {
@@ -28,6 +30,8 @@ public class DeviceHelper {
     private VMDBManager dbUtil;
     private TaskQueue mTaskQueue;
     private Context mContext;
+
+    private Logger logger = Logger.getLogger(DeviceHelper.class);
 
     public static DeviceHelper getInstance(Context context) {
         if (null == helper) {
@@ -437,7 +441,7 @@ public class DeviceHelper {
                 XApplication xApplication = (XApplication) mContext.getApplicationContext();
                 ArrayList<String> listStr = new ArrayList<String>();
                 try {
-                    LogUtil.i("打开副柜(单)：" + bean.getTrackNo());
+                    logger.info("打开副柜(单)：" + bean.getTrackNo());
                     dbUtil.saveLog(xApplication.getOperator(), "打开副柜(单)：" + bean.getTrackNo());
                     String str = bean.getTrackNo() + "副柜轨道：";
 
@@ -451,13 +455,14 @@ public class DeviceHelper {
                         bean.setFault(TrackBean.FAULT_E);
                         dbUtil.saveOrUpdate(bean);
                         upLoadTaskQueue(bean.getLayerNo(), trackSet.errorInfo);
-                        LogUtil.e("副柜轨道错误-------" + str);
+                        logger.error("副柜轨道错误-------" + str);
                     }
                     listStr = new ArrayList<>();
                     listStr.add(str);
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    logger.error("打开副柜出错", e);
                 }
 
                 return listStr;

@@ -18,6 +18,8 @@ import com.ybg.rp.vm.help.DeviceHelper;
 import com.ybg.rp.vm.help.SettingHelper;
 import com.ybg.rp.vmbase.callback.ResultCallback;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 
 /**
@@ -32,6 +34,8 @@ public class FuguiItemAdapter extends BaseAdapter {
     private SettingHelper dHelper;
     private DeviceHelper deviceHelper;
     private VMDBManager dbUtil;
+
+    private Logger logger = Logger.getLogger(FuguiItemAdapter.class);
 
     public FuguiItemAdapter(FuguiItemAdapter.FuguiItemListener listener, Context context,
                             ArrayList<TrackBean> fuguiList) {
@@ -111,6 +115,7 @@ public class FuguiItemAdapter extends BaseAdapter {
         holder.tv_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                logger.debug("开始测试副柜轨道：" + trackBean.getLayerNo() + "," + trackBean.getTrackNo());
                 deviceHelper.testFuguiItem(trackBean, new ResultCallback.ReturnListener() {
                     @Override
                     public void startRecord() {

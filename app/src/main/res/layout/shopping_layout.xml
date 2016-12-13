@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <ListView
+        <com.ybg.rp.vm.views.AutoLoadRecyclerView
             android:layout_marginTop="30dp"
             android:id="@+id/cartPay_listview"
             android:layout_width="match_parent"

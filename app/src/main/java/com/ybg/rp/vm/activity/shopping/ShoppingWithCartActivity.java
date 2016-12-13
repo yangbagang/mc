@@ -1,9 +1,13 @@
 package com.ybg.rp.vm.activity.shopping;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -19,6 +23,8 @@ import com.ybg.rp.vm.adapter.PayGoodsAdapter;
 import com.ybg.rp.vm.bean.TransactionData;
 import com.ybg.rp.vm.listener.PayWaySelectListener;
 import com.ybg.rp.vm.utils.VMRequest;
+import com.ybg.rp.vm.views.AutoLoadRecyclerView;
+import com.ybg.rp.vm.views.SpaceItemDecoration;
 import com.ybg.rp.vmbase.bean.Coupon;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 import com.ybg.rp.vmbase.bean.OrderInfo;
@@ -42,7 +48,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
     private RelativeLayout ll_code_bg;  //二维码白色背景
     private TextView tv_Title;      //中间标题  倒计时
     private LinearLayout ll_back;       //返回
-    private ListView listView;
+    private AutoLoadRecyclerView listView;
     private TextView tv_total_money;    //总金额
     private TextView tv_real_money;
     private ImageView iv_code;      //二维码
@@ -125,7 +131,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
         tv_Title = (TextView) findViewById(R.id.cartPay_tv_title);
         ll_back = (LinearLayout) findViewById(R.id.cartPay_ll_back);
 
-        listView = (ListView) findViewById(R.id.cartPay_listview);
+        listView = (AutoLoadRecyclerView) findViewById(R.id.cartPay_listview);
         tv_total_money = (TextView) findViewById(R.id.cartPay_tv_total_money);
         tv_real_money = (TextView) findViewById(R.id.cartPay_tv_real_money);
 
@@ -140,6 +146,15 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
     private void initData() {
         orderInfos = orderInfo.getGoodsInfo();
         PayGoodsAdapter adapter = new PayGoodsAdapter(this, orderInfos);
+        int screenOrientation = getResources().getConfiguration().orientation;
+        int layoutOrientation = screenOrientation == Configuration.ORIENTATION_PORTRAIT ?
+                LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL;
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, layoutOrientation, false);
+        listView.setLayoutManager(layoutManager);
+        listView.setHasFixedSize(true);
+        listView.setOnPauseListenerParams(false, false);
+        listView.setItemAnimator(new DefaultItemAnimator());
+        listView.addItemDecoration(new SpaceItemDecoration(8));
         listView.setAdapter(adapter);
 
         double totalPrice = 0;

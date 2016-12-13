@@ -1,6 +1,8 @@
 package com.ybg.rp.vm.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,7 +15,7 @@ import com.ybg.rp.vmbase.bean.GoodsInfo;
 
 import java.util.List;
 
-public class PayGoodsAdapter extends BaseAdapter {
+public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoodsViewHolder> {
 
     private Context mContext;
     private List<GoodsInfo> data;
@@ -24,42 +26,14 @@ public class PayGoodsAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        if (data.size() > 0) {
-            return data.size();
-        }
-        return 0;
+    public PayGoodsAdapter.PayGoodsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pay_goods,
+                parent, false);
+        return new PayGoodsViewHolder(itemView);
     }
 
     @Override
-    public Object getItem(int position) {
-        return data.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.item_pay_goods, null);
-            holder = new ViewHolder();
-            convertView.setTag(holder);
-
-            //找id
-            holder.iv_image = (ImageView) convertView.findViewById(R.id.payGoods_iv_image);
-            holder.tv_name = (TextView) convertView.findViewById(R.id.payGoods_tv_name);
-            holder.tv_price = (TextView) convertView.findViewById(R.id.payGoods_tv_price);
-            holder.tv_standard = (TextView) convertView.findViewById(R.id.payGoods_tv_standard);
-            holder.tv_count = (TextView) convertView.findViewById(R.id.payGoods_tv_count);
-            holder.tv_rail = (TextView) convertView.findViewById(R.id.payGoods_tv_rail);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
+    public void onBindViewHolder(PayGoodsViewHolder holder, int position) {
         //设置数据
         GoodsInfo goodsInfo = data.get(position);
         holder.tv_name.setText(goodsInfo.getGoodsName());
@@ -68,34 +42,42 @@ public class PayGoodsAdapter extends BaseAdapter {
         holder.tv_rail.setText("轨道: "+goodsInfo.getTrackNo());
         holder.tv_count.setText("数量: " + goodsInfo.getNum());
 
-            //隐藏服务器返回的数据,库存和数量为0的情况()
-//        if(goodsInfo.getNum()<1) {
-//            convertView.setVisibility(View.GONE);
-//        } else {
-//            convertView.setVisibility(View.VISIBLE);
-//        }
-
         String goodsPic = goodsInfo.getGoodsPic();
-        //String goodsPic = "http://res.cloudinary.com/liuyuesha/image/fetch/http://himawari8-dl.nict.go.jp/himawari8/img/D531106/1d/550/2016/01/04/095000_0_0.png";
-//        DisplayImageOptions options = ImageLoadUtil.getOptions4PictureList(R.mipmap.icon_default_pic);
-//        ImageLoadUtil.displayImage(goodsPic, holder.iv_image, options);
-
-        //ImageUtils.getInstance(mContext).getImage(goodsPic, R.mipmap.icon_default_pic).into(holder.iv_image);
         Glide.with(mContext)
                 .load(goodsPic)
                 .placeholder(R.mipmap.icon_default_pic)
                 .error(R.mipmap.icon_default_pic)
                 .into(holder.iv_image);
-
-        return convertView;
     }
 
-    class ViewHolder {
+    @Override
+    public long getItemId(int position) {
+        return Long.parseLong(data.get(position).getGid());
+    }
+
+    @Override
+    public int getItemCount() {
+        if (data == null) return 0;
+        return data.size();
+    }
+
+    public class PayGoodsViewHolder extends RecyclerView.ViewHolder {
+
         private ImageView iv_image;
         private TextView tv_name;       //商品名
         private TextView tv_price;      //价格
         private TextView tv_standard;   //规格
         private TextView tv_count;      //数量
         private TextView tv_rail;   //轨道
+
+        public PayGoodsViewHolder(View view) {
+            super(view);
+            iv_image = (ImageView) view.findViewById(R.id.payGoods_iv_image);
+            tv_name = (TextView) view.findViewById(R.id.payGoods_tv_name);
+            tv_price = (TextView) view.findViewById(R.id.payGoods_tv_price);
+            tv_standard = (TextView) view.findViewById(R.id.payGoods_tv_standard);
+            tv_count = (TextView) view.findViewById(R.id.payGoods_tv_count);
+            tv_rail = (TextView) view.findViewById(R.id.payGoods_tv_rail);
+        }
     }
 }
