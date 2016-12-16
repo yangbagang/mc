@@ -148,7 +148,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
         PayGoodsAdapter adapter = new PayGoodsAdapter(this, orderInfos);
         int screenOrientation = getResources().getConfiguration().orientation;
         int layoutOrientation = screenOrientation == Configuration.ORIENTATION_PORTRAIT ?
-                LinearLayoutManager.HORIZONTAL : LinearLayoutManager.VERTICAL;
+                LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, layoutOrientation, false);
         listView.setLayoutManager(layoutManager);
         listView.setHasFixedSize(true);

@@ -21,6 +21,7 @@
             android:layout_marginLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="15dp"
             android:orientation="vertical">
 
@@ -34,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text=""
+                    android:text="巴旦木"
                     android:textColor="@android:color/white"
                     android:textSize="21sp"/>
 
@@ -45,7 +46,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text=""
+                    android:text="15"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="21sp"/>
             </LinearLayout>
@@ -61,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text=""
+                    android:text="150g"
                     android:textSize="18sp"/>
 
                 <TextView
@@ -71,7 +72,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text=""
+                    android:text="1"
                     android:textSize="18sp"/>
             </LinearLayout>
 
@@ -85,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:text=""
+                    android:text="011"
                     android:textSize="18sp"/>
             </LinearLayout>
 

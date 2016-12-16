@@ -25,8 +25,8 @@ android {
         applicationId "com.ybg.rp.vm"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 12
-        versionName "1.1.4"
+        versionCode 14
+        versionName "1.1.6"
 
         //个推推送配置
         manifestPlaceholders = [

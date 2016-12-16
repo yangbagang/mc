@@ -37,8 +37,8 @@ public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoo
         //设置数据
         GoodsInfo goodsInfo = data.get(position);
         holder.tv_name.setText(goodsInfo.getGoodsName());
-        holder.tv_standard.setText(goodsInfo.getGoodsDesc());
-        holder.tv_price.setText("¥ " + goodsInfo.getPrice());
+        holder.tv_standard.setText("规格: " + goodsInfo.getGoodsDesc());
+        holder.tv_price.setText("单价: " + goodsInfo.getPrice());
         holder.tv_rail.setText("轨道: "+goodsInfo.getTrackNo());
         holder.tv_count.setText("数量: " + goodsInfo.getNum());
 

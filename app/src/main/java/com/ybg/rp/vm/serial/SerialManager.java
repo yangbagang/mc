@@ -17,9 +17,9 @@ public class SerialManager {
     /**
      * 当前使用的串口品牌
      */
-    private String brand_main;
-    private String brand_cabinet;
-    private String brand_fugui;
+    private String brand_main = DeviceBrand.yifeng;
+    private String brand_cabinet = DeviceBrand.yifeng;
+    private String brand_fugui = DeviceBrand.yifeng;
 
     private OperaBase operate;
 
@@ -82,9 +82,9 @@ public class SerialManager {
                 fugui_b.setBrand(DeviceBrand.yifeng);
                 vmdbManager.saveOrUpdate(fugui_b);
 
-                this.brand_cabinet = DeviceBrand.yifeng;
+                this.brand_fugui = DeviceBrand.yifeng;
             } else {
-                this.brand_cabinet = cabinet_b.getBrand();
+                this.brand_fugui = cabinet_b.getBrand();
             }
 
         } catch (Exception e) {
