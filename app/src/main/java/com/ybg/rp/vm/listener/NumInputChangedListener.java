@@ -19,6 +19,7 @@ import com.ybg.rp.vmbase.utils.GsonUtil;
 import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMConstant;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -37,6 +38,8 @@ public class NumInputChangedListener implements TextWatcher {
     private EditText et_command;
     private VMDBManager vmdbManager;
     private ArrayList<TrackBean> allTrack;
+
+    private static Logger logger = Logger.getLogger(NumInputChangedListener.class);
 
     public NumInputChangedListener(Context mContext, EditText et_command, TextView input_text
             , ArrayList<TrackBean> allTrack) {
@@ -94,6 +97,7 @@ public class NumInputChangedListener implements TextWatcher {
                     /**
                      * 选中了单个商品，进入支付流程。
                      */
+                    logger.debug("选中了单个商品，进入支付流程:" + trackNo);
                     inputTrackNo(trackNo, VMConstant.ZF_WX);
                 }
             } else {
@@ -115,6 +119,7 @@ public class NumInputChangedListener implements TextWatcher {
     public void inputTrackNo(final String trackNo, final String payType) {
         DialogUtil.showLoading(mContext);
         // 添加请求参数
+        logger.debug("轨道编号查询商品");
         String url = AppConstant.HOST + "orderInfo/createOrderWithMachineIdAndTrackNo";
         final XApplication xApplication = (XApplication) mContext.getApplicationContext();
         RequestParams params = new RequestParams(url);
@@ -124,6 +129,7 @@ public class NumInputChangedListener implements TextWatcher {
             @Override
             public void onSuccess(String s) {
                 try {
+                    logger.debug("s=" + s);
                     JSONObject json = new JSONObject(s);
                     String success = json.getString("success");
                     String msg = json.getString("msg");
@@ -160,16 +166,18 @@ public class NumInputChangedListener implements TextWatcher {
                 input_text.setText("");
                 Toast.makeText(mContext, throwable.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 DialogUtil.hideLoading();
+                logger.error("单个轨道生成订单失败", throwable);
+                logger.debug("b=" + b);
             }
 
             @Override
             public void onCancelled(CancelledException e) {
-
+                logger.error("单轨道订单取消", e);
             }
 
             @Override
             public void onFinished() {
-
+                logger.debug("单轨道订单生成结束");
             }
         });
     }

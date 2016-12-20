@@ -68,6 +68,8 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
 
     public static ShoppingWithOneGoodsActivity activity;
 
+    private static Logger logger = Logger.getLogger(ShoppingWithOneGoodsActivity.class);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
         /**传进的数据*/
         orderInfo = (OrderInfo) getIntent().getSerializableExtra("orderInfo");
         LogUtil.i("[order:" + orderInfo.toString() + "]");
+        logger.info("[order:" + orderInfo.toString() + "]");
         //支付方式：默认 0：离线，1：支付宝，2：微信支付
         String type = getIntent().getStringExtra("type");
         setDataLayout();
@@ -173,6 +176,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
             if (time == 0) {
                 /**取消交易*/
                 cancelOrderNo(2);
+                logger.debug("超时取消");
                 finish();
             } else {
                 tv_Title.setText(time + "S");
@@ -192,6 +196,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
                 mHandler.removeCallbacks(runnable);
                 /**取消交易*/
                 cancelOrderNo(1);
+                logger.debug("手动取消");
 
                 finish();
                 break;

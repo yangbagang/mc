@@ -359,6 +359,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
         if (cartDatas.size() > 0) {
             String jsonStr = GsonUtil.toJsonPropertiesDes(cartDatas, "gid", "num");
             LogUtil.i("---Shopping/:" + jsonStr);
+            log.info("---Shopping/准备生成订单:" + jsonStr);
             String url = AppConstant.HOST + "orderInfo/createOrderWithMachineIdAndGoodsJson";
             String yhCode = coupon == null ? "0" : coupon.getCode();
             RequestParams params = new RequestParams(url);
@@ -372,6 +373,7 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
                 public void onSuccess(String result) {
                     DialogUtil.hideLoading();
                     LogUtil.i("---------makeOrder/ShoppingActivity: " + result);
+                    log.info("---------makeOrder/ShoppingActivity: " + result);
                     try {
                         JSONObject json = new JSONObject(result);
                         OrderInfo orderInfo = GsonUtil.createGson().fromJson(json.getString("orderInfo"), OrderInfo.class);
@@ -401,20 +403,23 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
                 public void onError(Throwable ex, boolean isOnCallback) {
                     DialogUtil.hideLoading();
                     Toast.makeText(GoodsWindowActivity.this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    log.error("生成订单失败", ex);
+                    log.info("--isOnCallback=" + isOnCallback);
                 }
 
                 @Override
                 public void onCancelled(CancelledException cex) {
-
+                    log.error("--生成订单失败", cex);
                 }
 
                 @Override
                 public void onFinished() {
-
+                    log.info("--生成订单结束--");
                 }
             });
         } else {
             Toast.makeText(this, "您还没有选择商品!", Toast.LENGTH_SHORT).show();
+            log.debug("没有选择商品!");
         }
     }
 

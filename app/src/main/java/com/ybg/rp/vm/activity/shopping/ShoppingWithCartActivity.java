@@ -101,6 +101,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
         type = getIntent().getStringExtra("type");
         coupon = (Coupon) getIntent().getSerializableExtra("coupon");
         LogUtil.i("[ type=" + type + " ,order=" + orderInfo.toString());
+        log.info("[ type=" + type + " ,order=" + orderInfo.toString());
 
         mHandler.postDelayed(runnable, 1000);
         initData();

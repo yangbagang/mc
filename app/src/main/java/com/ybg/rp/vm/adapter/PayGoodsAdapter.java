@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,12 +12,16 @@ import com.bumptech.glide.Glide;
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 
+import org.apache.log4j.Logger;
+
 import java.util.List;
 
 public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoodsViewHolder> {
 
     private Context mContext;
     private List<GoodsInfo> data;
+
+    private static Logger logger = Logger.getLogger(PayGoodsAdapter.class);
 
     public PayGoodsAdapter(Context context, List<GoodsInfo> data) {
         this.mContext = context;
@@ -36,10 +39,15 @@ public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoo
     public void onBindViewHolder(PayGoodsViewHolder holder, int position) {
         //设置数据
         GoodsInfo goodsInfo = data.get(position);
+        logger.debug("商品：" + goodsInfo);
         holder.tv_name.setText(goodsInfo.getGoodsName());
         holder.tv_standard.setText("规格: " + goodsInfo.getGoodsDesc());
         holder.tv_price.setText("单价: " + goodsInfo.getPrice());
-        holder.tv_rail.setText("轨道: "+goodsInfo.getTrackNo());
+        if ("".equals(goodsInfo.getTrackNo())) {
+            holder.tv_rail.setVisibility(View.GONE);
+        } else {
+            holder.tv_rail.setText("轨道: " + goodsInfo.getTrackNo());
+        }
         holder.tv_count.setText("数量: " + goodsInfo.getNum());
 
         String goodsPic = goodsInfo.getGoodsPic();
@@ -61,7 +69,7 @@ public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoo
         return data.size();
     }
 
-    public class PayGoodsViewHolder extends RecyclerView.ViewHolder {
+    class PayGoodsViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView iv_image;
         private TextView tv_name;       //商品名
@@ -70,7 +78,7 @@ public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoo
         private TextView tv_count;      //数量
         private TextView tv_rail;   //轨道
 
-        public PayGoodsViewHolder(View view) {
+        PayGoodsViewHolder(View view) {
             super(view);
             iv_image = (ImageView) view.findViewById(R.id.payGoods_iv_image);
             tv_name = (TextView) view.findViewById(R.id.payGoods_tv_name);

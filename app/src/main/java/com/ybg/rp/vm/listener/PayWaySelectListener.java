@@ -3,6 +3,7 @@ package com.ybg.rp.vm.listener;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -28,6 +29,7 @@ import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMCache;
 import com.ybg.rp.vmbase.utils.VMConstant;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -67,6 +69,8 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
 
     /*二维码显示*/
     private Bitmap bitmap;
+
+    private static Logger log = Logger.getLogger(PayWaySelectListener.class);
 
     public PayWaySelectListener(Activity mActivity, OrderInfo orderInfo, ImageView iv_code, RelativeLayout ll_bg,
                                   Handler handler, RadioButton rb_weixin, RadioButton rb_zhifubao, TextView tv_hint) {
@@ -151,6 +155,7 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
         params.addBodyParameter("orderNo", orderNo);
         params.addBodyParameter("payType", payType);//1:支付宝 , 2:微信
         LogUtil.i("----machineId = " + machineId + "-- orderNo = " + orderNo + "-  payType = " + payType);
+        log.info("----machineId = " + machineId + "-- orderNo = " + orderNo + "-  payType = " + payType);
         DialogUtil.showLoading(mActivity);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -166,10 +171,12 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
                         LogUtil.i("-------------支付宝----支付");
                         /** 支付宝 二维码*/
                         qr = charge.getCredential().get("alipay_qr").toString();
+                        log.debug("-------------支付宝----支付:qr=" + qr);
                     } else if (payType.equals(WX)) {
                         LogUtil.i("-------------微信----支付");
                         /** 微信 二维码*/
                         qr = charge.getCredential().get("wx_pub_qr").toString();
+                        log.debug("-------------微信----支付:qr=" + qr);
                     }
                     /**  生成二维码 */
                     bitmap = QRUtil.create2DCode(qr);
@@ -201,12 +208,12 @@ public class PayWaySelectListener implements RadioGroup.OnCheckedChangeListener 
 
             @Override
             public void onCancelled(CancelledException cex) {
-
+                log.error("创建交易失败", cex);
             }
 
             @Override
             public void onFinished() {
-
+                log.info("创建交易结束");
             }
         });
 

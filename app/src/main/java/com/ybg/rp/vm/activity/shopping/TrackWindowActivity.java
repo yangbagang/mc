@@ -17,6 +17,8 @@ import com.ybg.rp.vm.db.VMDBManager;
 import com.ybg.rp.vm.listener.NumInputChangedListener;
 import com.ybg.rp.vm.listener.NumTouchListener;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 
 /**
@@ -40,6 +42,8 @@ public class TrackWindowActivity extends Activity {
             super.handleMessage(msg);
         }
     };
+
+    private static Logger logger = Logger.getLogger(TrackWindowActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,7 @@ public class TrackWindowActivity extends Activity {
             public boolean onLongClick(View v) {
                 if ("78".equals(edit_trackNum.getText().toString())) {
                     /** 跳转到登录*/
+                    logger.info("准备进入登录界面");
                     Intent login = new Intent();
                     login.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     login.setClass(TrackWindowActivity.this, LoginActivity.class);
