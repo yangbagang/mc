@@ -6,8 +6,8 @@
     <!-- 二维码图片=========================-->
     <RelativeLayout
         android:id="@+id/payWay_ll_bg"
-        android:layout_width="410dp"
-        android:layout_height="410dp"
+        android:layout_width="310dp"
+        android:layout_height="310dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp">
 

@@ -155,7 +155,7 @@ public class ShoppingWithCartActivity extends Activity implements View.OnClickLi
         listView.setHasFixedSize(true);
         listView.setOnPauseListenerParams(false, false);
         listView.setItemAnimator(new DefaultItemAnimator());
-        listView.addItemDecoration(new SpaceItemDecoration(8));
+        listView.addItemDecoration(new SpaceItemDecoration(16));
         listView.setAdapter(adapter);
 
         double totalPrice = 0;
