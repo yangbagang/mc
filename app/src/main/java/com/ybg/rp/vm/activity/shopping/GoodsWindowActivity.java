@@ -443,19 +443,22 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
      * 计算总金额,和已选商品数量
      */
     private void changeUi() {
-        int tvCount = 0;
-        double totalMoney = 0d;
-        float yhMoney = 0f;
+        int tvCount = 0;//总件数
+        double totalMoney = 0d;//总价
+        float yhMoney = 0f;//参加活动类商品总价
+        float otherMoney = 0f;//不参加活动类商品总价
         //计算总金额数量
         if (null != cartDatas && cartDatas.size() > 0) {
             for (int i = 0; i < cartDatas.size(); ++i) {
-                GoodsInfo cartInfo = cartDatas.get(i);
-                int num = cartInfo.getNum();
-                double money = cartInfo.getPrice();
+                GoodsInfo goodsInfo = cartDatas.get(i);
+                int num = goodsInfo.getNum();
+                double money = goodsInfo.getPrice();
                 totalMoney = totalMoney + (money * num);
                 tvCount = tvCount + num;
-                if (cartInfo.getYhEnable() == 1) {
+                if (goodsInfo.getYhEnable() == 1) {
                     yhMoney += money * num;
+                } else {
+                    otherMoney += money * num;
                 }
             }
         }
@@ -465,11 +468,13 @@ public class GoodsWindowActivity extends Activity implements View.OnClickListene
             tv_count.setVisibility(View.VISIBLE);
         }
         //计算优惠后金额
-        if (coupon != null) {
+        if (coupon != null) {//如果存在优惠券
             if (coupon.getType() == 1 && yhMoney >= coupon.getMinMoney()) {
+                //持有有效抵扣券。如果参加活动类的商品总价大于最低使用条件，则进行抵扣。
                 totalMoney -= coupon.getYhMoney();
             } else if (coupon.getType() == 2) {
-                totalMoney *= coupon.getDiscount();
+                //持有有效折扣券。总价 = 参加活动类商品优惠价 + 不参加活动商品总价。
+                totalMoney = yhMoney * coupon.getDiscount() + otherMoney;
             }
         }
         tv_total_money.setText(String.format("%.2f", totalMoney));
