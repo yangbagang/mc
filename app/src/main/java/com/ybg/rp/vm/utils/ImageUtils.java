@@ -55,4 +55,12 @@ public class ImageUtils {
                 .error(defaultResource);
     }
 
+    public String getGoodsPicUrl(String picId) {
+        if (picId != null && !"".equals(picId)) {
+            if (!picId.startsWith("http:")) {
+                return AppConstant.PIC_SERVER + picId;
+            }
+        }
+        return picId;
+    }
 }

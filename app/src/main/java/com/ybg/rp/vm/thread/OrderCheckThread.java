@@ -10,6 +10,7 @@ import com.ybg.rp.vmbase.bean.OrderInfo;
 import com.ybg.rp.vmbase.utils.LogUtil;
 import com.ybg.rp.vmbase.utils.VMConstant;
 
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -19,11 +20,11 @@ import org.xutils.x;
  */
 public class OrderCheckThread extends Thread {
 
+    private static Logger logger = Logger.getLogger(OrderCheckThread.class);
+
     private Context mActivity;
 
     private OrderInfo orderInfo;
-
-    private String url = AppConstant.HOST + "orderInfo/queryOrderIsPay";
 
     /**
      * 主动请求-计数
@@ -45,11 +46,13 @@ public class OrderCheckThread extends Thread {
         //是否打开柜门
         XApplication xApplication = (XApplication) mActivity.getApplicationContext();
         String isOpenTrack = xApplication.getIsOpenTrack(orderInfo.getOrderNo());
+        String url = AppConstant.HOST + "orderInfo/queryOrderIsPay";
         RequestParams params = new RequestParams(url);
         params.addBodyParameter("orderSn", orderInfo.getOrderNo());
         while (!interrupted()) {
             try {
                 LogUtil.i("-----" + orderInfo.getOrderNo());
+                logger.info("开始查询订单："+orderInfo.getOrderNo()+" 是否己经支付。");
                 String result = x.http().postSync(params, String.class);
                 LogUtil.i("请求返回数据: " + result);
                 isOpenTrack = xApplication.getIsOpenTrack(orderInfo.getOrderNo());
@@ -65,13 +68,16 @@ public class OrderCheckThread extends Thread {
                         xApplication.isOpenTrackRemove(orderInfo.getOrderNo());
                         //打开柜门 - 支付成功-本地没出货-服务器未发货
                         LogUtil.e("---线上支付----出货------");
+                        logger.info("订单："+orderInfo.getOrderNo()+" 己经支付，开始出货。");
                         orderInfo.setPayStatus(isPay);
                         PushOpenTrackNoUtils.shipmentLine(mActivity, orderInfo);
                         this.interrupt();
                     } else if (!isPay && null != isOpenTrack) {
                         //没有支付-查询 && 没有出货 递归线上支付状态
+                        logger.info("订单："+orderInfo.getOrderNo()+" 未支付，1秒后继续查询。");
                         SystemClock.sleep(VMConstant.PAY_INTERVAL);
                     } else {
+                        logger.info("订单："+orderInfo.getOrderNo()+" 己经出货。");
                         this.interrupt();
                         LogUtil.i("--------关闭递归-------");
                     }
@@ -81,12 +87,17 @@ public class OrderCheckThread extends Thread {
                 throwable.printStackTrace();
                 // 请求失败
                 findCount++;
-                if (null != isOpenTrack && findCount < VMConstant.HTTP_ERROR_REQUEST_COUNT) {
+                //2017.1.7 出错重试最大次数由5次改为20次。
+                if (null != isOpenTrack && findCount < 20) {
                     //没有支付-查询 && 没有出货 递归线上支付状态
+                    logger.info("未出货-第"+findCount+"次轮询- " + orderInfo.getOrderNo());
+                    LogUtil.i("未出货-第"+findCount+"次轮询- " + orderInfo.getOrderNo());
                 } else if (null == isOpenTrack) {
+                    logger.info("已经出货-停止轮询- " + orderInfo.getOrderNo());
                     LogUtil.i("已经出货-停止轮询- " + orderInfo.getOrderNo());
                     this.interrupt();
                 } else {
+                    logger.info("未出货-最后一次查询失败 " + orderInfo.getOrderNo());
                     this.interrupt();
                 }
             }

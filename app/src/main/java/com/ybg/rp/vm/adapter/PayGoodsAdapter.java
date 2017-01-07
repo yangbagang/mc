@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.ybg.rp.vm.R;
+import com.ybg.rp.vm.utils.ImageUtils;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 
 import org.apache.log4j.Logger;
@@ -50,7 +51,8 @@ public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoo
         }
         holder.tv_count.setText("数量: " + goodsInfo.getNum());
 
-        String goodsPic = goodsInfo.getGoodsPic();
+        //获取商品图片
+        String goodsPic = ImageUtils.getInstance(mContext).getGoodsPicUrl(goodsInfo.getGoodsPic());
         Glide.with(mContext)
                 .load(goodsPic)
                 .placeholder(R.mipmap.icon_default_pic)

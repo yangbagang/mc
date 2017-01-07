@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.bean.TransactionData;
 import com.ybg.rp.vm.listener.PayWaySelectListener;
+import com.ybg.rp.vm.utils.ImageUtils;
 import com.ybg.rp.vm.utils.VMRequest;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 import com.ybg.rp.vmbase.bean.OrderInfo;
@@ -125,8 +126,9 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
         tv_price.setText("￥" + String .format("%.2f", goodsInfo.getPrice()));
 
         /*图片*/
-        String goodsPic = goodsInfo.getGoodsPic();
-        //ImageUtils.getInstance(this).getImage(goodsPic, R.mipmap.icon_default_pic).into(iv_iamge);
+        //获取商品图片
+        String goodsPic = ImageUtils.getInstance(ShoppingWithOneGoodsActivity.this)
+                .getGoodsPicUrl(goodsInfo.getGoodsPic());
         Glide.with(this)
                 .load(goodsPic)
                 .crossFade()

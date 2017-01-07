@@ -21,6 +21,7 @@ import com.ybg.rp.vm.listener.LoadFinishCallBack;
 import com.ybg.rp.vm.listener.MinusOperationListener;
 import com.ybg.rp.vm.utils.AppConstant;
 import com.ybg.rp.vm.utils.DialogUtil;
+import com.ybg.rp.vm.utils.ImageUtils;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
 import com.ybg.rp.vmbase.preference.VMPreferences;
 import com.ybg.rp.vmbase.utils.GsonUtil;
@@ -78,7 +79,8 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         holder.tv_price.setText("¥ " + goodsInfo.getPrice());
         holder.tv_standard.setText(goodsInfo.getGoodsDesc());
 
-        String goodsPic = goodsInfo.getGoodsPic();
+        //获取商品图片
+        String goodsPic = ImageUtils.getInstance(mActivity).getGoodsPicUrl(goodsInfo.getGoodsPic());
         Glide.with(mActivity)
                 .load(goodsPic)
                 .placeholder(R.mipmap.icon_default_pic)

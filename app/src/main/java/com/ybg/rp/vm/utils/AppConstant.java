@@ -9,4 +9,6 @@ public class AppConstant {
 
     public static final String HOST = "http://183.57.41.230/ua/";
 
+    public static final String PIC_SERVER = "http://183.57.41.230/FileServer/file/preview/";
+
 }

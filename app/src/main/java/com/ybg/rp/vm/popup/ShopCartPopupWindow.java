@@ -82,7 +82,7 @@ public class ShopCartPopupWindow extends PopupWindow implements View.OnClickList
         this.parent = parent;
         if (!this.isShowing()) {
             // 以下拉方式显示popupwindow
-            this.showAtLocation(parent, Gravity.BOTTOM, 0, 269);   //269位高度偏移量
+            this.showAtLocation(parent, Gravity.BOTTOM, 0, 300);   //300位高度偏移量
         } else {
             this.dismiss();
         }
