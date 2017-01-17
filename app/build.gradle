@@ -25,8 +25,8 @@ android {
         applicationId "com.ybg.rp.vm"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 17
-        versionName "1.1.9"
+        versionCode 18
+        versionName "1.1.10"
 
         //个推推送配置
         manifestPlaceholders = [
@@ -54,6 +54,7 @@ dependencies {
     compile 'com.getui:ext:2.0.3'
     compile 'org.xutils:xutils:3.3.36'
     compile 'com.zhy:percent-support-extends:1.1.1'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile files('libs/new_dwinserail.jar')
     compile files('libs/zxing.jar')
     compile project(':vmbase')

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.utils.ImageUtils;
 import com.ybg.rp.vmbase.bean.GoodsInfo;
@@ -52,12 +53,17 @@ public class PayGoodsAdapter extends RecyclerView.Adapter<PayGoodsAdapter.PayGoo
         holder.tv_count.setText("数量: " + goodsInfo.getNum());
 
         //获取商品图片
-        String goodsPic = ImageUtils.getInstance(mContext).getGoodsPicUrl(goodsInfo.getGoodsPic());
-        Glide.with(mContext)
-                .load(goodsPic)
-                .placeholder(R.mipmap.icon_default_pic)
-                .error(R.mipmap.icon_default_pic)
-                .into(holder.iv_image);
+//        String goodsPic = ImageUtils.getInstance(mContext).getGoodsPicUrl(goodsInfo.getGoodsPic());
+//        Glide.with(mContext)
+//                .load(goodsPic)
+//                .placeholder(R.mipmap.icon_default_pic)
+//                .error(R.mipmap.icon_default_pic)
+//                .into(holder.iv_image);
+        String picId = goodsInfo.getGoodsPic();
+        if (picId != null && !"".equals(picId)) {
+            String goodsPic = ImageUtils.getInstance(mContext).getGoodsPicUrl(goodsInfo.getGoodsPic());
+            ImageLoader.getInstance().displayImage(goodsPic, holder.iv_image);
+        }
     }
 
     @Override

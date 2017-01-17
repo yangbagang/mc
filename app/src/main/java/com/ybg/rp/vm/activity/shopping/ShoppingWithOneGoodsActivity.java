@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.bean.TransactionData;
 import com.ybg.rp.vm.listener.PayWaySelectListener;
@@ -38,7 +39,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
     private ImageView iv_read;      //刷卡提示
     private TextView tv_Title;      //中间标题  倒计时
     private LinearLayout ll_back;       //返回
-    private ImageView iv_iamge;     //商品图片
+    private ImageView iv_image;     //商品图片
     private TextView tv_name;       //商品名字
     private TextView tv_standard;   //规格
     private TextView tv_rail;       //轨道
@@ -127,15 +128,19 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
 
         /*图片*/
         //获取商品图片
-        String goodsPic = ImageUtils.getInstance(ShoppingWithOneGoodsActivity.this)
-                .getGoodsPicUrl(goodsInfo.getGoodsPic());
-        Glide.with(this)
-                .load(goodsPic)
-                .crossFade()
-                .placeholder(R.mipmap.icon_default_pic)
-                .error(R.mipmap.icon_default_pic)
-                .into(iv_iamge);
-
+//        String goodsPic = ImageUtils.getInstance(ShoppingWithOneGoodsActivity.this)
+//                .getGoodsPicUrl(goodsInfo.getGoodsPic());
+//        Glide.with(this)
+//                .load(goodsPic)
+//                .crossFade()
+//                .placeholder(R.mipmap.icon_default_pic)
+//                .error(R.mipmap.icon_default_pic)
+//                .into(iv_image);
+        String picId = goodsInfo.getGoodsPic();
+        if (picId != null && !"".equals(picId)) {
+            String goodsPic = ImageUtils.getInstance(ShoppingWithOneGoodsActivity.this).getGoodsPicUrl(goodsInfo.getGoodsPic());
+            ImageLoader.getInstance().displayImage(goodsPic, iv_image);
+        }
     }
 
 
@@ -155,7 +160,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
         tv_Title = (TextView) findViewById(R.id.paySingle_tv_title);
         ll_back = (LinearLayout) findViewById(R.id.paySingle_ll_back);
 
-        iv_iamge = (ImageView) findViewById(R.id.paySingle_iv_image);
+        iv_image = (ImageView) findViewById(R.id.paySingle_iv_image);
         tv_name = (TextView) findViewById(R.id.paySingle_tv_name);
         tv_standard = (TextView) findViewById(R.id.paySingle_tv_standard);
         tv_rail = (TextView) findViewById(R.id.paySingle_tv_rail);
@@ -230,7 +235,7 @@ public class ShoppingWithOneGoodsActivity extends Activity implements View.OnCli
 
         ll_code_bg.setBackgroundColor(0);  //二维码背景
         iv_read = null;      //刷卡提示
-        iv_iamge = null;
+        iv_image = null;
         tv_Title = null;      //中间标题  倒计时
         ll_back = null;       //返回
         tv_name = null;       //商品名字

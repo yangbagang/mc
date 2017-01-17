@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ybg.rp.vm.R;
 import com.ybg.rp.vm.listener.AddOperationListener;
 import com.ybg.rp.vm.listener.GoodsItemListener;
@@ -80,12 +81,17 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.GoodsHolder>
         holder.tv_standard.setText(goodsInfo.getGoodsDesc());
 
         //获取商品图片
-        String goodsPic = ImageUtils.getInstance(mActivity).getGoodsPicUrl(goodsInfo.getGoodsPic());
-        Glide.with(mActivity)
-                .load(goodsPic)
-                .placeholder(R.mipmap.icon_default_pic)
-                .error(R.mipmap.icon_default_pic)
-                .into(holder.iv_image);
+//        String goodsPic = ImageUtils.getInstance(mActivity).getGoodsPicUrl(goodsInfo.getGoodsPic());
+//        Glide.with(mActivity)
+//                .load(goodsPic)
+//                .placeholder(R.mipmap.icon_default_pic)
+//                .error(R.mipmap.icon_default_pic)
+//                .into(holder.iv_image);
+        String picId = goodsInfo.getGoodsPic();
+        if (picId != null && !"".equals(picId)) {
+            String goodsPic = ImageUtils.getInstance(mActivity).getGoodsPicUrl(goodsInfo.getGoodsPic());
+            ImageLoader.getInstance().displayImage(goodsPic, holder.iv_image);
+        }
 
         //如果购物车没有数据,将商品信息的数量设为0
         if (cartData.size() < 1) {
