@@ -55,6 +55,7 @@ public class OrderCheckThread extends Thread {
                 logger.info("开始查询订单："+orderInfo.getOrderNo()+" 是否己经支付。");
                 String result = x.http().postSync(params, String.class);
                 LogUtil.i("请求返回数据: " + result);
+                logger.info("请求返回数据: " + result);
                 isOpenTrack = xApplication.getIsOpenTrack(orderInfo.getOrderNo());
                 JSONObject json = new JSONObject(result);
                 String success = json.getString("success");
@@ -62,7 +63,7 @@ public class OrderCheckThread extends Thread {
                 if ("true".equals(success)) {
                     boolean isPay = json.getBoolean("isPay");
                     String deliveryStatus = json.getString("deliveryStatus");
-                    String payWay = json.getString("payWay");
+                    //String payWay = json.getString("payWay");
                     if (isPay && null != isOpenTrack && "0".equals(deliveryStatus)) {
 
                         xApplication.isOpenTrackRemove(orderInfo.getOrderNo());
@@ -81,10 +82,13 @@ public class OrderCheckThread extends Thread {
                         this.interrupt();
                         LogUtil.i("--------关闭递归-------");
                     }
+                } else {
+                    logger.info("订单："+orderInfo.getOrderNo()+" 查询结果 " + msg);
                 }
                 findCount = 0;
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
+                logger.error("未出货-第"+findCount+"次轮询出错了，订单号：- " + orderInfo.getOrderNo(), throwable);
                 // 请求失败
                 findCount++;
                 //2017.1.7 出错重试最大次数由5次改为20次。
