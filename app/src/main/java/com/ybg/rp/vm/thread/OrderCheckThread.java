@@ -92,7 +92,8 @@ public class OrderCheckThread extends Thread {
                 // 请求失败
                 findCount++;
                 //2017.1.7 出错重试最大次数由5次改为20次。
-                if (null != isOpenTrack && findCount < 20) {
+                //2017.2.5 出错重试最大次数由20次改为30次。
+                if (null != isOpenTrack && findCount < 30) {
                     //没有支付-查询 && 没有出货 递归线上支付状态
                     logger.info("未出货-第"+findCount+"次轮询- " + orderInfo.getOrderNo());
                     LogUtil.i("未出货-第"+findCount+"次轮询- " + orderInfo.getOrderNo());
